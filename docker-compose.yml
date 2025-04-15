@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    image: univent-api
+    restart: always
+    container_name: univent-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    container_name: univent-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - '${DB_HOST_PORT}:${DB_CONTAINER_PORT}'
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
