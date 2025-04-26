@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MikroORM } from '@mikro-orm/mysql';
+import { SwaggerModule } from '@nestjs/swagger';
+import { swaggerConfig } from './shared/config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,6 +11,10 @@ async function bootstrap() {
   // CI/CD 구축 시 명령어로 대체 혹은 다른 방법 사용 예정
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();
+
+  // Swagger 설정
+  const document = SwaggerModule.createDocument(app, swaggerConfig());
+  SwaggerModule.setup('/api', app, document);
 
   await app.listen(process.env.SERVER_PORT ?? 3000);
 }
