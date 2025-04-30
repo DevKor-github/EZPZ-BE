@@ -3,7 +3,7 @@ import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.e
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;
   isThumbnail: boolean;
-  articleId?: number;
+  articleId?: number | undefined;
 }
 
 export class Media extends BaseDomainEntity<MediaProps> {
@@ -15,7 +15,7 @@ export class Media extends BaseDomainEntity<MediaProps> {
     return new Media(props);
   }
 
-  get MediaPath(): string {
+  get mediaPath(): string {
     return this.props.mediaPath;
   }
 
@@ -23,7 +23,7 @@ export class Media extends BaseDomainEntity<MediaProps> {
     return this.props.isThumbnail;
   }
 
-  get ArticleId(): number | undefined {
+  get articleId(): number | undefined {
     return this.props.articleId;
   }
 }

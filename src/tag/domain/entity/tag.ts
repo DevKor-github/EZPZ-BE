@@ -2,7 +2,7 @@ import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.e
 
 export interface TagProps extends BaseEntityProps {
   name: string;
-  articleId?: number;
+  articleIds?: number[];
 }
 
 export class Tag extends BaseDomainEntity<TagProps> {
@@ -14,11 +14,11 @@ export class Tag extends BaseDomainEntity<TagProps> {
     return new Tag(props);
   }
 
-  get Name(): string {
+  get name(): string {
     return this.props.name;
   }
 
-  get ArticleId(): number | undefined {
-    return this.props.articleId;
+  get articleIds(): number[] | undefined {
+    return this.props.articleIds;
   }
 }

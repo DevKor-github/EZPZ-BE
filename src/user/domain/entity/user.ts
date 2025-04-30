@@ -5,6 +5,8 @@ export interface UserProps extends BaseEntityProps {
   oauthId: string;
   email: string;
   role: Role;
+  authId: number;
+  scrapIds: number[];
 }
 export class User extends BaseDomainEntity<UserProps> {
   protected constructor(props: UserProps) {
@@ -15,15 +17,23 @@ export class User extends BaseDomainEntity<UserProps> {
     return new User(props);
   }
 
-  get OauthId(): string {
+  get oauthId(): string {
     return this.props.oauthId;
   }
 
-  get Email(): string {
+  get email(): string {
     return this.props.email;
   }
 
-  get Role(): Role {
+  get role(): Role {
     return this.props.role;
+  }
+
+  get authId(): number {
+    return this.props.authId;
+  }
+
+  get scrapIds(): number[] | undefined {
+    return this.props.scrapIds;
   }
 }

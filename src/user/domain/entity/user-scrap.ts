@@ -14,11 +14,11 @@ export class UserScrap extends BaseDomainEntity<UserScrapProps> {
     return new UserScrap(props);
   }
 
-  get ArticleId(): number {
+  get articleId(): number {
     return this.props.articleId;
   }
 
-  get UserId(): number {
+  get userId(): number {
     return this.props.userId;
   }
 }

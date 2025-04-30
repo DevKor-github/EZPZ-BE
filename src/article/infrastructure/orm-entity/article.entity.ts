@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Cascade, Entity, ManyToMany, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
@@ -36,10 +36,10 @@ export class ArticleEntity extends BaseEntity {
   @Property({ type: 'int' })
   viewCount: number;
 
-  @OneToMany(() => ScrapEntity, (scrap) => scrap.article, { nullable: true })
+  @OneToMany(() => ScrapEntity, (scrap) => scrap.article, { nullable: true, cascade: [Cascade.ALL] })
   scraps: ScrapEntity[];
 
-  @OneToMany(() => MediaEntity, (media) => media.article, { nullable: true })
+  @OneToMany(() => MediaEntity, (media) => media.article, { nullable: true, cascade: [Cascade.ALL] })
   media: MediaEntity[];
 
   @ManyToMany(() => TagEntity)
