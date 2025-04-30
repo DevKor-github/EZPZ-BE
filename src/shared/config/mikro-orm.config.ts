@@ -1,8 +1,8 @@
 import { MySqlDriver, UnderscoreNamingStrategy, defineConfig } from '@mikro-orm/mysql';
 
 export default defineConfig({
-  entities: ['dist/**/**/*.entity.js'],
-  entitiesTs: ['src/**/**/*.entity.ts'],
+  entities: ['dist/**/infrastructure/orm-entity/*.entity.js'],
+  entitiesTs: ['src/**/infrastructure/orm-entity/*.entity.ts'],
   dbName: 'univent_db',
   driver: MySqlDriver,
   user: process.env.DB_USER,
