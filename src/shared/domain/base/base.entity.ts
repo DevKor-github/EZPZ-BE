@@ -4,22 +4,22 @@ export interface BaseEntityProps {
   updatedAt: Date;
 }
 
-export class BaseEntity {
-  private readonly props: BaseEntityProps;
+export abstract class BaseDomainEntity<Props extends BaseEntityProps> {
+  protected props: Props;
 
-  constructor(props: BaseEntityProps) {
+  constructor(props: Props) {
     this.props = props;
   }
 
-  get Id(): number {
+  get id(): number {
     return this.props.id;
   }
 
-  get CreatedAt(): Date {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 
-  get UpdatedAt(): Date {
+  get updatedAt(): Date {
     return this.props.updatedAt;
   }
 }

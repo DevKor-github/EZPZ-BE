@@ -1,4 +1,4 @@
-import { BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
 
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;
@@ -6,11 +6,13 @@ export interface MediaProps extends BaseEntityProps {
   articleId?: number;
 }
 
-export class Media {
-  private readonly props: MediaProps;
+export class Media extends BaseDomainEntity<MediaProps> {
+  protected constructor(props: MediaProps) {
+    super(props);
+  }
 
-  constructor(props: MediaProps) {
-    this.props = props;
+  public static create(props: MediaProps): Media {
+    return new Media(props);
   }
 
   get MediaPath(): string {

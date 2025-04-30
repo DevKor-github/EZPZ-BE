@@ -1,6 +1,6 @@
-import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
 
-export interface ArticleProps extends BaseEntity {
+export interface ArticleProps extends BaseEntityProps {
   title: string;
   organization: string;
   location: string;
@@ -14,54 +14,56 @@ export interface ArticleProps extends BaseEntity {
   tagIds: number[];
 }
 
-export class Article {
-  private readonly props: ArticleProps;
-
-  private constructor(props: ArticleProps) {
-    this.props = props;
+export class Article extends BaseDomainEntity<ArticleProps> {
+  constructor(props: ArticleProps) {
+    super(props);
   }
 
-  get Title(): string {
+  get title(): string {
     return this.props.title;
   }
 
-  get Organization(): string {
+  get organization(): string {
     return this.props.organization;
   }
 
-  get Location(): string {
+  get location(): string {
     return this.props.location;
   }
 
-  get Description(): string {
+  get description(): string {
     return this.props.description;
   }
 
-  get RegistrationUrl(): string {
+  get registrationUrl(): string {
     return this.props.registrationUrl;
   }
 
-  get StartAt(): Date {
+  get startAt(): Date {
     return this.props.startAt;
   }
 
-  get EndAt(): Date {
+  get endAt(): Date {
     return this.props.endAt;
   }
 
-  get ScrapCount(): number {
+  get scrapCount(): number {
     return this.props.scrapCount;
   }
 
-  get ViewCount(): number {
+  get viewCount(): number {
     return this.props.viewCount;
   }
 
-  get MediaIds(): number[] {
+  get mediaIds(): number[] {
     return this.props.mediaIds;
   }
 
-  get TagIds(): number[] {
+  get tagIds(): number[] {
     return this.props.tagIds;
+  }
+
+  public static create(props: ArticleProps): Article {
+    return new Article(props);
   }
 }

@@ -1,15 +1,17 @@
-import { BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
 
 export interface AuthProps extends BaseEntityProps {
   refreshToken: string;
   userId: number;
 }
 
-export class Auth {
-  private readonly props: AuthProps;
-
+export class Auth extends BaseDomainEntity<AuthProps> {
   constructor(props: AuthProps) {
-    this.props = props;
+    super(props);
+  }
+
+  public static create(props: AuthProps): Auth {
+    return new Auth(props);
   }
 
   get refreshToken(): string {

@@ -1,15 +1,17 @@
-import { BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
 
 export interface TagProps extends BaseEntityProps {
   name: string;
   articleId?: number;
 }
 
-export class Tag {
-  private readonly props: TagProps;
+export class Tag extends BaseDomainEntity<TagProps> {
+  protected constructor(props: TagProps) {
+    super(props);
+  }
 
-  constructor(props: TagProps) {
-    this.props = props;
+  public static create(props: TagProps): Tag {
+    return new Tag(props);
   }
 
   get Name(): string {

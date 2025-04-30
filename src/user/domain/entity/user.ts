@@ -1,16 +1,18 @@
 import { Role } from 'src/auth/domain/value-object/role.enum';
-import { BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
 
 export interface UserProps extends BaseEntityProps {
   oauthId: string;
   email: string;
   role: Role;
 }
-export class User {
-  private readonly props: UserProps;
+export class User extends BaseDomainEntity<UserProps> {
+  protected constructor(props: UserProps) {
+    super(props);
+  }
 
-  private constructor(props: UserProps) {
-    this.props = props;
+  public static create(props: UserProps): User {
+    return new User(props);
   }
 
   get OauthId(): string {
