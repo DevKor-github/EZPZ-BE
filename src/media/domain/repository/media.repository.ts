@@ -1,5 +1,5 @@
-import { Media } from '../entity/media';
+import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 
 export interface MediaRepository {
-  save(media: Media): Promise<void>;
+  save(MediaEntity: MediaEntity): Promise<void>;
 }

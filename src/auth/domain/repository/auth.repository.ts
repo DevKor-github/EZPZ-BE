@@ -1,5 +1,5 @@
-import { Auth } from '../entity/auth';
+import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 
 export interface AuthRepository {
-  save(auth: Auth): Promise<void>;
+  save(authEntity: AuthEntity): Promise<void>;
 }

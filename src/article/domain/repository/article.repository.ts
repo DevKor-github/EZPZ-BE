@@ -1,5 +1,5 @@
-import { Article } from '../entity/article';
+import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 
 export interface ArticleRepository {
-  save(article: Article): Promise<void>;
+  save(articleEntity: ArticleEntity): Promise<void>;
 }

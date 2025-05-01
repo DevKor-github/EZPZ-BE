@@ -1,5 +1,5 @@
-import { User } from '../entity/user';
+import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 
 export interface UserRepository {
-  save(user: User): Promise<void>;
+  save(user: UserEntity): Promise<void>;
 }
