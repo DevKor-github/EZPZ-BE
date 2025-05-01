@@ -1,6 +1,7 @@
 import { Article } from 'src/article/domain/entity/article';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
+import { TagMapper } from 'src/tag/infrastructure/mapper/tag.mapper';
 
 export const ArticleMapper = createMapper<Article, ArticleEntity>(
   (entity: ArticleEntity): Article => {
@@ -18,7 +19,7 @@ export const ArticleMapper = createMapper<Article, ArticleEntity>(
       scrapCount: entity.scrapCount,
       viewCount: entity.viewCount,
       mediaIds: entity.media ? entity.media.map((m) => m.id) : [],
-      tagIds: entity.tags ? entity.tags.map((t) => t.id) : [],
+      tags: entity.tags ? entity.tags.map((tag) => TagMapper.toDomain(tag)) : [],
     });
   },
   (domain: Article): ArticleEntity => {
@@ -35,25 +36,10 @@ export const ArticleMapper = createMapper<Article, ArticleEntity>(
     entity.endAt = domain.endAt;
     entity.scrapCount = domain.scrapCount;
     entity.viewCount = domain.viewCount;
-
-    // Relation mapping
-    /*
-    const tags: TagEntity[] = domain.tagIds.map((id) => {
-      const tag = new TagEntity();
-      tag.id = id;
-      return tag;
+    entity.tags = domain.tags.map((tag) => {
+      const tagEntity = TagMapper.toEntity(tag);
+      return tagEntity;
     });
-    entity.tags = tags;
-    */
-
-    /*
-    const media: MediaEntity[] = domain.mediaIds.map((id) => {
-      const m = new MediaEntity();
-      m.id = id;
-      return m;
-    });
-    entity.media = media;
-    */
 
     return entity;
   },
