@@ -1,8 +1,6 @@
 import { Article } from 'src/article/domain/entity/article';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
-import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
-import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 
 export const ArticleMapper = createMapper<Article, ArticleEntity>(
   (entity: ArticleEntity): Article => {
@@ -39,19 +37,23 @@ export const ArticleMapper = createMapper<Article, ArticleEntity>(
     entity.viewCount = domain.viewCount;
 
     // Relation mapping
+    /*
     const tags: TagEntity[] = domain.tagIds.map((id) => {
       const tag = new TagEntity();
       tag.id = id;
       return tag;
     });
     entity.tags = tags;
+    */
 
+    /*
     const media: MediaEntity[] = domain.mediaIds.map((id) => {
       const m = new MediaEntity();
       m.id = id;
       return m;
     });
     entity.media = media;
+    */
 
     return entity;
   },

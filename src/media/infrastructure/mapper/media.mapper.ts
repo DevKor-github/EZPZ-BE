@@ -21,13 +21,7 @@ export const MediaMapper = createMapper<Media, MediaEntity>(
     entity.updatedAt = domain.updatedAt;
     entity.mediaPath = domain.mediaPath;
     entity.isThumbnail = domain.isThumbnail;
-
-    // Relation mapping
-    if (domain.articleId) {
-      const article = new ArticleEntity();
-      article.id = domain.articleId;
-      entity.article = article;
-    }
+    entity.article = { id: domain.articleId } as ArticleEntity;
 
     return entity;
   },

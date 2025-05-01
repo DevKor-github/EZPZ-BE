@@ -13,6 +13,6 @@ export class MediaEntity extends BaseEntity {
   @Property({ type: 'boolean' })
   isThumbnail: boolean;
 
-  @ManyToOne(() => ArticleEntity, { nullable: true })
+  @ManyToOne(() => ArticleEntity, { nullable: false, eager: false })
   article: ArticleEntity;
 }

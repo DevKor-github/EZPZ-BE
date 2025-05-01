@@ -19,15 +19,8 @@ export const ScrapMapper = createMapper<UserScrap, ScrapEntity>(
     entity.id = domain.id;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
-
-    // Relation mapping
-    const article = new ArticleEntity();
-    article.id = domain.articleId;
-    entity.article = article;
-
-    const user = new UserEntity();
-    user.id = domain.userId;
-    entity.user = user;
+    entity.article = { id: domain.articleId } as ArticleEntity;
+    entity.user = { id: domain.userId } as UserEntity;
 
     return entity;
   },
