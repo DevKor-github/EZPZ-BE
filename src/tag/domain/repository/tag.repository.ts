@@ -1,5 +1,5 @@
-import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
+import { Tag } from '../entity/tag';
 
 export interface TagRepository {
-  save(tagEntity: TagEntity): Promise<void>;
+  save(tag: Tag): Promise<void>;
 }

@@ -1,10 +1,11 @@
 import { EntityRepository } from '@mikro-orm/mysql';
 import { Auth } from 'src/auth/domain/entity/auth';
 import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
-import { AuthEntity } from '../orm-entity/auth.entity';
+import { AuthMapper } from '../mapper/auth.mapper';
 
 export class AuthRepositoryImpl extends EntityRepository<Auth> implements AuthRepository {
-  async save(authEntity: AuthEntity): Promise<void> {
+  async save(auth: Auth): Promise<void> {
+    const authEntity = AuthMapper.toEntity(auth);
     await this.em.persistAndFlush(authEntity);
   }
 }

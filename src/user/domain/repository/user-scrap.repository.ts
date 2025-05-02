@@ -1,5 +1,5 @@
-import { ScrapEntity } from 'src/user/infrastructure/orm-entity/scrap.entity';
+import { UserScrap } from '../entity/user-scrap';
 
 export interface UserScrapRepository {
-  save(scrapEntity: ScrapEntity): Promise<void>;
+  save(userScrap: UserScrap): Promise<void>;
 }
