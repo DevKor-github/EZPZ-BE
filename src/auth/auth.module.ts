@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AuthRepository } from './domain/repository/auth.repository';
+import { AUTH_REPOSITORY } from './domain/repository/auth.repository';
 import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { AuthEntity } from './infrastructure/orm-entity/auth.entity';
+import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 
-@Module({})
-export class AuthModule {
+@Module({
+  imports: [MikroOrmModule.forFeature([AuthEntity, UserEntity])],
   providers: [
     {
-      provide: AuthRepository;
-      useClass: AuthRepositoryImpl;
+      provide: AUTH_REPOSITORY,
+      useClass: AuthRepositoryImpl,
     },
-  ];
-}
+  ],
+})
+export class AuthModule {}
