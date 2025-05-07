@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { MikroORM } from '@mikro-orm/mysql';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './shared/config/swagger.config';
-import cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
