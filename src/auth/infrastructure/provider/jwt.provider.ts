@@ -12,7 +12,7 @@ export class JwtProvider {
 
   async generateToken(tokenType: TokenType, userId: number): Promise<string> {
     const jwtSignOptions = JwtTokenOptions(this.configService)[tokenType];
-    const payload = { sub: userId };
+    const payload = { userId };
 
     return this.jwtService.signAsync(payload, jwtSignOptions);
   }

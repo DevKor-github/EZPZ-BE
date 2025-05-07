@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAccessStrategy } from './infrastructure/strategy/jwt-access.strategy';
 import { JwtRefreshStrategy } from './infrastructure/strategy/jwt-refresh.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { RenewTokenUseCase } from './application/use-case/renew-token.use-case';
 
 @Module({
   controllers: [AuthController],
@@ -25,6 +26,7 @@ import { PassportModule } from '@nestjs/passport';
     },
     OAuthLoginUseCase,
     AuthorizeOAuthUseCase,
+    RenewTokenUseCase,
     OAuthProviderFactory,
     KakaoOAuthProvider,
     JwtProvider,
