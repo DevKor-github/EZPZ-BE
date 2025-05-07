@@ -9,10 +9,15 @@ import { OAuthLoginUseCase } from './application/use-case/oauth-login.use-case';
 import { OAuthProviderFactory } from './infrastructure/oauth/oauth-provider.factory';
 import { KakaoOAuthProvider } from './infrastructure/oauth/kakao.provider';
 import { AuthorizeOAuthUseCase } from './application/use-case/authorize-oauth.use-case';
+import { JwtProvider } from './infrastructure/provider/jwt.provider';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtAccessStrategy } from './infrastructure/strategy/jwt-access.strategy';
+import { JwtRefreshStrategy } from './infrastructure/strategy/jwt-refresh.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   controllers: [AuthController],
-  imports: [MikroOrmModule.forFeature([AuthEntity, UserEntity])],
+  imports: [JwtModule.register({}), MikroOrmModule.forFeature([AuthEntity, UserEntity]), PassportModule],
   providers: [
     {
       provide: AUTH_REPOSITORY,
@@ -22,6 +27,9 @@ import { AuthorizeOAuthUseCase } from './application/use-case/authorize-oauth.us
     AuthorizeOAuthUseCase,
     OAuthProviderFactory,
     KakaoOAuthProvider,
+    JwtProvider,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
   ],
 })
 export class AuthModule {}
