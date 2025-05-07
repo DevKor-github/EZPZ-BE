@@ -3,8 +3,7 @@ import { Article } from 'src/article/domain/entity/article';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
-import { Tag } from 'src/tag/domain/entity/tag';
-import { TagMapper } from 'src/tag/infrastructure/mapper/tag.mapper';
+import { ArticleListItem } from 'src/article/domain/entity/article.list.item';
 
 export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {
   async save(article: Article): Promise<void> {
@@ -12,9 +11,61 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     await this.em.persistAndFlush(articleEntity);
   }
 
-  async findByTags(tags: Tag[]): Promise<Article[] | undefined> {
-    const tagEntities = tags.map((tag) => TagMapper.toEntity(tag));
-    const articles = await this.em.find(ArticleEntity, { tags: { $in: tagEntities } });
-    return articles.map((article) => ArticleMapper.toDomain(article));
+  async findList(params: {
+    tags?: string[];
+    isFinished?: boolean;
+    sort?: 'createdAt' | 'scrapCount' | 'viewCount';
+  }): Promise<ArticleListItem[]> {
+    const now = new Date();
+
+    // QueryBuilder 생성
+    const query = this.em
+      .createQueryBuilder(ArticleEntity, 'a')
+      .leftJoinAndSelect('a.tags', 't')
+      .select(['a.id', 'a.title', 'a.organization', 'a.thumbnailPath', 'a.scrapCount', 'a.viewCount']);
+
+    // 태그 필터링
+    if (params.tags?.length) {
+      query.where({ 't.name': { $in: params.tags } });
+    }
+
+    // 종료 여부 필터링
+    if (params.isFinished !== undefined) {
+      if (params.isFinished) {
+        query.andWhere({ 'a.endAt': { $lte: now } });
+      } else {
+        query.andWhere({ 'a.endAt': { $gt: now } });
+      }
+    }
+
+    // 정렬 처리
+    switch (params.sort) {
+      case 'createdAt':
+        query.orderBy({ 'a.createdAt': 'DESC' });
+        break;
+      case 'scrapCount':
+        query.orderBy({ 'a.scrapCount': 'DESC' });
+        break;
+      case 'viewCount':
+        query.orderBy({ 'a.viewCount': 'DESC' });
+        break;
+      default:
+        query.orderBy({ 'a.createdAt': 'DESC' });
+        break;
+    }
+
+    // 중복 row 제거 후 실행
+    const entities = await query.groupBy('a.id').getResultList();
+
+    // 엔티티를 도메인 객체로 변환
+    return entities.map((entity) => ({
+      id: entity.id,
+      title: entity.title,
+      organization: entity.organization,
+      thumbnailPath: entity.media.find((media) => media.isThumbnail)?.mediaPath ?? '',
+      scrapCount: entity.scrapCount,
+      viewCount: entity.viewCount,
+      tags: entity.tags.map((tag) => tag.name),
+    }));
   }
 }

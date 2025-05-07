@@ -3,7 +3,7 @@ export interface ArticleListItem {
   title: string;
   organization: string;
   thumbnailPath: string;
-  scrap_count: number;
-  view_count: number;
+  scrapCount: number;
+  viewCount: number;
   tags: string[];
 }
