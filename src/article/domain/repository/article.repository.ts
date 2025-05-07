@@ -1,9 +1,13 @@
-import { Tag } from 'src/tag/domain/entity/tag';
 import { Article } from '../entity/article';
+import { ArticleListItem } from '../entity/article.list.item';
 
 export interface ArticleRepository {
   save(article: Article): Promise<void>;
-  findByTags(tags: Tag[]): Promise<Article[] | undefined>;
+  findList(params: {
+    tags?: string[];
+    isFinished?: boolean;
+    sort?: 'createdAt' | 'scrapCount' | 'viewCount';
+  }): Promise<ArticleListItem[]>;
 }
 
 export const ARTICLE_REPOSITORY = Symbol('ARTICLE_REPOSITORY');
