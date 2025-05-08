@@ -2,26 +2,27 @@ import { Media } from 'src/media/domain/entity/media';
 import { MediaEntity } from '../orm-entity/media.entity';
 import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export const MediaMapper = createMapper<Media, MediaEntity>(
   (entity: MediaEntity): Media => {
     return Media.create({
-      id: entity.id,
+      id: Identifier.from(entity.id),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       mediaPath: entity.mediaPath,
       isThumbnail: entity.isThumbnail,
-      articleId: entity.article?.id,
+      articleId: Identifier.from(entity.article?.id),
     });
   },
   (domain: Media): MediaEntity => {
     const entity = new MediaEntity();
-    entity.id = domain.id;
+    entity.id = domain.id.value;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.mediaPath = domain.mediaPath;
     entity.isThumbnail = domain.isThumbnail;
-    entity.article = { id: domain.articleId } as ArticleEntity;
+    entity.article = { id: domain.articleId?.value } as ArticleEntity;
 
     return entity;
   },
