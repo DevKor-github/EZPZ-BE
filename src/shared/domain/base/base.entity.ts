@@ -1,5 +1,7 @@
+import { Identifier } from '../value-object/identifier';
+
 export interface BaseEntityProps {
-  id: number;
+  id: Identifier;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -11,7 +13,7 @@ export abstract class BaseDomainEntity<Props extends BaseEntityProps> {
     this.props = props;
   }
 
-  get id(): number {
+  get id(): Identifier {
     return this.props.id;
   }
 
