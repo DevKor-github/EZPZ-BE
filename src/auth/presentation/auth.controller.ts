@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { OAuthLoginUseCase } from '../application/use-case/oauth-login.use-case';
 import { Response } from 'express';
+import { OAuthLoginUseCase } from '../application/use-case/oauth-login.use-case';
 import { AuthorizeOAuthUseCase } from '../application/use-case/authorize-oauth.use-case';
 import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/config/cookie.config';
-import { AuthGuard } from '@nestjs/passport';
 import { RenewTokenUseCase } from '../application/use-case/renew-token.use-case';
 import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
+import { LogoutUseCase } from '../application/use-case/logout.use-case';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -15,13 +16,14 @@ export class AuthController {
     private readonly oAuthLoginUseCase: OAuthLoginUseCase,
     private readonly authorizeOAuthUseCase: AuthorizeOAuthUseCase,
     private readonly renewTokenUseCase: RenewTokenUseCase,
+    private readonly logoutUseCase: LogoutUseCase,
   ) {}
 
   @Get('oauth/authorization')
   authorizeOAuth(@Res() res: Response) {
     const kakaoAuthUrl = this.authorizeOAuthUseCase.execute('kakao');
 
-    return res.redirect(kakaoAuthUrl);
+    res.redirect(kakaoAuthUrl);
   }
 
   @Get('login/oauth/callback')
@@ -37,7 +39,6 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Get('refresh')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
-    console.log(`controller userID ${user.userId}`);
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute(user.userId);
 
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
@@ -47,5 +48,12 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout() {}
+  async logout(@Res() res: Response) {
+    await this.logoutUseCase.execute();
+
+    res.clearCookie('accessToken', accessTokenCookieOptions);
+    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+    res.status(200).send();
+  }
 }
