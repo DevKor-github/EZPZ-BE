@@ -9,8 +9,8 @@ export class Identifier {
     this._value = value;
   }
 
-  public static create(value?: string): Identifier {
-    const id = value ?? this.snowflake.generate().toString();
+  public static create(): Identifier {
+    const id = this.snowflake.generate().toString();
     return new Identifier(id);
   }
 
