@@ -1,4 +1,4 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { Tag } from 'src/tag/domain/entity/tag';
 
