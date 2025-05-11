@@ -1,4 +1,4 @@
-import { Cascade, Entity, ManyToMany, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Cascade, Entity, ManyToMany, OneToMany, Property } from '@mikro-orm/core';
 import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
@@ -7,9 +7,6 @@ import { ArticleRepositoryImpl } from '../repository/article.repository.impl';
 
 @Entity({ tableName: 'article', repository: () => ArticleRepositoryImpl })
 export class ArticleEntity extends BaseEntity {
-  @PrimaryKey()
-  id: number;
-
   @Property({ type: 'varchar' })
   title: string;
 

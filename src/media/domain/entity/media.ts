@@ -1,9 +1,10 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;
   isThumbnail: boolean;
-  articleId?: number | undefined;
+  articleId?: Identifier | undefined;
 }
 
 export class Media extends BaseDomainEntity<MediaProps> {
@@ -23,7 +24,7 @@ export class Media extends BaseDomainEntity<MediaProps> {
     return this.props.isThumbnail;
   }
 
-  get articleId(): number | undefined {
+  get articleId(): Identifier | undefined {
     return this.props.articleId;
   }
 }

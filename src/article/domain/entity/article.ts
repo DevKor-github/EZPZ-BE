@@ -1,4 +1,5 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { Tag } from 'src/tag/domain/entity/tag';
 
 export interface ArticleProps extends BaseEntityProps {
@@ -11,7 +12,7 @@ export interface ArticleProps extends BaseEntityProps {
   endAt: Date;
   scrapCount: number;
   viewCount: number;
-  mediaIds: number[];
+  mediaIds: Identifier[];
   tags: Tag[];
 }
 
@@ -56,7 +57,7 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     return this.props.viewCount;
   }
 
-  get mediaIds(): number[] {
+  get mediaIds(): Identifier[] {
     return this.props.mediaIds;
   }
 

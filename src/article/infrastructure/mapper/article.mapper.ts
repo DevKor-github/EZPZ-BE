@@ -2,11 +2,12 @@ import { Article } from 'src/article/domain/entity/article';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
 import { TagMapper } from 'src/tag/infrastructure/mapper/tag.mapper';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export const ArticleMapper = createMapper<Article, ArticleEntity>(
   (entity: ArticleEntity): Article => {
     return Article.create({
-      id: entity.id,
+      id: Identifier.from(entity.id),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       title: entity.title,
@@ -18,13 +19,13 @@ export const ArticleMapper = createMapper<Article, ArticleEntity>(
       endAt: entity.endAt,
       scrapCount: entity.scrapCount,
       viewCount: entity.viewCount,
-      mediaIds: entity.media ? entity.media.map((m) => m.id) : [],
+      mediaIds: entity.media ? entity.media.map((m) => Identifier.from(m.id)) : [],
       tags: entity.tags ? entity.tags.map((tag) => TagMapper.toDomain(tag)) : [],
     });
   },
   (domain: Article): ArticleEntity => {
     const entity = new ArticleEntity();
-    entity.id = domain.id;
+    entity.id = domain.id.value;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.title = domain.title;

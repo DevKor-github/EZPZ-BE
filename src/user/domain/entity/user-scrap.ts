@@ -1,8 +1,9 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/base/base.entity';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface UserScrapProps extends BaseEntityProps {
-  articleId: number;
-  userId: number;
+  articleId: Identifier;
+  userId: Identifier;
 }
 
 export class UserScrap extends BaseDomainEntity<UserScrapProps> {
@@ -14,11 +15,11 @@ export class UserScrap extends BaseDomainEntity<UserScrapProps> {
     return new UserScrap(props);
   }
 
-  get articleId(): number {
+  get articleId(): Identifier {
     return this.props.articleId;
   }
 
-  get userId(): number {
+  get userId(): Identifier {
     return this.props.userId;
   }
 }
