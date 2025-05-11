@@ -3,7 +3,6 @@ import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface UserProps extends BaseEntityProps {
-  oauthId: string;
   email: string;
   role: Role;
   scrapIds: Identifier[];
@@ -15,10 +14,6 @@ export class User extends BaseDomainEntity<UserProps> {
 
   public static create(props: UserProps): User {
     return new User(props);
-  }
-
-  get oauthId(): string {
-    return this.props.oauthId;
   }
 
   get email(): string {

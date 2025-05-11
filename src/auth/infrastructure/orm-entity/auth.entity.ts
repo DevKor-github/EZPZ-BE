@@ -6,6 +6,12 @@ import { AuthRepositoryImpl } from '../repository/auth.repository.impl';
 @Entity({ tableName: 'auth', repository: () => AuthRepositoryImpl })
 export class AuthEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true })
+  oauthId: string;
+
+  @Property({ type: 'varchar' })
+  provider: string;
+
+  @Property({ type: 'varchar', unique: true })
   refreshToken: string;
 
   @OneToOne(() => UserEntity, (user) => user.auth, {

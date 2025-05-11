@@ -10,6 +10,8 @@ export const AuthMapper = createMapper<Auth, AuthEntity>(
       id: Identifier.from(entity.id),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
+      oauthId: entity.oauthId,
+      provider: entity.provider,
       refreshToken: entity.refreshToken,
       userId: Identifier.from(entity.user.id),
     });
@@ -19,6 +21,8 @@ export const AuthMapper = createMapper<Auth, AuthEntity>(
     entity.id = domain.id.value;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
+    entity.oauthId = domain.oauthId;
+    entity.provider = domain.provider;
     entity.refreshToken = domain.refreshToken;
     entity.user = { id: domain.userId.value } as UserEntity;
 

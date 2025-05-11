@@ -2,6 +2,8 @@ import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface AuthProps extends BaseEntityProps {
+  oauthId: string;
+  provider: string;
   refreshToken: string;
   userId: Identifier;
 }
@@ -13,6 +15,14 @@ export class Auth extends BaseDomainEntity<AuthProps> {
 
   public static create(props: AuthProps): Auth {
     return new Auth(props);
+  }
+
+  get oauthId(): string {
+    return this.props.oauthId;
+  }
+
+  get provider(): string {
+    return this.props.provider;
   }
 
   get refreshToken(): string {

@@ -8,9 +8,6 @@ import { UserRepositoryImpl } from '../repository/user.repository.impl';
 @Entity({ tableName: 'user', repository: () => UserRepositoryImpl })
 export class UserEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true })
-  oauthId: string;
-
-  @Property({ type: 'varchar', unique: true })
   email: string;
 
   @Property({ type: 'varchar' })
