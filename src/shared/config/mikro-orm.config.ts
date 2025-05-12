@@ -1,4 +1,5 @@
 import { MySqlDriver, UnderscoreNamingStrategy, defineConfig } from '@mikro-orm/mysql';
+import 'dotenv/config';
 
 export default defineConfig({
   entities: ['dist/**/infrastructure/orm-entity/*.entity.js'],
