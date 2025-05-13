@@ -6,8 +6,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { AuthEntity } from './infrastructure/orm-entity/auth.entity';
 import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { OAuthLoginUseCase } from './application/use-case/oauth-login.use-case';
-import { OAuthProviderFactory } from './infrastructure/oauth/oauth-provider.factory';
-import { KakaoOAuthProvider } from './infrastructure/oauth/kakao.provider';
+import { OAuthProviderFactory } from './infrastructure/factory/oauth-provider.factory';
+import { KakaoOAuthProvider } from './infrastructure/provider/kakao.provider';
 import { AuthorizeOAuthUseCase } from './application/use-case/authorize-oauth.use-case';
 import { JwtProvider } from './infrastructure/provider/jwt.provider';
 import { JwtModule } from '@nestjs/jwt';
@@ -16,19 +16,19 @@ import { JwtRefreshStrategy } from './infrastructure/strategy/jwt-refresh.strate
 import { PassportModule } from '@nestjs/passport';
 import { RenewTokenUseCase } from './application/use-case/renew-token.use-case';
 import { LogoutUseCase } from './application/use-case/logout.use-case';
+import { UserModule } from 'src/user/user.module';
+
+const useCases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase];
 
 @Module({
   controllers: [AuthController],
-  imports: [JwtModule.register({}), MikroOrmModule.forFeature([AuthEntity, UserEntity]), PassportModule],
+  imports: [JwtModule.register({}), MikroOrmModule.forFeature([AuthEntity, UserEntity]), PassportModule, UserModule],
   providers: [
+    ...useCases,
     {
       provide: AUTH_REPOSITORY,
       useClass: AuthRepositoryImpl,
     },
-    OAuthLoginUseCase,
-    AuthorizeOAuthUseCase,
-    RenewTokenUseCase,
-    LogoutUseCase,
     OAuthProviderFactory,
     KakaoOAuthProvider,
     JwtProvider,

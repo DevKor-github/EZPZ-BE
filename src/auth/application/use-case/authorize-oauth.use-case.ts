@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OAuthProviderFactory } from 'src/auth/infrastructure/oauth/oauth-provider.factory';
+import { OAuthProviderFactory } from 'src/auth/infrastructure/factory/oauth-provider.factory';
 
 @Injectable()
 export class AuthorizeOAuthUseCase {
