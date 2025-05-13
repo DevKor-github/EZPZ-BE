@@ -6,7 +6,25 @@ import { AuthEntity } from '../orm-entity/auth.entity';
 
 export class AuthRepositoryImpl extends EntityRepository<AuthEntity> implements AuthRepository {
   async save(auth: Auth): Promise<void> {
-    const authEntity = AuthMapper.toEntity(auth);
+    const authEntity = AuthMapper.toEntity(auth, this.em);
     await this.em.persistAndFlush(authEntity);
+  }
+
+  async findByOAuthIdandProvider(oauthId: string, provider: string): Promise<Auth | null> {
+    const authEntity = await this.findOne({ oauthId, provider });
+    if (!authEntity) return null;
+
+    return AuthMapper.toDomain(authEntity);
+  }
+
+  async update(auth: Auth): Promise<void> {
+    await this.em.nativeUpdate(
+      AuthEntity,
+      { id: auth.id.value },
+      {
+        refreshToken: auth.refreshToken,
+        updatedAt: auth.updatedAt,
+      },
+    );
   }
 }
