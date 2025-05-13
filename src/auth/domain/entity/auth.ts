@@ -13,6 +13,11 @@ export class Auth extends BaseDomainEntity<AuthProps> {
     super(props);
   }
 
+  updateRefreshToken(refreshToken: string, updatedAt: Date): void {
+    this.props.refreshToken = refreshToken;
+    this.props.updatedAt = updatedAt;
+  }
+
   public static create(props: AuthProps): Auth {
     return new Auth(props);
   }
