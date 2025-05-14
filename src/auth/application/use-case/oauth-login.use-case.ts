@@ -50,10 +50,10 @@ export class OAuthLoginUseCase {
       await this.authRepository.save(auth);
     }
 
-    const accessToken = await this.jwtProvider.generateToken(TokenType.ACCESS, auth.userId.value);
-    const refreshToken = await this.jwtProvider.generateToken(TokenType.REFRESH, auth.userId.value);
+    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, auth.userId.value);
+    const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, auth.userId.value);
 
-    auth.updateRefreshToken(refreshToken, now);
+    auth.updateRefreshToken(jti, now);
     await this.authRepository.update(auth);
 
     return { accessToken, refreshToken };

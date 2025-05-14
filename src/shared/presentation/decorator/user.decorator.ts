@@ -3,6 +3,7 @@ import { Request } from 'express';
 
 export interface UserPayload {
   userId: string;
+  jti: string;
 }
 
 export const User = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
