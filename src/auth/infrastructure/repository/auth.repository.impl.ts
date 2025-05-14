@@ -17,6 +17,13 @@ export class AuthRepositoryImpl extends EntityRepository<AuthEntity> implements 
     return AuthMapper.toDomain(authEntity);
   }
 
+  async findByRefreshToken(refreshToken: string): Promise<Auth | null> {
+    const authEntity = await this.findOne({ refreshToken });
+    if (!authEntity) return null;
+
+    return AuthMapper.toDomain(authEntity);
+  }
+
   async update(auth: Auth): Promise<void> {
     await this.em.nativeUpdate(
       AuthEntity,

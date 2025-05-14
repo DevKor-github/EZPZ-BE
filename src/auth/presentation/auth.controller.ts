@@ -39,7 +39,7 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Get('refresh')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
-    const { accessToken, refreshToken } = await this.renewTokenUseCase.execute(user.userId);
+    const { accessToken, refreshToken } = await this.renewTokenUseCase.execute(user.userId, user.jti);
 
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
