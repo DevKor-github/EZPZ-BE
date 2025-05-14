@@ -1,5 +1,5 @@
 export interface ArticleListItem {
-  id: number;
+  id: string;
   title: string;
   organization: string;
   thumbnailPath: string;
