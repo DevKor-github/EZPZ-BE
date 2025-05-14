@@ -16,24 +16,28 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<ArticleListItem[]> {
+    console.log(this.em);
+    if (!this.em) {
+      throw new Error('em is not initialized');
+    }
+
     const now = new Date();
 
     // QueryBuilder 생성
     const query = this.em
       .createQueryBuilder(ArticleEntity, 'a')
+      .select(['a.id', 'a.title', 'a.organization', 'a.scrapCount', 'a.viewCount'])
       .leftJoinAndSelect('a.tags', 't')
-      .select(['a.id', 'a.title', 'a.organization', 'a.thumbnailPath', 'a.scrapCount', 'a.viewCount']);
+      .leftJoinAndSelect('a.media', 'm');
 
     // 태그 필터링
     if (params.tags?.length) {
       query.where({ 't.name': { $in: params.tags } });
     }
 
-    // 종료 여부 필터링
+    // 종료 포함 여부 필터링
     if (params.isFinished !== undefined) {
-      if (params.isFinished) {
-        query.andWhere({ 'a.endAt': { $lte: now } });
-      } else {
+      if (params.isFinished === false) {
         query.andWhere({ 'a.endAt': { $gt: now } });
       }
     }
@@ -55,7 +59,7 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     }
 
     // 중복 row 제거 후 실행
-    const entities = await query.groupBy('a.id').getResultList();
+    const entities = await query.getResultList();
 
     // 엔티티를 도메인 객체로 변환
     return entities.map((entity) => ({
