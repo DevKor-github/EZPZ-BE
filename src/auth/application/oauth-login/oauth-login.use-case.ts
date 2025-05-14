@@ -9,51 +9,69 @@ import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { CreateUserUseCase } from 'src/user/application/use-case/create-user.use-case';
 import { Role } from 'src/user/domain/value-object/role.enum';
+import { OAuthLoginRequestDto } from './dto/oauth-login.request.dto';
+import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
 
 @Injectable()
 export class OAuthLoginUseCase {
+  private readonly now: Date;
   constructor(
     private readonly oAuthProviderFactory: OAuthProviderFactory,
     private readonly jwtProvider: JwtProvider,
     @InjectRepository(AuthEntity)
     private readonly authRepository: AuthRepository,
     private readonly createUserUseCase: CreateUserUseCase,
-  ) {}
+  ) {
+    this.now = new Date();
+  }
 
-  async execute(providerName: string, code: string) {
-    // 카카오 로그인 정보 가져오기기
+  async execute(requestDto: OAuthLoginRequestDto): Promise<OAuthLoginResponseDto> {
+    const { providerName, code } = requestDto;
+    const { oauthId, provider, email } = await this.getOAuthUserInfo(providerName, code);
+    const auth = await this.findOrCreateUser(oauthId, provider, email);
+    const { accessToken, refreshToken } = await this.generateAndSaveTokens(auth);
+
+    return { accessToken, refreshToken };
+  }
+
+  // 소셜로그인 유저저 정보 가져오기
+  private async getOAuthUserInfo(providerName: string, code: string) {
     const oAuthprovider = this.oAuthProviderFactory.getProvider(providerName);
     const token = await oAuthprovider.getToken(code);
-    const { oauthId, provider, email } = await oAuthprovider.getUserInfo(token);
 
-    // findOrCreateUser
-    let auth: Auth;
-    const now = new Date();
+    return await oAuthprovider.getUserInfo(token);
+  }
 
+  // 유저 생성 및 정보 가져오기
+  private async findOrCreateUser(oauthId: string, provider: string, email: string): Promise<Auth> {
     const existingAuth = await this.authRepository.findByOAuthIdandProvider(oauthId, provider);
+    if (existingAuth) return existingAuth;
 
-    if (existingAuth) auth = existingAuth;
-    else {
-      const userId = Identifier.create();
-      await this.createUserUseCase.execute(userId, email, Role.GENERAL);
+    const now = new Date();
+    const userId = Identifier.create();
+    await this.createUserUseCase.execute(userId, email, Role.GENERAL);
 
-      auth = Auth.create({
-        id: Identifier.create(),
-        createdAt: now,
-        updatedAt: now,
-        oauthId: oauthId,
-        provider: provider,
-        refreshToken: '',
-        userId: userId,
-      });
+    const auth = Auth.create({
+      id: Identifier.create(),
+      createdAt: now,
+      updatedAt: now,
+      oauthId: oauthId,
+      provider: provider,
+      refreshToken: null,
+      userId: userId,
+    });
 
-      await this.authRepository.save(auth);
-    }
+    await this.authRepository.save(auth);
 
+    return auth;
+  }
+
+  // 토큰 생성 및 저장
+  private async generateAndSaveTokens(auth: Auth) {
     const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, auth.userId.value);
     const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, auth.userId.value);
 
-    auth.updateRefreshToken(jti, now);
+    auth.updateRefreshToken(jti, this.now);
     await this.authRepository.update(auth);
 
     return { accessToken, refreshToken };
