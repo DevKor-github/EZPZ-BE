@@ -4,7 +4,7 @@ import { Identifier } from 'src/shared/domain/value-object/identifier';
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;
   provider: string;
-  refreshToken: string;
+  refreshToken: string | null;
   userId: Identifier;
 }
 
@@ -13,7 +13,7 @@ export class Auth extends BaseDomainEntity<AuthProps> {
     super(props);
   }
 
-  updateRefreshToken(refreshToken: string, updatedAt: Date): void {
+  updateRefreshToken(refreshToken: string | null, updatedAt: Date): void {
     this.props.refreshToken = refreshToken;
     this.props.updatedAt = updatedAt;
   }
@@ -30,7 +30,7 @@ export class Auth extends BaseDomainEntity<AuthProps> {
     return this.props.provider;
   }
 
-  get refreshToken(): string {
+  get refreshToken(): string | null {
     return this.props.refreshToken;
   }
 

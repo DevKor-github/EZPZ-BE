@@ -1,10 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
+import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 
 @Injectable()
 export class LogoutUseCase {
-  constructor() {}
+  constructor(
+    @InjectRepository(AuthEntity)
+    private readonly authRepository: AuthRepository,
+  ) {}
 
-  async execute() {
-    // 로그아웃 시, db의 refresh token 삭제 하도록 구현
+  async execute(userId: string): Promise<void> {
+    const auth = await this.authRepository.findByUserId(userId);
+    if (!auth) throw new InternalServerErrorException('해당 유저의 인증 정보가 없습니다.');
+
+    auth.updateRefreshToken(null, new Date());
+    await this.authRepository.update(auth);
   }
 }

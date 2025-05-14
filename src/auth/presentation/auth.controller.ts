@@ -47,9 +47,10 @@ export class AuthController {
     res.status(200).send();
   }
 
+  @UseGuards(AuthGuard('jwt-access'))
   @Post('logout')
-  async logout(@Res() res: Response) {
-    await this.logoutUseCase.execute();
+  async logout(@User() user: UserPayload, @Res() res: Response) {
+    await this.logoutUseCase.execute(user.userId);
 
     res.clearCookie('accessToken', accessTokenCookieOptions);
     res.clearCookie('refreshToken', refreshTokenCookieOptions);

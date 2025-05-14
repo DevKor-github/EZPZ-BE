@@ -5,6 +5,7 @@ export interface AuthRepository {
   update(auth: Auth): Promise<void>;
   findByOAuthIdandProvider(oauthId: string, provider: string): Promise<Auth | null>;
   findByRefreshToken(refreshToken: string): Promise<Auth | null>;
+  findByUserId(userId: string): Promise<Auth | null>;
 }
 
 export const AUTH_REPOSITORY = Symbol('AUTH_REPOSITORY');

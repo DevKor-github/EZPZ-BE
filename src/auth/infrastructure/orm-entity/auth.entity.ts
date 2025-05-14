@@ -11,8 +11,8 @@ export class AuthEntity extends BaseEntity {
   @Property({ type: 'varchar' })
   provider: string;
 
-  @Property({ type: 'varchar', unique: true })
-  refreshToken: string;
+  @Property({ type: 'varchar', unique: true, nullable: true })
+  refreshToken: string | null;
 
   @OneToOne(() => UserEntity, (user) => user.auth, {
     owner: true,

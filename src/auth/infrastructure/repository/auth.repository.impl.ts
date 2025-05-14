@@ -34,4 +34,11 @@ export class AuthRepositoryImpl extends EntityRepository<AuthEntity> implements 
       },
     );
   }
+
+  async findByUserId(userId: string): Promise<Auth | null> {
+    const authEntity = await this.findOne({ user: userId });
+    if (!authEntity) return null;
+
+    return AuthMapper.toDomain(authEntity);
+  }
 }
