@@ -2,7 +2,7 @@ import { IsOptional, IsArray, IsBoolean, IsIn } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class ArticleFilterDto {
-  /** "축제,강연" → ['축제','강연'] */
+  /** festival,expo -> ['festival', 'expo'] */
   @IsOptional()
   @Transform(({ value }: { value: string | undefined }) => (value ? value.split(',') : []))
   @IsArray()
