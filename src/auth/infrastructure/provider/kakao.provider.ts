@@ -1,8 +1,8 @@
-// infrastructure/oauth/kakao-oauth.provider.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { BaseOAuthProvider, OAuthUser } from './base-oauth.provider';
+import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
 interface KakaoTokenResponse {
   access_token: string;
@@ -36,7 +36,7 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
     if (!oauthId) throw new UnauthorizedException('Failed to get Kakao user ID');
     const email = res.data.kakao_account?.email;
     if (!email) throw new UnauthorizedException('Failed to get Kakao user email');
-    const provider = 'kakao';
+    const provider = OAuthProviderType.KAKAO;
 
     const oAuthUser = { oauthId, provider, email };
 

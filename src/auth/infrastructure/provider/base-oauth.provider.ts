@@ -1,3 +1,5 @@
+import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+
 export interface BaseOAuthProvider {
   getToken(code: string): Promise<string>;
   getUserInfo(token: string): Promise<OAuthUser>;
@@ -6,6 +8,6 @@ export interface BaseOAuthProvider {
 
 export interface OAuthUser {
   oauthId: string;
-  provider: string;
+  provider: OAuthProviderType;
   email: string;
 }

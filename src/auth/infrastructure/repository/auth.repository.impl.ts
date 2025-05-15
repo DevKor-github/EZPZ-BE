@@ -3,6 +3,7 @@ import { Auth } from 'src/auth/domain/entity/auth';
 import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { AuthMapper } from '../mapper/auth.mapper';
 import { AuthEntity } from '../orm-entity/auth.entity';
+import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
 export class AuthRepositoryImpl extends EntityRepository<AuthEntity> implements AuthRepository {
   async save(auth: Auth): Promise<void> {
@@ -10,7 +11,7 @@ export class AuthRepositoryImpl extends EntityRepository<AuthEntity> implements 
     await this.em.persistAndFlush(authEntity);
   }
 
-  async findByOAuthIdandProvider(oauthId: string, provider: string): Promise<Auth | null> {
+  async findByOAuthIdandProvider(oauthId: string, provider: OAuthProviderType): Promise<Auth | null> {
     const authEntity = await this.findOne({ oauthId, provider });
     if (!authEntity) return null;
 

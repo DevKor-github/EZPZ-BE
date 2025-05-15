@@ -4,6 +4,7 @@ import { Auth } from 'src/auth/domain/entity/auth';
 import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { TokenType } from 'src/auth/infrastructure/factory/jwt.factory';
 import { OAuthProviderFactory } from 'src/auth/infrastructure/factory/oauth-provider.factory';
+import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
@@ -26,8 +27,8 @@ export class OAuthLoginUseCase {
   }
 
   async execute(requestDto: OAuthLoginRequestDto): Promise<OAuthLoginResponseDto> {
-    const { providerName, code } = requestDto;
-    const { oauthId, provider, email } = await this.getOAuthUserInfo(providerName, code);
+    const { oAuthProviderType, code } = requestDto;
+    const { oauthId, provider, email } = await this.getOAuthUserInfo(oAuthProviderType, code);
     const auth = await this.findOrCreateUser(oauthId, provider, email);
     const { accessToken, refreshToken } = await this.generateAndSaveTokens(auth);
 
@@ -35,15 +36,15 @@ export class OAuthLoginUseCase {
   }
 
   // 소셜로그인 유저저 정보 가져오기
-  private async getOAuthUserInfo(providerName: string, code: string) {
-    const oAuthprovider = this.oAuthProviderFactory.getProvider(providerName);
+  private async getOAuthUserInfo(oAuthProviderType: OAuthProviderType, code: string) {
+    const oAuthprovider = this.oAuthProviderFactory.getProvider(oAuthProviderType);
     const token = await oAuthprovider.getToken(code);
 
     return await oAuthprovider.getUserInfo(token);
   }
 
   // 유저 생성 및 정보 가져오기
-  private async findOrCreateUser(oauthId: string, provider: string, email: string): Promise<Auth> {
+  private async findOrCreateUser(oauthId: string, provider: OAuthProviderType, email: string): Promise<Auth> {
     const existingAuth = await this.authRepository.findByOAuthIdandProvider(oauthId, provider);
     if (existingAuth) return existingAuth;
 

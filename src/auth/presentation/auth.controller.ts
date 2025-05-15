@@ -8,6 +8,7 @@ import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
 import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
 import { LogoutUseCase } from '../application/logout/logout.use-case';
+import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -21,14 +22,17 @@ export class AuthController {
 
   @Get('oauth/authorization')
   authorizeOAuth(@Res() res: Response) {
-    const { authUrl } = this.authorizeOAuthUseCase.execute({ providerName: 'kakao' });
+    const { authUrl } = this.authorizeOAuthUseCase.execute({ oAuthProviderType: OAuthProviderType.KAKAO });
 
     res.redirect(authUrl);
   }
 
   @Get('login/oauth/callback')
   async oAuthLogin(@Query('code') code: string, @Res() res: Response) {
-    const { accessToken, refreshToken } = await this.oAuthLoginUseCase.execute({ providerName: 'kakao', code });
+    const { accessToken, refreshToken } = await this.oAuthLoginUseCase.execute({
+      oAuthProviderType: OAuthProviderType.KAKAO,
+      code,
+    });
 
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);

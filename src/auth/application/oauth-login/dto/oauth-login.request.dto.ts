@@ -1,9 +1,10 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
 export class OAuthLoginRequestDto {
-  @IsString()
+  @IsEnum(OAuthProviderType)
   @IsNotEmpty()
-  providerName: string;
+  oAuthProviderType: OAuthProviderType;
 
   @IsString()
   @IsNotEmpty()

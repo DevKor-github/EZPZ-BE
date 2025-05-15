@@ -1,9 +1,10 @@
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { OAuthProviderType } from '../value-object/oauth-provider.enum';
 
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;
-  provider: string;
+  provider: OAuthProviderType;
   refreshToken: string | null;
   userId: Identifier;
 }
@@ -26,7 +27,7 @@ export class Auth extends BaseDomainEntity<AuthProps> {
     return this.props.oauthId;
   }
 
-  get provider(): string {
+  get provider(): OAuthProviderType {
     return this.props.provider;
   }
 
