@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -37,7 +37,7 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.status(200).send();
+    res.status(HttpStatus.OK).send();
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
@@ -48,7 +48,7 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.status(200).send();
+    res.status(HttpStatus.OK).send();
   }
 
   @UseGuards(AuthGuard('jwt-access'))
@@ -59,6 +59,6 @@ export class AuthController {
     res.clearCookie('accessToken', accessTokenCookieOptions);
     res.clearCookie('refreshToken', refreshTokenCookieOptions);
 
-    res.status(200).send();
+    res.status(HttpStatus.OK).send();
   }
 }
