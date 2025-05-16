@@ -1,5 +1,6 @@
 import { Article } from '../entity/article';
 import { ArticleListItem } from '../entity/article.list.item';
+import { ArticleDetailDto } from '../../application/dto/article.detail.dto';
 
 export interface ArticleRepository {
   save(article: Article): Promise<void>;
@@ -8,6 +9,7 @@ export interface ArticleRepository {
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<ArticleListItem[]>;
+  findById(id: string): Promise<ArticleDetailDto | null>;
 }
 
 export const ARTICLE_REPOSITORY = Symbol('ARTICLE_REPOSITORY');
