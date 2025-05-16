@@ -7,6 +7,7 @@ import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 import { ArticleController } from './presentation/article.controller';
 import { ArticleList } from './application/get/article.list';
+import { ArticleDetail } from './application/get/article.detail';
 
 @Module({
   imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity])],
@@ -17,6 +18,7 @@ import { ArticleList } from './application/get/article.list';
       useClass: ArticleRepositoryImpl,
     },
     ArticleList,
+    ArticleDetail,
   ],
 })
 export class ArticleModule {}
