@@ -12,6 +12,7 @@ import { CreateUserUseCase } from 'src/user/application/use-case/create-user.use
 import { Role } from 'src/user/domain/value-object/role.enum';
 import { OAuthLoginRequestDto } from './dto/oauth-login.request.dto';
 import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
+import { Transactional } from '@mikro-orm/core';
 
 @Injectable()
 export class OAuthLoginUseCase {
@@ -26,6 +27,7 @@ export class OAuthLoginUseCase {
     this.now = new Date();
   }
 
+  @Transactional()
   async execute(requestDto: OAuthLoginRequestDto): Promise<OAuthLoginResponseDto> {
     const { oAuthProviderType, code } = requestDto;
     const { oauthId, provider, email } = await this.getOAuthUserInfo(oAuthProviderType, code);
