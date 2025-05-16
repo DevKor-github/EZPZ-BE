@@ -4,6 +4,7 @@ import { ArticleRepository } from 'src/article/domain/repository/article.reposit
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { ArticleListItem } from 'src/article/domain/entity/article.list.item';
+import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 
 export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {
   async save(article: Article): Promise<void> {
@@ -11,12 +12,41 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     await this.em.persistAndFlush(articleEntity);
   }
 
+  async findById(id: string): Promise<ArticleDetailDto | null> {
+    const articleEntity = await this.findOne({ id }, { populate: ['tags', 'media'], strategy: 'joined' });
+
+    if (!articleEntity) {
+      return null;
+    }
+
+    // 관계 초기화를 위한 명시적 populate
+    await this.em.populate(articleEntity, ['tags', 'media']);
+    await this.em.populate(articleEntity.tags, ['articles']);
+
+    const article = {
+      id: articleEntity.id,
+      title: articleEntity.title,
+      organization: articleEntity.organization,
+      description: articleEntity.description,
+      location: articleEntity.location,
+      startAt: articleEntity.startAt.toISOString(),
+      endAt: articleEntity.endAt.toISOString(),
+      thumbnail_path: articleEntity.media.find((m) => m.isThumbnail)?.mediaPath ?? '',
+      imagePaths: articleEntity.media.map((m) => m.mediaPath),
+      scrapCount: articleEntity.scrapCount,
+      viewCount: articleEntity.viewCount,
+      registrationUrl: articleEntity.registrationUrl,
+      tags: articleEntity.tags.map((tag) => tag.name),
+    };
+
+    return article;
+  }
+
   async findList(params: {
     tags?: string[];
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<ArticleListItem[]> {
-    console.log(this.em);
     if (!this.em) {
       throw new Error('em is not initialized');
     }
