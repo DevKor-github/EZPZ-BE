@@ -19,10 +19,6 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
       return null;
     }
 
-    // 관계 초기화를 위한 명시적 populate
-    await this.em.populate(articleEntity, ['tags', 'media']);
-    await this.em.populate(articleEntity.tags, ['articles']);
-
     const article = {
       id: articleEntity.id,
       title: articleEntity.title,
