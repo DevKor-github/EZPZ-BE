@@ -1,5 +1,5 @@
 import { Article } from '../entity/article';
-import { ArticleListItem } from '../entity/article.list.item';
+import { ArticleListItem } from '../../application/dto/article.list.item';
 import { ArticleDetailDto } from '../../application/dto/article.detail.dto';
 
 export interface ArticleRepository {

@@ -3,7 +3,7 @@ import { Article } from 'src/article/domain/entity/article';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
-import { ArticleListItem } from 'src/article/domain/entity/article.list.item';
+import { ArticleListItem } from 'src/article/application/dto/article.list.item';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 
 export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {

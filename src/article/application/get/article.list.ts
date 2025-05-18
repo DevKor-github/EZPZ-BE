@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
-import { ArticleListItem } from 'src/article/domain/entity/article.list.item';
+import { ArticleListItem } from 'src/article/application/dto/article.list.item';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 

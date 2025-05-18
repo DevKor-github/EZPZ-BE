@@ -1,7 +1,7 @@
 import { Controller, Get, Query, Param } from '@nestjs/common';
 import { ArticleList } from 'src/article/application/get/article.list';
 import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
-import { ArticleListItem } from 'src/article/domain/entity/article.list.item';
+import { ArticleListItem } from 'src/article/application/dto/article.list.item';
 import { ArticleDetail } from 'src/article/application/get/article.detail';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 
