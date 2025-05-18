@@ -1,4 +1,4 @@
-export class CreateArticleDto {
+export class ArticleCreateDto {
   title: string;
   organization: string;
   description: string;
