@@ -8,6 +8,8 @@ import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 import { ArticleController } from './presentation/article.controller';
 import { ArticleList } from './application/get/article.list';
 import { ArticleDetail } from './application/get/article.detail';
+import { ArticleCreate } from './application/post/article.create';
+import { FileUploadService } from './application/post/file.upload';
 
 @Module({
   imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity])],
@@ -19,6 +21,8 @@ import { ArticleDetail } from './application/get/article.detail';
     },
     ArticleList,
     ArticleDetail,
+    ArticleCreate,
+    FileUploadService,
   ],
 })
 export class ArticleModule {}
