@@ -11,7 +11,7 @@ export class TagRepositoryImpl extends EntityRepository<TagEntity> implements Ta
   }
 
   async findByName(name: string): Promise<Tag | null> {
-    const tagEntity = await this.findOne({ name });
+    const tagEntity = await this.findOne({ name }, { populate: ['articles'] });
     return tagEntity ? TagMapper.toDomain(tagEntity) : null;
   }
 }
