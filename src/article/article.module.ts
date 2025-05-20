@@ -9,7 +9,6 @@ import { ArticleController } from './presentation/article.controller';
 import { ArticleList } from './application/get/article.list';
 import { ArticleDetail } from './application/get/article.detail';
 import { ArticleCreate } from './application/post/article.create';
-import { FileUploadService } from './application/post/file.upload';
 
 @Module({
   imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity])],
@@ -22,7 +21,6 @@ import { FileUploadService } from './application/post/file.upload';
     ArticleList,
     ArticleDetail,
     ArticleCreate,
-    FileUploadService,
   ],
 })
 export class ArticleModule {}
