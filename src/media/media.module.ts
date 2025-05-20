@@ -4,9 +4,10 @@ import { MediaRepositoryImpl } from './infrastructure/repository/media.repositor
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MediaEntity } from './infrastructure/orm-entity/media.entity';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
+  imports: [MulterModule.register({}), MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
   providers: [
     {
       provide: MEDIA_REPOSITORY,
