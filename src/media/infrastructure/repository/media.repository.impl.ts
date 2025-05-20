@@ -6,7 +6,7 @@ import { MediaEntity } from '../orm-entity/media.entity';
 
 export class MediaRepositoryImpl extends EntityRepository<MediaEntity> implements MediaRepository {
   async save(media: Media): Promise<void> {
-    const mediaEntity = MediaMapper.toEntity(media);
+    const mediaEntity = MediaMapper.toEntity(media, this.em);
     await this.em.persistAndFlush(mediaEntity);
   }
 
