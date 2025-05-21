@@ -1,4 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
@@ -45,5 +46,23 @@ export class S3Adapter {
     const uuid = v4();
 
     return `images/${articleId}/${uuid}.${extension}`;
+  }
+
+  // presigned URL 관련 로직
+  // 현재는 미사용
+  private generateImageUrl(key: string): string {
+    return `${this.bucketDomain}/${key}`;
+  }
+
+  private async generatePresignedUrl(file: Express.Multer.File, key: string): Promise<string> {
+    const params = {
+      Bucket: this.bucketName,
+      Key: key,
+      ContentType: file.mimetype,
+    };
+
+    const command = new PutObjectCommand(params);
+
+    return await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
   }
 }
