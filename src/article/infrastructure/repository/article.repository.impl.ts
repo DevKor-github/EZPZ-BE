@@ -3,7 +3,6 @@ import { Article } from 'src/article/domain/entity/article';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
-import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 
 export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {
@@ -21,29 +20,14 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     await this.em.persistAndFlush(articleEntity);
   }
 
-  async findById(id: string): Promise<ArticleDetailDto | null> {
+  async findById(id: string): Promise<Article | null> {
     const articleEntity = await this.findOne({ id }, { populate: ['tags', 'media'], strategy: 'joined' });
 
     if (!articleEntity) {
       return null;
     }
 
-    const article = {
-      id: articleEntity.id,
-      title: articleEntity.title,
-      organization: articleEntity.organization,
-      description: articleEntity.description,
-      location: articleEntity.location,
-      startAt: articleEntity.startAt.toISOString(),
-      endAt: articleEntity.endAt.toISOString(),
-      thumbnailPath: articleEntity.media.find((m) => m.isThumbnail)?.mediaPath ?? '',
-      imagePaths: articleEntity.media.map((m) => m.mediaPath),
-      scrapCount: articleEntity.scrapCount,
-      viewCount: articleEntity.viewCount,
-      registrationUrl: articleEntity.registrationUrl,
-      tags: articleEntity.tags.map((tag) => tag.name),
-    };
-
+    const article = ArticleMapper.toDomain(articleEntity);
     return article;
   }
 

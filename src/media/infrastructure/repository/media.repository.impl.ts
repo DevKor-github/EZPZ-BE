@@ -9,4 +9,12 @@ export class MediaRepositoryImpl extends EntityRepository<MediaEntity> implement
     const mediaEntity = MediaMapper.toEntity(media);
     await this.em.persistAndFlush(mediaEntity);
   }
+
+  async findById(id: string): Promise<Media | null> {
+    const mediaEntity = await this.findOne({ id });
+    if (!mediaEntity) {
+      return null;
+    }
+    return MediaMapper.toDomain(mediaEntity);
+  }
 }

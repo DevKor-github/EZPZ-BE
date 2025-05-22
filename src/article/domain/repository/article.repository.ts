@@ -1,5 +1,4 @@
 import { Article } from '../entity/article';
-import { ArticleDetailDto } from '../../application/dto/article.detail.dto';
 
 export interface ArticleRepository {
   save(article: Article): Promise<void>;
@@ -8,7 +7,7 @@ export interface ArticleRepository {
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<Article[]>;
-  findById(id: string): Promise<ArticleDetailDto | null>;
+  findById(id: string): Promise<Article | null>;
 }
 
 export const ARTICLE_REPOSITORY = Symbol('ARTICLE_REPOSITORY');
