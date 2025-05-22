@@ -8,8 +8,9 @@ import { MulterModule } from '@nestjs/platform-express';
 import { S3Adapter } from './infrastructure/util/s3.adapter';
 import { UploadFileUseCase } from './application/upload-file/upload-file.use-case';
 import { MediaController } from './presentation/media.controller';
+import { DeleteFileUseCase } from './application/delete-file/delete-file.use-case';
 
-const useCases = [UploadFileUseCase];
+const useCases = [UploadFileUseCase, DeleteFileUseCase];
 
 @Module({
   imports: [MulterModule.register({}), MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
