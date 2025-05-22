@@ -1,13 +1,13 @@
 import { Body, Controller, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { UploadUseCase } from '../application/upload/upload.use-case';
+import { UploadFileUseCase } from '../application/upload-file/upload-file.use-case';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { UploadRequestDto } from '../application/upload/dto/upload.request.dto';
+import { UploadRequestDto } from '../application/upload-file/dto/upload.request.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('media')
 @Controller('media')
 export class MediaController {
-  constructor(private readonly uploadUsecCase: UploadUseCase) {}
+  constructor(private readonly uploadFileUsecCase: UploadFileUseCase) {}
 
   @UseInterceptors(FilesInterceptor('files'))
   @Post('upload')
@@ -16,6 +16,6 @@ export class MediaController {
     @UploadedFiles() files: Express.Multer.File[],
   ): Promise<void> {
     console.log(uploadRequestDto);
-    await this.uploadUsecCase.execute(uploadRequestDto, files);
+    await this.uploadFileUsecCase.execute(uploadRequestDto, files);
   }
 }
