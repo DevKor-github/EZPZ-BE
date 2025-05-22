@@ -5,10 +5,20 @@ import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { ArticleListItem } from 'src/article/application/dto/article.list.item';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
+import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 
 export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {
   async save(article: Article): Promise<void> {
     const articleEntity = ArticleMapper.toEntity(article);
+
+    // Get references to existing tags
+    const tagRefs = await Promise.all(
+      article.tags.map((tag) => {
+        return this.em.getReference(TagEntity, tag.id.value);
+      }),
+    );
+    articleEntity.tags.set(tagRefs);
+
     await this.em.persistAndFlush(articleEntity);
   }
 
@@ -27,7 +37,7 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
       location: articleEntity.location,
       startAt: articleEntity.startAt.toISOString(),
       endAt: articleEntity.endAt.toISOString(),
-      thumbnail_path: articleEntity.media.find((m) => m.isThumbnail)?.mediaPath ?? '',
+      thumbnailPath: articleEntity.media.find((m) => m.isThumbnail)?.mediaPath ?? '',
       imagePaths: articleEntity.media.map((m) => m.mediaPath),
       scrapCount: articleEntity.scrapCount,
       viewCount: articleEntity.viewCount,

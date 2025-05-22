@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToMany, Property } from '@mikro-orm/core';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagRepositoryImpl } from '../repository/tag.repository.impl';
@@ -9,5 +9,5 @@ export class TagEntity extends BaseEntity {
   name: string;
 
   @ManyToMany(() => ArticleEntity, (article) => article.tags, { nullable: true })
-  articles: ArticleEntity[];
+  articles = new Collection<ArticleEntity>(this);
 }
