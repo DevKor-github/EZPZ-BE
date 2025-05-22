@@ -6,7 +6,7 @@ export interface ArticleDetailDto {
   location: string;
   startAt: string;
   endAt: string;
-  thumbnail_path: string;
+  thumbnailPath: string;
   imagePaths: string[];
   scrapCount: number;
   viewCount: number;
