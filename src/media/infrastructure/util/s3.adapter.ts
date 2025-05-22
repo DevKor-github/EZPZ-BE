@@ -41,6 +41,8 @@ export class S3Adapter {
     return `${this.bucketDomain}/${key}`;
   }
 
+  async delete() {}
+
   private generateKey(originalname: string, articleId: string): string {
     const extension = originalname.split('.').pop();
     const uuid = v4();
