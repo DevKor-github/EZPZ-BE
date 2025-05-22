@@ -1,5 +1,4 @@
 import { Article } from '../entity/article';
-import { ArticleListItem } from '../../application/dto/article.list.item';
 import { ArticleDetailDto } from '../../application/dto/article.detail.dto';
 
 export interface ArticleRepository {
@@ -8,7 +7,7 @@ export interface ArticleRepository {
     tags?: string[];
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
-  }): Promise<ArticleListItem[]>;
+  }): Promise<Article[]>;
   findById(id: string): Promise<ArticleDetailDto | null>;
 }
 

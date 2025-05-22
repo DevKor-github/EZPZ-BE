@@ -3,7 +3,6 @@ import { Article } from 'src/article/domain/entity/article';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
-import { ArticleListItem } from 'src/article/application/dto/article.list.item';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 
@@ -52,60 +51,41 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     tags?: string[];
     isFinished?: boolean;
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
-  }): Promise<ArticleListItem[]> {
+  }): Promise<Article[]> {
     if (!this.em) {
       throw new Error('em is not initialized');
     }
 
     const now = new Date();
 
-    // QueryBuilder 생성
-    const query = this.em
-      .createQueryBuilder(ArticleEntity, 'a')
-      .select(['a.id', 'a.title', 'a.organization', 'a.scrapCount', 'a.viewCount'])
-      .leftJoinAndSelect('a.tags', 't')
-      .leftJoinAndSelect('a.media', 'm');
+    const where: Record<string, any> = {};
 
-    // 태그 필터링
     if (params.tags?.length) {
-      query.where({ 't.name': { $in: params.tags } });
+      where.tags = { name: { $in: params.tags } };
     }
 
-    // 종료 포함 여부 필터링
-    if (params.isFinished !== undefined) {
-      if (params.isFinished === false) {
-        query.andWhere({ 'a.endAt': { $gt: now } });
-      }
+    if (params.isFinished === false) {
+      where.endAt = { $gt: now };
     }
 
-    // 정렬 처리
+    const orderBy: Record<string, 'ASC' | 'DESC'> = {};
     switch (params.sort) {
-      case 'createdAt':
-        query.orderBy({ 'a.createdAt': 'DESC' });
-        break;
       case 'scrapCount':
-        query.orderBy({ 'a.scrapCount': 'DESC' });
+        orderBy.scrapCount = 'DESC';
         break;
       case 'viewCount':
-        query.orderBy({ 'a.viewCount': 'DESC' });
+        orderBy.viewCount = 'DESC';
         break;
       default:
-        query.orderBy({ 'a.createdAt': 'DESC' });
-        break;
+        orderBy.createdAt = 'DESC';
     }
 
-    // 중복 row 제거 후 실행
-    const entities = await query.getResultList();
+    const entities = await this.findAll({
+      where,
+      orderBy,
+      populate: ['tags', 'media'],
+    });
 
-    // 엔티티를 도메인 객체로 변환
-    return entities.map((entity) => ({
-      id: entity.id,
-      title: entity.title,
-      organization: entity.organization,
-      thumbnailPath: entity.media.find((media) => media.isThumbnail)?.mediaPath ?? '',
-      scrapCount: entity.scrapCount,
-      viewCount: entity.viewCount,
-      tags: entity.tags.map((tag) => tag.name),
-    }));
+    return entities.map((entity) => ArticleMapper.toDomain(entity));
   }
 }
