@@ -1,4 +1,4 @@
-import { Cascade, Entity, OneToMany, OneToOne, Property } from '@mikro-orm/core';
+import { Cascade, Collection, Entity, OneToMany, OneToOne, Property } from '@mikro-orm/core';
 import { Role } from 'src/user/domain/value-object/role.enum';
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
@@ -17,5 +17,5 @@ export class UserEntity extends BaseEntity {
   auth: AuthEntity;
 
   @OneToMany(() => ScrapEntity, (scrap) => scrap.user, { nullable: true, cascade: [Cascade.ALL] })
-  scraps: ScrapEntity[];
+  scraps = new Collection<ScrapEntity>(this);
 }
