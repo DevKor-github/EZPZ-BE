@@ -7,6 +7,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UserEntity } from './infrastructure/orm-entity/user.entity';
 import { CreateUserUseCase } from './application/use-case/create-user.use-case';
 import { ScrapEntity } from './infrastructure/orm-entity/scrap.entity';
+import { UserController } from './presentation/user.controller';
 
 const useCases = [CreateUserUseCase];
 
@@ -24,5 +25,6 @@ const useCases = [CreateUserUseCase];
     },
   ],
   exports: [...useCases],
+  controllers: [UserController],
 })
 export class UserModule {}
