@@ -8,8 +8,9 @@ import { UserEntity } from './infrastructure/orm-entity/user.entity';
 import { CreateUserUseCase } from './application/use-case/create-user.use-case';
 import { ScrapEntity } from './infrastructure/orm-entity/scrap.entity';
 import { UserController } from './presentation/user.controller';
+import { GetMyInfoUseCase } from './application/get-my-info/get-my-info.use-case';
 
-const useCases = [CreateUserUseCase];
+const useCases = [CreateUserUseCase, GetMyInfoUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([UserEntity, ScrapEntity])],
