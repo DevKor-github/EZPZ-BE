@@ -8,7 +8,7 @@ import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.e
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
-import { CreateUserUseCase } from 'src/user/application/use-case/create-user.use-case';
+import { CreateUserUseCase } from 'src/user/application/create-user/create-user.use-case';
 import { Role } from 'src/user/domain/value-object/role.enum';
 import { OAuthLoginRequestDto } from './dto/oauth-login.request.dto';
 import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
@@ -50,14 +50,17 @@ export class OAuthLoginUseCase {
     const existingAuth = await this.authRepository.findByOAuthIdandProvider(oauthId, provider);
     if (existingAuth) return existingAuth;
 
-    const now = new Date();
     const userId = Identifier.create();
-    await this.createUserUseCase.execute(userId, email, Role.GENERAL);
+    await this.createUserUseCase.execute({
+      userId,
+      email,
+      role: Role.GENERAL,
+    });
 
     const auth = Auth.create({
       id: Identifier.create(),
-      createdAt: now,
-      updatedAt: now,
+      createdAt: this.now,
+      updatedAt: this.now,
       oauthId: oauthId,
       provider: provider,
       refreshToken: null,

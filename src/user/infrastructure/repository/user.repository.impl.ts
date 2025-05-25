@@ -14,7 +14,6 @@ export class UserRepositoryImpl extends EntityRepository<UserEntity> implements 
   async findById(userId: string): Promise<User | null> {
     const userEntity = await this.findOne({ id: userId });
     if (!userEntity) return null;
-    console.log(userEntity);
 
     return UserMapper.toDomain(userEntity);
   }

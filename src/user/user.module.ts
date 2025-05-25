@@ -5,12 +5,13 @@ import { USER_REPOSITORY } from './domain/repository/user.repository';
 import { USER_SCRAP_REPOSITORY } from './domain/repository/user-scrap.repository';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UserEntity } from './infrastructure/orm-entity/user.entity';
-import { CreateUserUseCase } from './application/use-case/create-user.use-case';
+import { CreateUserUseCase } from './application/create-user/create-user.use-case';
 import { ScrapEntity } from './infrastructure/orm-entity/scrap.entity';
 import { UserController } from './presentation/user.controller';
 import { GetMyInfoUseCase } from './application/get-my-info/get-my-info.use-case';
+import { DeleteMyInfoUseCase } from './application/delete-my-info/delete-my-info.use-case';
 
-const useCases = [CreateUserUseCase, GetMyInfoUseCase];
+const useCases = [CreateUserUseCase, GetMyInfoUseCase, DeleteMyInfoUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([UserEntity, ScrapEntity])],
