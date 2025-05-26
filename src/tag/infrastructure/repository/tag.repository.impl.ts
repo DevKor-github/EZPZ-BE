@@ -9,4 +9,19 @@ export class TagRepositoryImpl extends EntityRepository<TagEntity> implements Ta
     const tagEntity = TagMapper.toEntity(tag);
     await this.em.persistAndFlush(tagEntity);
   }
+
+  async findByName(name: string): Promise<Tag | null> {
+    const tagEntity = await this.findOne({ name }, { populate: ['articles'] });
+    console.log('TagRepository findByName result:', {
+      searchName: name,
+      found: !!tagEntity,
+      entityData: tagEntity
+        ? {
+            id: tagEntity.id,
+            name: tagEntity.name,
+          }
+        : null,
+    });
+    return tagEntity ? TagMapper.toDomain(tagEntity) : null;
+  }
 }
