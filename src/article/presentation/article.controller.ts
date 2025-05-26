@@ -1,4 +1,5 @@
 import { Controller, Get, Query, Param, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ArticleList } from 'src/article/application/get/article.list';
 import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
 import { ArticleListItem } from 'src/article/application/dto/article.list.dto';
@@ -7,6 +8,7 @@ import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto
 import { ArticleCreate } from 'src/article/application/post/article.create';
 import { ArticleCreateDto } from 'src/article/application/dto/article.create.dto';
 
+@ApiTags('article')
 @Controller('article')
 export class ArticleController {
   constructor(
