@@ -927,6 +927,22 @@
     globby "11.1.0"
     ts-morph "25.0.1"
 
+"@modelcontextprotocol/sdk@^1.8.0":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.11.2.tgz#d81784c140d1a9cc937f61af9f071d8b78befe30"
+  integrity sha512-H9vwztj5OAqHg9GockCQC06k1natgcxWQSRpQcPJf6i5+MWBzfKkRtxGbjQf0X2ihii0ffLZCRGbYV2f2bjNCQ==
+  dependencies:
+    content-type "^1.0.5"
+    cors "^2.8.5"
+    cross-spawn "^7.0.3"
+    eventsource "^3.0.2"
+    express "^5.0.1"
+    express-rate-limit "^7.5.0"
+    pkce-challenge "^5.0.0"
+    raw-body "^3.0.0"
+    zod "^3.23.8"
+    zod-to-json-schema "^3.24.1"
+
 "@napi-rs/nice-android-arm-eabi@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@napi-rs/nice-android-arm-eabi/-/nice-android-arm-eabi-1.0.1.tgz#9a0cba12706ff56500df127d6f4caf28ddb94936"
@@ -1522,6 +1538,14 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
+"@types/jsonwebtoken@*":
+  version "9.0.9"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.9.tgz#a4c3a446c0ebaaf467a58398382616f416345fb3"
+  integrity sha512-uoe+GxEuHbvy12OUQct2X9JenKM3qAscquYymuQN4fMWG9DBQtykrQEFcAbVACF7qaLw9BePSodUL0kquqBJpQ==
+  dependencies:
+    "@types/ms" "*"
+    "@types/node" "*"
+
 "@types/jsonwebtoken@9.0.7":
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.7.tgz#e49b96c2b29356ed462e9708fc73b833014727d2"
@@ -1539,6 +1563,11 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.5.tgz#1ef302e01cf7d2b5a0fa526790c9123bf1d06690"
   integrity sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==
 
+"@types/ms@*":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ms/-/ms-2.1.0.tgz#052aa67a48eccc4309d7f0191b7e41434b90bb78"
+  integrity sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==
+
 "@types/multer@^1.4.12":
   version "1.4.12"
   resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.4.12.tgz#da67bd0c809f3a63fe097c458c0d4af1fea50ab7"
@@ -1552,6 +1581,29 @@
   integrity sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==
   dependencies:
     undici-types "~6.21.0"
+
+"@types/passport-jwt@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/passport-jwt/-/passport-jwt-4.0.1.tgz#080fbe934fb9f6954fb88ec4cdf4bb2cc7c4d435"
+  integrity sha512-Y0Ykz6nWP4jpxgEUYq8NoVZeCQPo1ZndJLfapI249g1jHChvRfZRO/LS3tqu26YgAS/laI1qx98sYGz0IalRXQ==
+  dependencies:
+    "@types/jsonwebtoken" "*"
+    "@types/passport-strategy" "*"
+
+"@types/passport-strategy@*":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@types/passport-strategy/-/passport-strategy-0.2.38.tgz#482abba0b165cd4553ec8b748f30b022bd6c04d3"
+  integrity sha512-GC6eMqqojOooq993Tmnmp7AUTbbQSgilyvpCYQjT+H6JfG/g6RGc7nXEniZlp0zyKJ0WUdOiZWLBZft9Yug1uA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport@*":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.17.tgz#718a8d1f7000ebcf6bbc0853da1bc8c4bc7ea5e6"
+  integrity sha512-aciLyx+wDwT2t2/kJGJR2AEeBz0nJU4WuRX04Wu9Dqc5lSUtwu0WERPHYsLhF9PtseiAMPBGNUOtFjxZ56prsg==
+  dependencies:
+    "@types/express" "*"
 
 "@types/qs@*":
   version "6.14.0"
@@ -1602,6 +1654,11 @@
   dependencies:
     "@types/methods" "^1.1.4"
     "@types/superagent" "^8.1.0"
+
+"@types/uuid@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-10.0.0.tgz#e9c07fe50da0f53dc24970cca94d619ff03f6f6d"
+  integrity sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==
 
 "@types/validator@^13.11.8":
   version "13.15.1"
@@ -2629,7 +2686,7 @@ core-util-is@^1.0.3, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cors@2.8.5:
+cors@2.8.5, cors@^2.8.5:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -2974,6 +3031,7 @@ eslint@^9.18.0:
     "@humanfs/node" "^0.16.6"
     "@humanwhocodes/module-importer" "^1.0.1"
     "@humanwhocodes/retry" "^0.4.2"
+    "@modelcontextprotocol/sdk" "^1.8.0"
     "@types/estree" "^1.0.6"
     "@types/json-schema" "^7.0.15"
     ajv "^6.12.4"
@@ -2998,6 +3056,7 @@ eslint@^9.18.0:
     minimatch "^3.1.2"
     natural-compare "^1.4.0"
     optionator "^0.9.3"
+    zod "^3.24.2"
 
 esm@^3.2.25:
   version "3.2.25"
@@ -3057,6 +3116,18 @@ events@^3.2.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
+eventsource-parser@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eventsource-parser/-/eventsource-parser-3.0.1.tgz#5e358dba9a55ba64ca90da883c4ca35bd82467bd"
+  integrity sha512-VARTJ9CYeuQYb0pZEPbzi740OWFgpHe7AYJ2WFZVnUDUQp5Dk2yJUgF36YsZ81cOyxT0QxmXD2EQpapAouzWVA==
+
+eventsource@^3.0.2:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-3.0.7.tgz#1157622e2f5377bb6aef2114372728ba0c156989"
+  integrity sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==
+  dependencies:
+    eventsource-parser "^3.0.1"
+
 execa@^5.0.0, execa@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
@@ -3088,7 +3159,12 @@ expect@^29.0.0, expect@^29.7.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
-express@5.1.0, express@^5.1.0:
+express-rate-limit@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-7.5.0.tgz#6a67990a724b4fbbc69119419feef50c51e8b28f"
+  integrity sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==
+
+express@5.1.0, express@^5.0.1, express@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/express/-/express-5.1.0.tgz#d31beaf715a0016f0d53f47d3b4d7acf28c75cc9"
   integrity sha512-DT9ck5YIRU+8GYzzU5kT3eHGA5iL+1Zd0EutOmTE9Dtk+Tvuzd23VBU+ec7HPNSTxXYO55gPV/hq4pSBJDjFpA==
@@ -4323,7 +4399,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonwebtoken@9.0.2:
+jsonwebtoken@9.0.2, jsonwebtoken@^9.0.0:
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.2.tgz#65ff91f4abef1784697d40952bb1998c504caaf3"
   integrity sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==
@@ -4937,6 +5013,35 @@ parseurl@^1.3.3:
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
+passport-custom@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/passport-custom/-/passport-custom-1.1.1.tgz#71db3d7ec1d7d0085e8768507f61b26d88051c0a"
+  integrity sha512-/2m7jUGxmCYvoqenLB9UrmkCgPt64h8ZtV+UtuQklZ/Tn1NpKBeOorCYkB/8lMRoiZ5hUrCoMmDtxCS/d38mlg==
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-jwt@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/passport-jwt/-/passport-jwt-4.0.1.tgz#c443795eff322c38d173faa0a3c481479646ec3d"
+  integrity sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==
+  dependencies:
+    jsonwebtoken "^9.0.0"
+    passport-strategy "^1.0.0"
+
+passport-strategy@1.x.x, passport-strategy@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+  integrity sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==
+
+passport@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.7.0.tgz#3688415a59a48cf8068417a8a8092d4492ca3a05"
+  integrity sha512-cPLl+qZpSc+ireUvt+IzqbED1cHHkDoVYMo30jbJIdOOjQ1MQYZBPiNvmi8UM6lJuOpTPXJGZQk0DtC4y61MYQ==
+  dependencies:
+    passport-strategy "1.x.x"
+    pause "0.0.1"
+    utils-merge "^1.0.1"
+
 path-browserify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-browserify/-/path-browserify-1.0.1.tgz#d98454a9c3753d5790860f16f68867b9e46be1fd"
@@ -4979,6 +5084,11 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+pause@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
+  integrity sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==
 
 peek-readable@^5.3.1:
   version "5.4.2"
@@ -5026,6 +5136,11 @@ piscina@^4.3.1:
   integrity sha512-Fq0FERJWFEUpB4eSY59wSNwXD4RYqR+nR/WiEVcZW8IWfVBxJJafcgTEZDQo8k3w0sUarJ8RyVbbUF4GQ2LGbQ==
   optionalDependencies:
     "@napi-rs/nice" "^1.0.1"
+
+pkce-challenge@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/pkce-challenge/-/pkce-challenge-5.0.0.tgz#c3a405cb49e272094a38e890a2b51da0228c4d97"
+  integrity sha512-ueGLflrrnvwB3xuo/uGob5pd5FN7l0MsLf0Z87o/UQmRtwjvfylfc9MurIxRAWywCYTgrvpXBcqjV4OfCYGCIQ==
 
 pkg-dir@^4.2.0:
   version "4.2.0"
@@ -6017,6 +6132,11 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
+utils-merge@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
+  integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
 uuid@^11.1.0:
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
@@ -6223,3 +6343,13 @@ yoctocolors-cjs@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yoctocolors-cjs/-/yoctocolors-cjs-2.1.2.tgz#f4b905a840a37506813a7acaa28febe97767a242"
   integrity sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==
+
+zod-to-json-schema@^3.24.1:
+  version "3.24.5"
+  resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.24.5.tgz#d1095440b147fb7c2093812a53c54df8d5df50a3"
+  integrity sha512-/AuWwMP+YqiPbsJx5D6TfgRTc4kTLjsh5SOcd4bLsfUg2RcEXrFMJl1DGgdHy2aCfsIA/cr/1JM0xcB2GZji8g==
+
+zod@^3.23.8, zod@^3.24.2:
+  version "3.24.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.4.tgz#e2e2cca5faaa012d76e527d0d36622e0a90c315f"
+  integrity sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==
