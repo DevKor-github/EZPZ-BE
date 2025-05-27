@@ -9,6 +9,7 @@ import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-ca
 import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
 import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
+import { AuthDocs } from './auth.docs';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -21,6 +22,7 @@ export class AuthController {
   ) {}
 
   @Get('oauth/authorization')
+  @AuthDocs('oauthAuthorization')
   authorizeOAuth(@Res() res: Response) {
     const { authUrl } = this.authorizeOAuthUseCase.execute({ oAuthProviderType: OAuthProviderType.KAKAO });
 
@@ -28,6 +30,7 @@ export class AuthController {
   }
 
   @Get('login/oauth/callback')
+  @AuthDocs('oauthCallback')
   async oAuthLogin(@Query('code') code: string, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.oAuthLoginUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
@@ -40,8 +43,9 @@ export class AuthController {
     res.status(HttpStatus.OK).send();
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
   @Get('refresh')
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @AuthDocs('renewToken')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute({ userId: user.userId, jti: user.jti });
 
@@ -51,8 +55,9 @@ export class AuthController {
     res.status(HttpStatus.OK).send();
   }
 
-  @UseGuards(AuthGuard('jwt-access'))
   @Post('logout')
+  @UseGuards(AuthGuard('jwt-access'))
+  @AuthDocs('logout')
   async logout(@User() user: UserPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ userId: user.userId });
 
