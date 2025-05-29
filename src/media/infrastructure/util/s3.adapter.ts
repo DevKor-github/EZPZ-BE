@@ -24,6 +24,40 @@ export class S3Adapter {
     // this.cloudFrontDomain = this.configSerivce.getOrThrow('aws.s3.cloudFrontDomain');
   }
 
+  async upload(articleId: string, fileName: string, mimeType: string) {
+    const key = this.generateKey(fileName, articleId);
+    const imageUrl = this.generateImageUrl(key);
+    const presignedUrl = await this.generatePresignedUrl(mimeType, key);
+
+    return { presignedUrl, imageUrl };
+  }
+
+  async delete() {}
+
+  private generateKey(fileName: string, articleId: string): string {
+    const extension = fileName.split('.').pop();
+    const uuid = v4();
+
+    return `images/${articleId}/${uuid}.${extension}`;
+  }
+
+  private generateImageUrl(key: string): string {
+    return `${this.bucketDomain}/${key}`;
+  }
+
+  private async generatePresignedUrl(mimeType: string, key: string): Promise<string> {
+    const params = {
+      Bucket: this.bucketName,
+      Key: key,
+      ContentType: mimeType,
+    };
+
+    const command = new PutObjectCommand(params);
+
+    return await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
+  }
+
+  /*
   async upload(file: Express.Multer.File, articleId: string): Promise<string> {
     const { originalname, buffer } = file;
 
@@ -40,31 +74,5 @@ export class S3Adapter {
 
     return `${this.bucketDomain}/${key}`;
   }
-
-  async delete() {}
-
-  private generateKey(originalname: string, articleId: string): string {
-    const extension = originalname.split('.').pop();
-    const uuid = v4();
-
-    return `images/${articleId}/${uuid}.${extension}`;
-  }
-
-  // presigned URL 관련 로직
-  // 현재는 미사용
-  private generateImageUrl(key: string): string {
-    return `${this.bucketDomain}/${key}`;
-  }
-
-  private async generatePresignedUrl(file: Express.Multer.File, key: string): Promise<string> {
-    const params = {
-      Bucket: this.bucketName,
-      Key: key,
-      ContentType: file.mimetype,
-    };
-
-    const command = new PutObjectCommand(params);
-
-    return await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
-  }
+  */
 }
