@@ -6,11 +6,11 @@ import { MediaEntity } from './infrastructure/orm-entity/media.entity';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { S3Adapter } from './infrastructure/util/s3.adapter';
-import { UploadFileUseCase } from './application/upload-file/upload-file.use-case';
+import { GeneratePresignedUrlUseCase } from './application/generate-presigned-url/generate-presigned-url.use-case';
 import { MediaController } from './presentation/media.controller';
 import { DeleteFileUseCase } from './application/delete-file/delete-file.use-case';
 
-const useCases = [UploadFileUseCase, DeleteFileUseCase];
+const useCases = [GeneratePresignedUrlUseCase, DeleteFileUseCase];
 
 @Module({
   imports: [MulterModule.register({}), MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
