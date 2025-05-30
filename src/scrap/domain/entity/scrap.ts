@@ -1,18 +1,18 @@
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 
-export interface UserScrapProps extends BaseEntityProps {
+export interface ScrapProps extends BaseEntityProps {
   articleId: Identifier;
   userId: Identifier;
 }
 
-export class UserScrap extends BaseDomainEntity<UserScrapProps> {
-  protected constructor(props: UserScrapProps) {
+export class Scrap extends BaseDomainEntity<ScrapProps> {
+  protected constructor(props: ScrapProps) {
     super(props);
   }
 
-  public static create(props: UserScrapProps): UserScrap {
-    return new UserScrap(props);
+  public static create(props: ScrapProps): Scrap {
+    return new Scrap(props);
   }
 
   get articleId(): Identifier {

@@ -2,7 +2,7 @@ import { Cascade, Collection, Entity, OneToMany, OneToOne, Property } from '@mik
 import { Role } from 'src/user/domain/value-object/role.enum';
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
-import { ScrapEntity } from './scrap.entity';
+import { ScrapEntity } from '../../../scrap/infrastructure/entity/scrap.entity';
 import { UserRepositoryImpl } from '../repository/user.repository.impl';
 
 @Entity({ tableName: 'user', repository: () => UserRepositoryImpl })
