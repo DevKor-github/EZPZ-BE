@@ -1,11 +1,11 @@
 import { Auth } from 'src/auth/domain/entity/auth';
-import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
 import { AuthEntity } from '../orm-entity/auth.entity';
-import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { EntityManager } from '@mikro-orm/mysql';
+import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 
-export const AuthMapper = createMapper<Auth, AuthEntity>(
-  (entity: AuthEntity): Auth => {
+export class AuthMapper {
+  static toDomain(entity: AuthEntity): Auth {
     return Auth.create({
       id: Identifier.from(entity.id),
       createdAt: entity.createdAt,
@@ -15,8 +15,8 @@ export const AuthMapper = createMapper<Auth, AuthEntity>(
       refreshToken: entity.refreshToken,
       userId: Identifier.from(entity.user.id),
     });
-  },
-  (domain: Auth): AuthEntity => {
+  }
+  static toEntity(domain: Auth, em: EntityManager): AuthEntity {
     const entity = new AuthEntity();
     entity.id = domain.id.value;
     entity.createdAt = domain.createdAt;
@@ -24,8 +24,8 @@ export const AuthMapper = createMapper<Auth, AuthEntity>(
     entity.oauthId = domain.oauthId;
     entity.provider = domain.provider;
     entity.refreshToken = domain.refreshToken;
-    entity.user = { id: domain.userId.value } as UserEntity;
+    entity.user = em.getReference(UserEntity, domain.userId.value);
 
     return entity;
-  },
-);
+  }
+}
