@@ -9,6 +9,7 @@ import { ArticleController } from './presentation/article.controller';
 import { ArticleList } from './application/get/article.list';
 import { ArticleDetail } from './application/get/article.detail';
 import { ArticleCreate } from './application/post/article.create';
+import { DeleteArticle } from './application/delete/delete.article';
 
 @Module({
   imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity])],
@@ -21,6 +22,7 @@ import { ArticleCreate } from './application/post/article.create';
     ArticleList,
     ArticleDetail,
     ArticleCreate,
+    DeleteArticle,
   ],
 })
 export class ArticleModule {}
