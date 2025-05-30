@@ -23,6 +23,7 @@ export const MediaDocs = createDocs<MediaEndpoint>({
       ApiOkResponse({
         description: 'Presigned URL이 성공적으로 생성됨',
         type: GeneratePresignedUrlResponseDto,
+        isArray: true,
       }),
       ApiBadRequestResponse({
         description: '잘못된 요청 형식',
