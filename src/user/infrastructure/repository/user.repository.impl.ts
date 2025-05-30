@@ -18,7 +18,7 @@ export class UserRepositoryImpl extends EntityRepository<UserEntity> implements 
     return UserMapper.toDomain(userEntity);
   }
 
-  async delete(userId: string): Promise<void> {
+  async deleteById(userId: string): Promise<void> {
     const userEntity = await this.findOne({ id: userId }, { populate: ['auth', 'scraps'] });
     if (!userEntity) throw new NotFoundException('존재하지 않는 유저입니다.');
 

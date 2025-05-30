@@ -3,7 +3,7 @@ import { User } from '../entity/user';
 export interface UserRepository {
   save(user: User): Promise<void>;
   findById(userId: string): Promise<User | null>;
-  delete(userId: string): Promise<void>;
+  deleteById(userId: string): Promise<void>;
 }
 
 export const USER_REPOSITORY = Symbol('USER_REPOSITORY');

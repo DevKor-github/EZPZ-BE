@@ -14,6 +14,6 @@ export class DeleteMyInfoUseCase {
   async execute(deleteMyInfoRequestDto: DeleteMyInfoRequestDto): Promise<void> {
     const { userId } = deleteMyInfoRequestDto;
 
-    await this.userRepository.delete(userId);
+    await this.userRepository.deleteById(userId);
   }
 }
