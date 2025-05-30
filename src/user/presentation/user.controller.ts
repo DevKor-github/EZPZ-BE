@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetMyInfoUseCase } from '../application/get-my-info/get-my-info.use-case';
 import { AuthGuard } from '@nestjs/passport';
@@ -29,10 +29,4 @@ export class UserController {
   async deleteMyInfo(@User() user: UserPayload) {
     await this.deleteMyInfoUseCase.execute({ userId: user.userId });
   }
-
-  @Get('scrap')
-  async getMyScrap() {}
-
-  @Patch('scrap')
-  async updateScrap() {}
 }

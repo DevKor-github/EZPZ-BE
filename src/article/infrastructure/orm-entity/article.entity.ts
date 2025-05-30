@@ -2,7 +2,6 @@ import { Cascade, Collection, Entity, ManyToMany, OneToMany, Property } from '@m
 import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
-import { ScrapEntity } from 'src/user/infrastructure/orm-entity/scrap.entity';
 import { ArticleRepositoryImpl } from '../repository/article.repository.impl';
 
 @Entity({ tableName: 'article', repository: () => ArticleRepositoryImpl })
@@ -33,9 +32,6 @@ export class ArticleEntity extends BaseEntity {
 
   @Property({ type: 'int' })
   viewCount: number;
-
-  @OneToMany(() => ScrapEntity, (scrap) => scrap.article, { nullable: true, cascade: [Cascade.ALL] })
-  scraps: ScrapEntity[];
 
   @OneToMany(() => MediaEntity, (media) => media.article, { nullable: true, cascade: [Cascade.ALL] })
   media = new Collection<MediaEntity>(this);

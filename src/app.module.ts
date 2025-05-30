@@ -9,6 +9,7 @@ import { UserModule } from 'src/user/user.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { TagModule } from './tag/tag.module';
 import { MediaModule } from './media/media.module';
+import { ScrapModule } from './scrap/scrap.module';
 import mikroOrmConfig from './shared/config/mikro-orm.config';
 import config from 'src/shared/config/configuration';
 
@@ -25,6 +26,7 @@ import config from 'src/shared/config/configuration';
     SharedModule,
     TagModule,
     MediaModule,
+    ScrapModule,
   ],
   controllers: [AppController],
   providers: [AppService],
