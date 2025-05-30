@@ -22,4 +22,16 @@ export default () => ({
       expiration: process.env.JWT_REFRESH_EXPIRATION,
     },
   },
+
+  // AWS
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION,
+    s3: {
+      bucketName: process.env.AWS_S3_BUCKET_NAME,
+      bucketDomain: process.env.AWS_S3_BUCKET_DOMAIN,
+      cloudFrontDomain: process.env.AWS_S3_CLOUDFRONT_DOMAIN,
+    },
+  },
 });

@@ -4,14 +4,25 @@ import { MediaRepositoryImpl } from './infrastructure/repository/media.repositor
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MediaEntity } from './infrastructure/orm-entity/media.entity';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { MulterModule } from '@nestjs/platform-express';
+import { S3Adapter } from './infrastructure/util/s3.adapter';
+import { GeneratePresignedUrlUseCase } from './application/generate-presigned-url/generate-presigned-url.use-case';
+import { MediaController } from './presentation/media.controller';
+import { DeleteFileUseCase } from './application/delete-file/delete-file.use-case';
+
+const useCases = [GeneratePresignedUrlUseCase, DeleteFileUseCase];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
+  imports: [MulterModule.register({}), MikroOrmModule.forFeature([MediaEntity, ArticleEntity])],
   providers: [
+    ...useCases,
     {
       provide: MEDIA_REPOSITORY,
       useClass: MediaRepositoryImpl,
     },
+    S3Adapter,
   ],
+  exports: [...useCases, MEDIA_REPOSITORY],
+  controllers: [MediaController],
 })
 export class MediaModule {}
