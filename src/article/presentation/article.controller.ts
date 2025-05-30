@@ -6,7 +6,7 @@ import { ArticleListItem } from 'src/article/application/dto/article.list.dto';
 import { ArticleDetail } from 'src/article/application/get/article.detail';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 import { ArticleCreate } from 'src/article/application/post/article.create';
-import { ArticleCreateDto } from 'src/article/application/dto/article.create.dto';
+import { ArticleCreateRequestDto } from 'src/article/application/dto/article.create.dto';
 import { DeleteArticle } from 'src/article/application/delete/delete.article';
 
 @ApiTags('article')
@@ -30,8 +30,7 @@ export class ArticleController {
   }
 
   @Post()
-  async create(@Body() createDto: ArticleCreateDto) {
-    console.log('Received createDto:', createDto);
+  async create(@Body() createDto: ArticleCreateRequestDto) {
     return this.createService.create(createDto);
   }
 
