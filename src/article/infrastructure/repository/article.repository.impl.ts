@@ -72,4 +72,8 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
 
     return entities.map((entity) => ArticleMapper.toDomain(entity));
   }
+
+  async deleteById(id: string): Promise<void> {
+    await this.em.nativeDelete(ArticleEntity, { id });
+  }
 }

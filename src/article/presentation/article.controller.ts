@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Query, Param, Post, Body, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ArticleList } from 'src/article/application/get/article.list';
 import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
@@ -7,6 +7,7 @@ import { ArticleDetail } from 'src/article/application/get/article.detail';
 import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto';
 import { ArticleCreate } from 'src/article/application/post/article.create';
 import { ArticleCreateDto } from 'src/article/application/dto/article.create.dto';
+import { DeleteArticle } from 'src/article/application/delete/delete.article';
 
 @ApiTags('article')
 @Controller('article')
@@ -15,6 +16,7 @@ export class ArticleController {
     private readonly listService: ArticleList,
     private readonly detailService: ArticleDetail,
     private readonly createService: ArticleCreate,
+    private readonly deleteService: DeleteArticle,
   ) {}
 
   @Get()
@@ -31,5 +33,10 @@ export class ArticleController {
   async create(@Body() createDto: ArticleCreateDto) {
     console.log('Received createDto:', createDto);
     return this.createService.create(createDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    return this.deleteService.delete(id);
   }
 }
