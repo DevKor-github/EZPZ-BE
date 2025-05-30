@@ -10,7 +10,6 @@ export class UserMapper {
       updatedAt: entity.updatedAt,
       email: entity.email,
       role: entity.role,
-      scrapIds: entity.scraps ? entity.scraps.map((scrap) => Identifier.from(scrap.id)) : [],
     });
   }
 

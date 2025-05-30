@@ -1,10 +1,9 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { User } from 'src/user/domain/entity/user';
 import { UserRepository } from 'src/user/domain/repository/user.repository';
-import { Role } from 'src/user/domain/value-object/role.enum';
 import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
+import { CreateUserRequestDto } from './dto/create-user.request.dto';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -13,7 +12,8 @@ export class CreateUserUseCase {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(userId: Identifier, email: string, role: Role): Promise<void> {
+  async execute(createUserRequestDto: CreateUserRequestDto): Promise<void> {
+    const { userId, email, role } = createUserRequestDto;
     const now = new Date();
     const user = User.create({
       id: userId,
@@ -21,7 +21,6 @@ export class CreateUserUseCase {
       updatedAt: now,
       email: email,
       role: role,
-      scrapIds: [],
     });
 
     await this.userRepository.save(user);

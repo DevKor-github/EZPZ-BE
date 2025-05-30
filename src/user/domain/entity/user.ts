@@ -1,11 +1,9 @@
 import { Role } from 'src/user/domain/value-object/role.enum';
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/domain/entity/base.entity';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface UserProps extends BaseEntityProps {
   email: string;
   role: Role;
-  scrapIds: Identifier[];
 }
 export class User extends BaseDomainEntity<UserProps> {
   protected constructor(props: UserProps) {
@@ -22,9 +20,5 @@ export class User extends BaseDomainEntity<UserProps> {
 
   get role(): Role {
     return this.props.role;
-  }
-
-  get scrapIds(): Identifier[] | undefined {
-    return this.props.scrapIds;
   }
 }
