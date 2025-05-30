@@ -8,6 +8,6 @@ export class DeleteArticle {
   constructor(@InjectRepository(ArticleEntity) private readonly repo: ArticleRepository) {}
 
   async delete(id: string): Promise<void> {
-    await this.repo.delete(id);
+    await this.repo.deleteById(id);
   }
 }

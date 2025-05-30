@@ -8,7 +8,7 @@ export interface ArticleRepository {
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<Article[]>;
   findById(id: string): Promise<Article | null>;
-  delete(id: string): Promise<void>;
+  deleteById(id: string): Promise<void>;
 }
 
 export const ARTICLE_REPOSITORY = Symbol('ARTICLE_REPOSITORY');

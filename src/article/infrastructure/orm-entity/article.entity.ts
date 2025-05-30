@@ -38,7 +38,7 @@ export class ArticleEntity extends BaseEntity {
   scraps: ScrapEntity[];
 
   @OneToMany(() => MediaEntity, (media) => media.article, { nullable: true, cascade: [Cascade.ALL] })
-  media: MediaEntity[];
+  media = new Collection<MediaEntity>(this);
 
   @ManyToMany(() => TagEntity, (tag) => tag.articles, { owner: true })
   tags = new Collection<TagEntity>(this);
