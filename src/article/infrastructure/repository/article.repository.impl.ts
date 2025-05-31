@@ -74,6 +74,12 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
   }
 
   async deleteById(id: string): Promise<void> {
-    await this.em.nativeDelete(ArticleEntity, { id });
+    // cascade 설정을 활용하여 entity를 먼저 조회
+    const articleEntity = await this.findOne({ id }, { populate: ['media'] });
+
+    if (articleEntity) {
+      // entity를 삭제하면 cascade로 인해 media도 자동 삭제됨
+      await this.em.removeAndFlush(articleEntity);
+    }
   }
 }

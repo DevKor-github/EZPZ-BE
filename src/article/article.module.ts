@@ -10,9 +10,10 @@ import { ArticleList } from './application/get/article.list';
 import { ArticleDetail } from './application/get/article.detail';
 import { ArticleCreate } from './application/post/article.create';
 import { DeleteArticle } from './application/delete/delete.article';
+import { MediaModule } from 'src/media/media.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity])],
+  imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity]), MediaModule],
   controllers: [ArticleController],
   providers: [
     {
