@@ -73,6 +73,12 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
     return entities.map((entity) => ArticleMapper.toDomain(entity));
   }
 
+  async findByIds(articleIds: string[]): Promise<Article[]> {
+    const articleEntities = await this.find({ id: { $in: articleIds } }, { populate: ['tags', 'media'] });
+
+    return articleEntities.map((entity) => ArticleMapper.toDomain(entity));
+  }
+
   async deleteById(id: string): Promise<void> {
     await this.em.nativeDelete(ArticleEntity, { id });
   }

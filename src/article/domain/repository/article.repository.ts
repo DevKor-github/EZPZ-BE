@@ -8,6 +8,7 @@ export interface ArticleRepository {
     sort?: 'createdAt' | 'scrapCount' | 'viewCount';
   }): Promise<Article[]>;
   findById(id: string): Promise<Article | null>;
+  findByIds(articleIds: string[]): Promise<Article[]>;
   deleteById(id: string): Promise<void>;
 }
 
