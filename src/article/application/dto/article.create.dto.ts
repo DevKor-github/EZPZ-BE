@@ -1,4 +1,4 @@
-import { IsString, IsArray, IsOptional } from 'class-validator';
+import { IsString, IsArray, IsOptional, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class MediaInfo {
@@ -9,6 +9,7 @@ export class MediaInfo {
   mimeType: string;
 
   @IsOptional()
+  @IsBoolean()
   isThumbnail?: boolean;
 }
 
