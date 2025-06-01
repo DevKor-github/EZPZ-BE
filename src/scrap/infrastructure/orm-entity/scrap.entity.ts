@@ -1,4 +1,4 @@
-import { Cascade, Entity, ManyToOne, Unique } from '@mikro-orm/core';
+import { Entity, ManyToOne, Unique } from '@mikro-orm/core';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { UserEntity } from '../../../user/infrastructure/orm-entity/user.entity';
@@ -7,9 +7,9 @@ import { ScrapRepositoryImpl } from '../repository/scrap.repository.impl';
 @Entity({ tableName: 'scrap', repository: () => ScrapRepositoryImpl })
 @Unique({ properties: ['article', 'user'] })
 export class ScrapEntity extends BaseEntity {
-  @ManyToOne(() => ArticleEntity, { cascade: [Cascade.REMOVE] })
+  @ManyToOne(() => ArticleEntity, { deleteRule: 'cascade' })
   article: ArticleEntity;
 
-  @ManyToOne(() => UserEntity, { cascade: [Cascade.REMOVE] })
+  @ManyToOne(() => UserEntity, { deleteRule: 'cascade' })
   user: UserEntity;
 }
