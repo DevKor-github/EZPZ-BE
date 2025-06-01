@@ -25,12 +25,14 @@ export class ScrapController {
 
   @Get('article/:id')
   @UseGuards(AuthGuard('jwt-access'))
+  @ScrapDocs('checkScrap')
   async checkScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     return await this.checkScrapUseCase.execute({ articleId, userId: user.userId });
   }
 
   @Post(':id')
   @UseGuards(AuthGuard('jwt-access'))
+  @ScrapDocs('addScrap')
   async addScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     await this.addScrapUseCase.execute({ articleId, userId: user.userId });
   }
