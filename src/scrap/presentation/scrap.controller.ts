@@ -41,6 +41,7 @@ export class ScrapController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt-access'))
+  @ScrapDocs('deleteScrap')
   async deleteScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     await this.deleteScrapUseCase.execute({ articleId, userId: user.userId });
   }
