@@ -22,4 +22,10 @@ export class ScrapRepositoryImpl extends EntityRepository<ScrapEntity> implement
 
     return ScrapMapper.toDomain(scrapEntity);
   }
+
+  async existsByArticleIdAndUserId(articleId: string, userId: string): Promise<boolean> {
+    const exists = await this.count({ article: { id: articleId }, user: { id: userId } });
+
+    return exists > 0;
+  }
 }
