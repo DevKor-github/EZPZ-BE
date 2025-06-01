@@ -10,8 +10,9 @@ import { GetMyScrapUseCase } from './application/get-my-scrap/get-my-scrap.use-c
 import { ARTICLE_REPOSITORY } from 'src/article/domain/repository/article.repository';
 import { ArticleRepositoryImpl } from 'src/article/infrastructure/repository/article.repository.impl';
 import { AddScrapUseCase } from './application/add-scrap/add-scrap.use-case';
+import { CheckScrapUseCase } from './application/check-scrap/check-scrap.use-case';
 
-const useCases = [GetMyScrapUseCase, AddScrapUseCase];
+const useCases = [GetMyScrapUseCase, AddScrapUseCase, CheckScrapUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([ScrapEntity, UserEntity, ArticleEntity])],

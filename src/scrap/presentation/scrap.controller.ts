@@ -5,6 +5,7 @@ import { GetMyScrapUseCase } from '../application/get-my-scrap/get-my-scrap.use-
 import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
 import { ScrapDocs } from './scrap.docs';
 import { AddScrapUseCase } from '../application/add-scrap/add-scrap.use-case';
+import { CheckScrapUseCase } from '../application/check-scrap/check-scrap.use-case';
 
 @ApiTags('scrap')
 @Controller('scrap')
@@ -12,6 +13,7 @@ export class ScrapController {
   constructor(
     private readonly getMyScrapUseCase: GetMyScrapUseCase,
     private readonly addScrapUseCase: AddScrapUseCase,
+    private readonly checkScrapUseCase: CheckScrapUseCase,
   ) {}
 
   @Get()
@@ -19,6 +21,12 @@ export class ScrapController {
   @ScrapDocs('getMyScrap')
   async getMyScrap(@User() user: UserPayload) {
     return await this.getMyScrapUseCase.execute({ userId: user.userId });
+  }
+
+  @Get('article/:id')
+  @UseGuards(AuthGuard('jwt-access'))
+  async checkScrap(@Param('id') articleId: string, @User() user: UserPayload) {
+    return await this.checkScrapUseCase.execute({ articleId, userId: user.userId });
   }
 
   @Post(':id')
