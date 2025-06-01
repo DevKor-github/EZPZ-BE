@@ -15,4 +15,11 @@ export class ScrapRepositoryImpl extends EntityRepository<ScrapEntity> implement
 
     return scrapEntities.map((entity) => ScrapMapper.toDomain(entity));
   }
+
+  async findByArticleIdAndUserId(articleId: string, userId: string): Promise<Scrap | null> {
+    const scrapEntity = await this.findOne({ article: { id: articleId }, user: { id: userId } });
+    if (!scrapEntity) return null;
+
+    return ScrapMapper.toDomain(scrapEntity);
+  }
 }
