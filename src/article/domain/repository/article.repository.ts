@@ -9,6 +9,7 @@ export interface ArticleRepository {
   }): Promise<Article[]>;
   findById(id: string): Promise<Article | null>;
   findByIds(articleIds: string[]): Promise<Article[]>;
+  update(article: Article): Promise<void>;
   deleteById(id: string): Promise<void>;
 }
 
