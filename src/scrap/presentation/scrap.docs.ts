@@ -1,9 +1,15 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
 import { GetMyScrapResponseDto } from '../application/get-my-scrap/dto/get-my-scrap.response.dto';
 
-export type ScrapEndpoint = 'getMyScrap';
+export type ScrapEndpoint = 'getMyScrap' | 'addScrap';
 
 export const ScrapDocs = createDocs<ScrapEndpoint>({
   getMyScrap: () =>
@@ -22,6 +28,25 @@ export const ScrapDocs = createDocs<ScrapEndpoint>({
       }),
       ApiNotFoundResponse({
         description: '해당 게시글이 존재하지 않습니다.',
+      }),
+    ),
+  addScrap: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '스크랩 추가',
+        description: '게시글을 스크랩합니다.',
+      }),
+      ApiOkResponse({
+        description: '스크랩 추가 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 access token',
+      }),
+      ApiNotFoundResponse({
+        description: '해당 게시글이 존재하지 않습니다.',
+      }),
+      ApiConflictResponse({
+        description: '이미 스크랩한 게시글입니다.',
       }),
     ),
 });
