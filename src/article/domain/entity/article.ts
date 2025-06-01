@@ -26,6 +26,13 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     this.props.updatedAt = new Date();
   }
 
+  decreaseScrapCount(): void {
+    if (this.props.scrapCount > 0) {
+      this.props.scrapCount -= 1;
+      this.props.updatedAt = new Date();
+    }
+  }
+
   get title(): string {
     return this.props.title;
   }
