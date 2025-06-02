@@ -24,7 +24,7 @@ export class DeleteScrapUseCase {
 
   private async decreaseArticleScrapCount(articleId: string): Promise<void> {
     const article = await this.articleRepository.findById(articleId);
-    if (!article) throw new NotFoundException('Article not found');
+    if (!article) throw new NotFoundException('해당 게시글이 존재하지 않습니다.');
 
     article.decreaseScrapCount();
     await this.articleRepository.update(article);
