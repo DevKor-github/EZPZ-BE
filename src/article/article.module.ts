@@ -11,9 +11,10 @@ import { ArticleDetail } from './application/get/article.detail';
 import { ArticleCreate } from './application/post/article.create';
 import { DeleteArticle } from './application/delete/delete.article';
 import { MediaModule } from 'src/media/media.module';
+import { TagModule } from 'src/tag/tag.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity]), MediaModule],
+  imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity, TagEntity]), MediaModule, TagModule],
   controllers: [ArticleController],
   providers: [
     {
@@ -25,5 +26,6 @@ import { MediaModule } from 'src/media/media.module';
     ArticleCreate,
     DeleteArticle,
   ],
+  exports: [ARTICLE_REPOSITORY],
 })
 export class ArticleModule {}

@@ -1,11 +1,18 @@
-import { EntityRepository } from '@mikro-orm/mysql';
+import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { Article } from 'src/article/domain/entity/article';
 import { ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleMapper } from '../mapper/article.mapper';
 import { ArticleEntity } from '../orm-entity/article.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
+import { InjectRepository } from '@mikro-orm/nestjs';
 
-export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> implements ArticleRepository {
+export class ArticleRepositoryImpl implements ArticleRepository {
+  constructor(
+    @InjectRepository(ArticleEntity)
+    private readonly articleOrmRepository: EntityRepository<ArticleEntity>,
+    private readonly em: EntityManager,
+  ) {}
+
   async save(article: Article): Promise<void> {
     const articleEntity = ArticleMapper.toEntity(article);
 
@@ -21,7 +28,10 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
   }
 
   async findById(id: string): Promise<Article | null> {
-    const articleEntity = await this.findOne({ id }, { populate: ['tags', 'media'], strategy: 'joined' });
+    const articleEntity = await this.articleOrmRepository.findOne(
+      { id },
+      { populate: ['tags', 'media'], strategy: 'joined' },
+    );
 
     if (!articleEntity) {
       return null;
@@ -64,7 +74,7 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
         orderBy.createdAt = 'DESC';
     }
 
-    const entities = await this.findAll({
+    const entities = await this.articleOrmRepository.findAll({
       where,
       orderBy,
       populate: ['tags', 'media'],
@@ -74,7 +84,10 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
   }
 
   async findByIds(articleIds: string[]): Promise<Article[]> {
-    const articleEntities = await this.find({ id: { $in: articleIds } }, { populate: ['tags', 'media'] });
+    const articleEntities = await this.articleOrmRepository.find(
+      { id: { $in: articleIds } },
+      { populate: ['tags', 'media'] },
+    );
 
     return articleEntities.map((entity) => ArticleMapper.toDomain(entity));
   }
@@ -99,7 +112,7 @@ export class ArticleRepositoryImpl extends EntityRepository<ArticleEntity> imple
 
   async deleteById(id: string): Promise<void> {
     // cascade 설정을 활용하여 entity를 먼저 조회
-    const articleEntity = await this.findOne({ id }, { populate: ['media'] });
+    const articleEntity = await this.articleOrmRepository.findOne({ id }, { populate: ['media'] });
 
     if (articleEntity) {
       // entity를 삭제하면 cascade로 인해 media도 자동 삭제됨

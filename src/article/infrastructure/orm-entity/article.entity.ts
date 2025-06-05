@@ -2,9 +2,8 @@ import { Cascade, Collection, Entity, ManyToMany, OneToMany, Property } from '@m
 import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
-import { ArticleRepositoryImpl } from '../repository/article.repository.impl';
 
-@Entity({ tableName: 'article', repository: () => ArticleRepositoryImpl })
+@Entity({ tableName: 'article' })
 export class ArticleEntity extends BaseEntity {
   @Property({ type: 'varchar' })
   title: string;

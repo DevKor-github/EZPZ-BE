@@ -3,9 +3,8 @@ import { Role } from 'src/user/domain/value-object/role.enum';
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { ScrapEntity } from '../../../scrap/infrastructure/orm-entity/scrap.entity';
-import { UserRepositoryImpl } from '../repository/user.repository.impl';
 
-@Entity({ tableName: 'user', repository: () => UserRepositoryImpl })
+@Entity({ tableName: 'user' })
 export class UserEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true })
   email: string;

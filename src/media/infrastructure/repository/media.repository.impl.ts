@@ -1,10 +1,17 @@
-import { EntityRepository } from '@mikro-orm/mysql';
+import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { Media } from 'src/media/domain/entity/media';
 import { MediaRepository } from 'src/media/domain/repository/media.repository';
 import { MediaMapper } from '../mapper/media.mapper';
 import { MediaEntity } from '../orm-entity/media.entity';
+import { InjectRepository } from '@mikro-orm/nestjs';
 
-export class MediaRepositoryImpl extends EntityRepository<MediaEntity> implements MediaRepository {
+export class MediaRepositoryImpl implements MediaRepository {
+  constructor(
+    @InjectRepository(MediaEntity)
+    private readonly mediaOrmRepository: EntityRepository<MediaEntity>,
+    private readonly em: EntityManager,
+  ) {}
+
   async save(media: Media): Promise<void> {
     const mediaEntity = MediaMapper.toEntity(media, this.em);
     await this.em.persistAndFlush(mediaEntity);
@@ -16,7 +23,7 @@ export class MediaRepositoryImpl extends EntityRepository<MediaEntity> implement
   }
 
   async findById(id: string): Promise<Media | null> {
-    const mediaEntity = await this.findOne({ id });
+    const mediaEntity = await this.mediaOrmRepository.findOne({ id });
     if (!mediaEntity) {
       return null;
     }

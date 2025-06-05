@@ -1,14 +1,12 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/user/domain/entity/user';
-import { UserRepository } from 'src/user/domain/repository/user.repository';
-import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
+import { USER_REPOSITORY, UserRepository } from 'src/user/domain/repository/user.repository';
 import { CreateUserRequestDto } from './dto/create-user.request.dto';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
-    @InjectRepository(UserEntity)
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

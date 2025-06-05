@@ -1,14 +1,12 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
-import { ScrapRepository } from 'src/scrap/domain/repository/scrap.repository';
-import { ScrapEntity } from 'src/scrap/infrastructure/orm-entity/scrap.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { SCRAP_REPOSITORY, ScrapRepository } from 'src/scrap/domain/repository/scrap.repository';
 import { CheckScrapRequestDto } from './dto/check-scrap.request.dto';
 import { CheckScrapResponseDto } from './dto/check-scrap.response.dto';
 
 @Injectable()
 export class CheckScrapUseCase {
   constructor(
-    @InjectRepository(ScrapEntity)
+    @Inject(SCRAP_REPOSITORY)
     private readonly scrapRepository: ScrapRepository,
   ) {}
 
