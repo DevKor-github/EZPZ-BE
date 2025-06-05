@@ -10,6 +10,11 @@ export class MediaRepositoryImpl extends EntityRepository<MediaEntity> implement
     await this.em.persistAndFlush(mediaEntity);
   }
 
+  async saveAll(meidaList: Media[]): Promise<void> {
+    const mediaEntites = meidaList.map((media) => MediaMapper.toEntity(media, this.em));
+    await this.em.persistAndFlush(mediaEntites);
+  }
+
   async findById(id: string): Promise<Media | null> {
     const mediaEntity = await this.findOne({ id });
     if (!mediaEntity) {
