@@ -1,20 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { ArticleRepository } from 'src/article/domain/repository/article.repository';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleCreateRequestDto, ArticleCreateResponseDto } from 'src/article/application/dto/article.create.dto';
 import { Article } from 'src/article/domain/entity/article';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
-import { TagRepository } from 'src/tag/domain/repository/tag.repository';
-import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
+import { TAG_REPOSITORY, TagRepository } from 'src/tag/domain/repository/tag.repository';
 import { Tag } from 'src/tag/domain/entity/tag';
 // import { GeneratePresignedUrlUseCase } from 'src/media/application/generate-presigned-url/generate-presigned-url.use-case';
 
 @Injectable()
 export class ArticleCreate {
   constructor(
-    @InjectRepository(ArticleEntity) private readonly articleRepo: ArticleRepository,
-    @InjectRepository(TagEntity) private readonly tagRepo: TagRepository,
+    @Inject(ARTICLE_REPOSITORY) private readonly articleRepo: ArticleRepository,
+    @Inject(TAG_REPOSITORY) private readonly tagRepo: TagRepository,
     // private readonly generatePresignedUrlUseCase: GeneratePresignedUrlUseCase,
   ) {}
 

@@ -1,11 +1,9 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Auth } from 'src/auth/domain/entity/auth';
-import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
+import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { TokenType } from 'src/auth/infrastructure/factory/jwt.factory';
 import { OAuthProviderFactory } from 'src/auth/infrastructure/factory/oauth-provider.factory';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
-import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
 import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { CreateUserUseCase } from 'src/user/application/create-user/create-user.use-case';
@@ -20,7 +18,7 @@ export class OAuthLoginUseCase {
   constructor(
     private readonly oAuthProviderFactory: OAuthProviderFactory,
     private readonly jwtProvider: JwtProvider,
-    @InjectRepository(AuthEntity)
+    @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepository,
     private readonly createUserUseCase: CreateUserUseCase,
   ) {

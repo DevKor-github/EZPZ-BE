@@ -1,13 +1,11 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
-import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { LogoutRequestDto } from './dto/logout.request.dto';
 
 @Injectable()
 export class LogoutUseCase {
   constructor(
-    @InjectRepository(AuthEntity)
+    @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepository,
   ) {}
 

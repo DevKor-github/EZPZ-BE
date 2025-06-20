@@ -1,13 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { DeleteMyInfoRequestDto } from './dto/delete-my-info.request.dto';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
-import { UserRepository } from 'src/user/domain/repository/user.repository';
+import { USER_REPOSITORY, UserRepository } from 'src/user/domain/repository/user.repository';
 
 @Injectable()
 export class DeleteMyInfoUseCase {
   constructor(
-    @InjectRepository(UserEntity)
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

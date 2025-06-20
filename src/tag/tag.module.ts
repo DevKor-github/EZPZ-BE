@@ -13,5 +13,6 @@ import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.ent
       useClass: TagRepositoryImpl,
     },
   ],
+  exports: [TAG_REPOSITORY],
 })
 export class TagModule {}

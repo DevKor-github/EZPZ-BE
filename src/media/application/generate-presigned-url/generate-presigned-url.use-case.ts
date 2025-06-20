@@ -1,17 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { MediaRepository } from 'src/media/domain/repository/media.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import { MEDIA_REPOSITORY, MediaRepository } from 'src/media/domain/repository/media.repository';
 import { S3Adapter } from 'src/media/infrastructure/util/s3.adapter';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { GeneratePresignedUrlRequestDto } from './dto/generate-presigned-url.request.dto';
 import { Media } from 'src/media/domain/entity/media';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { GeneratePresignedUrlResponseDto } from './dto/generate-presigned-url.response.dto';
 
 @Injectable()
 export class GeneratePresignedUrlUseCase {
   constructor(
-    @InjectRepository(MediaEntity)
+    @Inject(MEDIA_REPOSITORY)
     private readonly mediaRepository: MediaRepository,
     private readonly s3Adapter: S3Adapter,
   ) {}
@@ -21,7 +19,8 @@ export class GeneratePresignedUrlUseCase {
   ): Promise<GeneratePresignedUrlResponseDto[]> {
     const { articleId, fileInfoList } = generatePresignedUrlRequestDto;
     const now = new Date();
-    const results: GeneratePresignedUrlResponseDto[] = [];
+    const presignedUrls: GeneratePresignedUrlResponseDto[] = [];
+    const mediaList: Media[] = [];
 
     for (const fileInfo of fileInfoList) {
       const { fileName, mimeType, isThumbnail } = fileInfo;
@@ -37,11 +36,13 @@ export class GeneratePresignedUrlUseCase {
         articleId: Identifier.from(articleId),
       });
 
-      await this.mediaRepository.save(media);
-      results.push({ presignedUrl });
+      presignedUrls.push({ presignedUrl });
+      mediaList.push(media);
     }
 
-    return results;
+    await this.mediaRepository.saveAll(mediaList);
+
+    return presignedUrls;
   }
   /*
   async execute(uploadRequestDto: UploadRequestDto, files: Express.Multer.File[]): Promise<void> {

@@ -1,14 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { ArticleRepository } from 'src/article/domain/repository/article.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
 import { ArticleListItem } from 'src/article/application/dto/article.list.dto';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { Article } from 'src/article/domain/entity/article';
 
 @Injectable()
 export class ArticleList {
-  constructor(@InjectRepository(ArticleEntity) private readonly repo: ArticleRepository) {}
+  constructor(@Inject(ARTICLE_REPOSITORY) private readonly repo: ArticleRepository) {}
 
   async getList(filter: ArticleFilterDto): Promise<ArticleListItem[]> {
     const articles = await this.repo.findList(filter);

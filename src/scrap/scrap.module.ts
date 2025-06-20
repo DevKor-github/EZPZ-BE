@@ -7,25 +7,20 @@ import { ScrapRepositoryImpl } from './infrastructure/repository/scrap.repositor
 import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { GetMyScrapUseCase } from './application/get-my-scrap/get-my-scrap.use-case';
-import { ARTICLE_REPOSITORY } from 'src/article/domain/repository/article.repository';
-import { ArticleRepositoryImpl } from 'src/article/infrastructure/repository/article.repository.impl';
 import { AddScrapUseCase } from './application/add-scrap/add-scrap.use-case';
 import { CheckScrapUseCase } from './application/check-scrap/check-scrap.use-case';
 import { DeleteScrapUseCase } from './application/delete-scrap/delete-scrap.use-case';
+import { ArticleModule } from 'src/article/article.module';
 
 const useCases = [GetMyScrapUseCase, AddScrapUseCase, CheckScrapUseCase, DeleteScrapUseCase];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ScrapEntity, UserEntity, ArticleEntity])],
+  imports: [MikroOrmModule.forFeature([ScrapEntity, UserEntity, ArticleEntity]), ArticleModule],
   providers: [
     ...useCases,
     {
       provide: SCRAP_REPOSITORY,
       useClass: ScrapRepositoryImpl,
-    },
-    {
-      provide: ARTICLE_REPOSITORY,
-      useClass: ArticleRepositoryImpl,
     },
   ],
   controllers: [ScrapController],

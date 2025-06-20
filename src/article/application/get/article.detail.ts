@@ -1,16 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ArticleRepository } from 'src/article/domain/repository/article.repository';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { ArticleDetailDto } from '../dto/article.detail.dto';
-import { MediaRepository } from 'src/media/domain/repository/media.repository';
-import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
+import { MEDIA_REPOSITORY, MediaRepository } from 'src/media/domain/repository/media.repository';
 
 @Injectable()
 export class ArticleDetail {
   constructor(
-    @InjectRepository(ArticleEntity) private readonly articleRepo: ArticleRepository,
-    @InjectRepository(MediaEntity) private readonly mediaRepo: MediaRepository,
+    @Inject(ARTICLE_REPOSITORY) private readonly articleRepo: ArticleRepository,
+    @Inject(MEDIA_REPOSITORY) private readonly mediaRepo: MediaRepository,
   ) {}
 
   async getDetail(id: string): Promise<ArticleDetailDto> {
