@@ -8,6 +8,7 @@ import { ArticleDetailDto } from 'src/article/application/dto/article.detail.dto
 import { ArticleCreate } from 'src/article/application/post/article.create';
 import { ArticleCreateRequestDto } from 'src/article/application/dto/article.create.dto';
 import { DeleteArticle } from 'src/article/application/delete/delete.article';
+import { ArticleDocs } from './article.docs';
 
 @ApiTags('article')
 @Controller('article')
@@ -20,21 +21,25 @@ export class ArticleController {
   ) {}
 
   @Get()
+  @ArticleDocs('list')
   async list(@Query() filter: ArticleFilterDto): Promise<ArticleListItem[]> {
     return this.listService.getList(filter);
   }
 
   @Get(':id')
+  @ArticleDocs('detail')
   async detail(@Param('id') id: string): Promise<ArticleDetailDto> {
     return this.detailService.getDetail(id);
   }
 
   @Post()
+  @ArticleDocs('create')
   async create(@Body() createDto: ArticleCreateRequestDto) {
     return this.createService.create(createDto);
   }
 
   @Delete(':id')
+  @ArticleDocs('delete')
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteService.delete(id);
   }
