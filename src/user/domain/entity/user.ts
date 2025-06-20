@@ -11,7 +11,26 @@ export class User extends BaseDomainEntity<UserProps> {
   }
 
   public static create(props: UserProps): User {
-    return new User(props);
+    const user = new User(props);
+    user.validate();
+
+    return user;
+  }
+
+  public validate(): void {
+    if (!this.props.email) {
+      throw new Error('이메일은 필수입니다.');
+    }
+    if (!this.props.email || !this.props.email.includes('@')) {
+      throw new Error('유효하지 않은 이메일 형식입니다.');
+    }
+
+    if (!this.props.role) {
+      throw new Error('role은 필수입니다.');
+    }
+    if (!Object.values(Role).includes(this.props.role)) {
+      throw new Error('유효하지 않은 role입니다.');
+    }
   }
 
   get email(): string {
