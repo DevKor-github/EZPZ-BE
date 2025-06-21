@@ -13,7 +13,10 @@ export class Media extends BaseDomainEntity<MediaProps> {
   }
 
   public static create(props: MediaProps): Media {
-    return new Media(props);
+    const media = new Media(props);
+    media.validate();
+
+    return media;
   }
 
   public validate(): void {

@@ -15,7 +15,10 @@ export class Auth extends BaseDomainEntity<AuthProps> {
   }
 
   public static create(props: AuthProps): Auth {
-    return new Auth(props);
+    const auth = new Auth(props);
+    auth.validate();
+
+    return auth;
   }
 
   public validate(): void {

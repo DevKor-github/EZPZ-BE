@@ -12,7 +12,15 @@ export class Tag extends BaseDomainEntity<TagProps> {
   }
 
   public static create(props: TagProps): Tag {
-    return new Tag(props);
+    const tag = new Tag(props);
+    tag.validate();
+    return tag;
+  }
+
+  public validate(): void {
+    if (!this.props.name) {
+      throw new Error('태그 이름은 필수입니다.');
+    }
   }
 
   get name(): string {
