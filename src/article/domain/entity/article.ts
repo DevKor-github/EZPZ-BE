@@ -21,6 +21,57 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     super(props);
   }
 
+  public static create(props: ArticleProps): Article {
+    const article = new Article(props);
+    article.validate();
+
+    return article;
+  }
+
+  public validate(): void {
+    if (!this.props.title) {
+      throw new Error('제목은 필수입니다.');
+    }
+
+    if (!this.props.organization) {
+      throw new Error('조직은 필수입니다.');
+    }
+
+    if (!this.props.location) {
+      throw new Error('위치는 필수입니다.');
+    }
+
+    if (!this.props.description) {
+      throw new Error('설명은 필수입니다.');
+    }
+
+    if (!this.props.registrationUrl) {
+      throw new Error('등록 URL은 필수입니다.');
+    }
+
+    if (!this.props.startAt) {
+      throw new Error('시작 날짜는 필수입니다.');
+    }
+    if (this.props.startAt >= this.props.endAt) {
+      throw new Error('시작 날짜는 종료 날짜보다 이전이어야 합니다.');
+    }
+
+    if (!this.props.endAt) {
+      throw new Error('종료 날짜는 필수입니다.');
+    }
+
+    if (this.props.scrapCount < 0) {
+      throw new Error('스크랩 수는 0 이상이어야 합니다.');
+    }
+    if (this.props.viewCount < 0) {
+      throw new Error('조회 수는 0 이상이어야 합니다.');
+    }
+
+    if (this.mediaIds.length > 10) {
+      throw new Error('이미지는 최대 10개까지 업로드할 수 있습니다.');
+    }
+  }
+
   increaseScrapCount(): void {
     this.props.scrapCount += 1;
     this.props.updatedAt = new Date();
@@ -75,9 +126,5 @@ export class Article extends BaseDomainEntity<ArticleProps> {
 
   get tags(): Tag[] {
     return this.props.tags;
-  }
-
-  public static create(props: ArticleProps): Article {
-    return new Article(props);
   }
 }
