@@ -52,7 +52,7 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     if (!this.props.startAt) {
       throw new Error('시작 날짜는 필수입니다.');
     }
-    if (this.props.startAt >= this.props.endAt) {
+    if (this.props.startAt > this.props.endAt) {
       throw new Error('시작 날짜는 종료 날짜보다 이전이어야 합니다.');
     }
 
