@@ -8,8 +8,7 @@ import { v4 } from 'uuid';
 export class S3Adapter {
   private readonly s3Client: S3Client;
   private readonly bucketName: string;
-  private readonly bucketDomain: string;
-  // private readonly cloudFrontDomain: string;
+  private readonly cloudFrontDomain: string;
 
   constructor(private readonly configSerivce: ConfigService) {
     this.s3Client = new S3Client({
@@ -20,8 +19,7 @@ export class S3Adapter {
       },
     });
     this.bucketName = this.configSerivce.getOrThrow('aws.s3.bucketName');
-    this.bucketDomain = this.configSerivce.getOrThrow('aws.s3.bucketDomain');
-    // this.cloudFrontDomain = this.configSerivce.getOrThrow('aws.s3.cloudFrontDomain');
+    this.cloudFrontDomain = this.configSerivce.getOrThrow('aws.s3.cloudFrontDomain');
   }
 
   async upload(articleId: string, fileName: string, mimeType: string) {
@@ -42,7 +40,7 @@ export class S3Adapter {
   }
 
   private generateImageUrl(key: string): string {
-    return `${this.bucketDomain}/${key}`;
+    return `${this.cloudFrontDomain}/${key}`;
   }
 
   private async generatePresignedUrl(mimeType: string, key: string): Promise<string> {

@@ -27,21 +27,18 @@ export class Media extends BaseDomainEntity<MediaProps> {
       throw new Error('유효하지 않은 미디어 경로입니다.');
     }
 
-    if (!this.props.isThumbnail) {
+    if (this.props.isThumbnail === undefined) {
       throw new Error('isThumbnail은 필수입니다.');
     }
 
     if (!this.props.articleId) {
       throw new Error('articleId는 필수입니다.');
     }
-    if (this.props.articleId instanceof Identifier) {
-      throw new Error('articleId는 Identifier 타입이어야 합니다.');
-    }
   }
 
   private validateMediaPath(): boolean {
     const allowedExtensions = ['png', 'jpg', 'jpeg', 'img'].join('|');
-    const pattern = new RegExp(`^/images/[^/]+/[^/]+\\.(${allowedExtensions})$`);
+    const pattern = new RegExp(`^https://[^/]+/images/[^/]+/[^/]+\\.(${allowedExtensions})$`);
 
     return pattern.test(this.props.mediaPath);
   }
