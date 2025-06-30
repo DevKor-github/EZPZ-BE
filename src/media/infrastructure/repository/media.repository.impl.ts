@@ -13,12 +13,12 @@ export class MediaRepositoryImpl implements MediaRepository {
   ) {}
 
   async save(media: Media): Promise<void> {
-    const mediaEntity = MediaMapper.toEntity(media, this.em);
+    const mediaEntity = MediaMapper.toEntity(media);
     await this.em.persistAndFlush(mediaEntity);
   }
 
   async saveAll(meidaList: Media[]): Promise<void> {
-    const mediaEntites = meidaList.map((media) => MediaMapper.toEntity(media, this.em));
+    const mediaEntites = meidaList.map((media) => MediaMapper.toEntity(media));
     await this.em.persistAndFlush(mediaEntites);
   }
 

@@ -1,23 +1,23 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { AddScrapRequestDto } from './dto/add-scrap.request.dto';
-import { SCRAP_REPOSITORY, ScrapRepository } from 'src/scrap/domain/repository/scrap.repository';
-import { Scrap } from 'src/scrap/domain/entity/scrap';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { Transactional } from '@mikro-orm/core';
+import { AddScrapRequestDto } from './dto/add-scrap.request.dto';
+import { Scrap } from '../../domain/scrap';
+import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 @Injectable()
 export class AddScrapUseCase {
   constructor(
-    @Inject(SCRAP_REPOSITORY)
-    private readonly scrapRepository: ScrapRepository,
+    @Inject(SCRAP_COMMAND_REPOSITORY)
+    private readonly scrapRepository: ScrapCommandRepository,
     @Inject(ARTICLE_REPOSITORY)
     private readonly articleRepository: ArticleRepository,
   ) {}
 
   @Transactional()
-  async execute(addScrapRequestDto: AddScrapRequestDto): Promise<void> {
-    const { articleId, userId } = addScrapRequestDto;
+  async execute(reqDto: AddScrapRequestDto): Promise<void> {
+    const { articleId, userId } = reqDto;
     const now = new Date();
 
     await this.saveScrap(articleId, userId, now);

@@ -2,7 +2,6 @@ import { Media } from 'src/media/domain/entity/media';
 import { MediaEntity } from '../orm-entity/media.entity';
 import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
-import { EntityManager } from '@mikro-orm/mysql';
 
 export class MediaMapper {
   static toDomain(entity: MediaEntity): Media {
@@ -16,14 +15,14 @@ export class MediaMapper {
     });
   }
 
-  static toEntity(domain: Media, em: EntityManager): MediaEntity {
+  static toEntity(domain: Media): MediaEntity {
     const entity = new MediaEntity();
     entity.id = domain.id.value;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.mediaPath = domain.mediaPath;
     entity.isThumbnail = domain.isThumbnail;
-    entity.article = em.getReference(ArticleEntity, domain.articleId!.value);
+    entity.article = { id: domain.articleId!.value } as ArticleEntity;
 
     return entity;
   }
