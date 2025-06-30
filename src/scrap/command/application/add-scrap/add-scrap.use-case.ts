@@ -1,18 +1,21 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
-import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
 import { Transactional } from '@mikro-orm/core';
 import { AddScrapRequestDto } from './dto/add-scrap.request.dto';
 import { Scrap } from '../../domain/scrap';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
+import {
+  ARTICLE_COMMAND_REPOSITORY,
+  ArticleCommandRepository,
+} from 'src/article/command/domain/article.command.repository';
 
 @Injectable()
 export class AddScrapUseCase {
   constructor(
     @Inject(SCRAP_COMMAND_REPOSITORY)
-    private readonly scrapRepository: ScrapCommandRepository,
-    @Inject(ARTICLE_REPOSITORY)
-    private readonly articleRepository: ArticleRepository,
+    private readonly scrapCommandRepository: ScrapCommandRepository,
+    @Inject(ARTICLE_COMMAND_REPOSITORY)
+    private readonly articleCommandRepository: ArticleCommandRepository,
   ) {}
 
   @Transactional()
@@ -25,7 +28,7 @@ export class AddScrapUseCase {
   }
 
   private async saveScrap(articleId: string, userId: string, now: Date): Promise<void> {
-    const existingScrap = await this.scrapRepository.existsByArticleIdAndUserId(articleId, userId);
+    const existingScrap = await this.scrapCommandRepository.existsByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
 
     const scrap = Scrap.create({
@@ -36,14 +39,14 @@ export class AddScrapUseCase {
       updatedAt: now,
     });
 
-    await this.scrapRepository.save(scrap);
+    await this.scrapCommandRepository.save(scrap);
   }
 
   private async increaseArticleScrapCount(articleId: string): Promise<void> {
-    const article = await this.articleRepository.findById(articleId);
+    const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물입니다.');
 
     article.increaseScrapCount();
-    await this.articleRepository.update(article);
+    await this.articleCommandRepository.update(article);
   }
 }
