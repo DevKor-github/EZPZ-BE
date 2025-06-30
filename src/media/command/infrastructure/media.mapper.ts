@@ -11,7 +11,7 @@ export class MediaMapper {
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       mediaPath: entity.mediaPath,
-      isThumbnail: entity.isThumbnail,
+      order: entity.order,
       articleId: Identifier.from(entity.article?.id),
     });
   }
@@ -22,7 +22,7 @@ export class MediaMapper {
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.mediaPath = domain.mediaPath;
-    entity.isThumbnail = domain.isThumbnail;
+    entity.order = domain.order;
     entity.article = em.getReference(ArticleEntity, domain.articleId!.value);
 
     return entity;

@@ -7,8 +7,8 @@ export class MediaEntity extends BaseEntity {
   @Property({ type: 'varchar' })
   mediaPath: string;
 
-  @Property({ type: 'boolean' })
-  isThumbnail: boolean;
+  @Property({ type: 'int' })
+  order: number;
 
   @ManyToOne(() => ArticleEntity, { nullable: false, eager: false })
   article: ArticleEntity;

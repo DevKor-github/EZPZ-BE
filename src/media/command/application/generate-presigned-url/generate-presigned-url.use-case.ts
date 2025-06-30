@@ -22,8 +22,9 @@ export class GeneratePresignedUrlUseCase {
     const presignedUrls: GeneratePresignedUrlResponseDto[] = [];
     const mediaList: Media[] = [];
 
-    for (const fileInfo of fileInfoList) {
-      const { fileName, mimeType, isThumbnail } = fileInfo;
+    for (let i = 0; i < fileInfoList.length; i++) {
+      const fileInfo = fileInfoList[i];
+      const { fileName, mimeType } = fileInfo;
       const mediaId = Identifier.create();
       const { imageUrl, presignedUrl } = await this.s3Adapter.upload(articleId, fileName, mimeType);
 
@@ -31,13 +32,16 @@ export class GeneratePresignedUrlUseCase {
         id: mediaId,
         createdAt: now,
         updatedAt: now,
-        isThumbnail: isThumbnail,
+        order: i, // 순서 부여
         mediaPath: imageUrl,
         articleId: Identifier.from(articleId),
       });
 
-      presignedUrls.push({ presignedUrl });
       mediaList.push(media);
+      presignedUrls.push({
+        mediaId: mediaId.value,
+        presignedUrl,
+      });
     }
 
     await this.mediaCommandRepository.saveAll(mediaList);

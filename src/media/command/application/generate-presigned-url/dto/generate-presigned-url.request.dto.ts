@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
 class FileInfo {
   @IsString()
@@ -10,10 +10,6 @@ class FileInfo {
   @IsString()
   @IsNotEmpty()
   mimeType: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  isThumbnail: boolean;
 }
 
 export class GeneratePresignedUrlRequestDto {
@@ -24,6 +20,11 @@ export class GeneratePresignedUrlRequestDto {
     example: '1231312124',
   })
   articleId: string;
+
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => FileInfo)
+  thumbnailInfo: FileInfo;
 
   @IsArray()
   @IsNotEmpty()
