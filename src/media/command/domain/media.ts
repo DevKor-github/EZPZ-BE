@@ -3,7 +3,7 @@ import { Identifier } from 'src/shared/domain/value-object/identifier';
 
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;
-  isThumbnail: boolean;
+  order: number;
   articleId?: Identifier | undefined;
 }
 
@@ -20,8 +20,8 @@ export class Media extends BaseDomainEntity<MediaProps> {
     return this.props.mediaPath;
   }
 
-  get isThumbnail(): boolean {
-    return this.props.isThumbnail;
+  get order(): number {
+    return this.props.order;
   }
 
   get articleId(): Identifier | undefined {
