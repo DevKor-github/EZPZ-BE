@@ -3,7 +3,7 @@ import { TAG_REPOSITORY } from './domain/repository/tag.repository';
 import { TagRepositoryImpl } from './infrastructure/repository/tag.repository.impl';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TagEntity } from './infrastructure/orm-entity/tag.entity';
-import { ArticleEntity } from 'src/article/infrastructure/orm-entity/article.entity';
+import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
 
 @Module({
   imports: [MikroOrmModule.forFeature([TagEntity, ArticleEntity])],
