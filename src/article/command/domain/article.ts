@@ -12,7 +12,6 @@ export interface ArticleProps extends BaseEntityProps {
   endAt: Date;
   scrapCount: number;
   viewCount: number;
-  thumbnailId?: Identifier | null;
   mediaIds: Identifier[];
   tags: Tag[];
 }
@@ -119,10 +118,6 @@ export class Article extends BaseDomainEntity<ArticleProps> {
 
   get viewCount(): number {
     return this.props.viewCount;
-  }
-
-  get thumbnailId(): Identifier | null {
-    return this.props.thumbnailId || null;
   }
 
   get mediaIds(): Identifier[] {

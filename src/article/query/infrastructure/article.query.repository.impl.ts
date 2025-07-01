@@ -1,9 +1,9 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { GetArticleDetailProjection } from '../application/detail/get-article-detail.projection';
 import { ArticleQueryRepository } from '../domain/repository/article.query.repository';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
-import { GetArticleListProjection } from '../application/list/get-article-list.projection';
+import { ArticleDetailModel } from '../domain/article-detail.model';
+import { ArticleModel } from '../domain/article.model';
 
 export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
   constructor(
@@ -12,7 +12,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     private readonly em: EntityManager,
   ) {}
 
-  async findById(id: string): Promise<GetArticleDetailProjection | null> {
+  async findById(id: string): Promise<ArticleDetailModel | null> {
     const articleEntity = (
       await this.ormRepository
         .createQueryBuilder('a')
@@ -29,9 +29,10 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
           'a.registrationUrl',
           't.media_path as thumbnailPath',
         ])
-        .leftJoin('a.thumbnail', 't')
+        .leftJoin('a.media', 't')
+        .andWhere('t.order = 0')
         .where({ id: id })
-        .execute<GetArticleDetailProjection[]>()
+        .execute<ArticleDetailModel[]>()
     )[0];
 
     const mediaEntities = await this.ormRepository
@@ -61,12 +62,13 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     };
   }
 
-  async findAllByCriteria(): Promise<GetArticleListProjection[]> {
+  async findAllByCriteria(): Promise<ArticleModel[]> {
     const articleEntities = await this.ormRepository
       .createQueryBuilder('a')
       .select(['a.id', 'a.title', 'a.organization', 'a.scrapCount', 'a.viewCount', 't.media_path as thumbnailPath'])
-      .leftJoin('a.thumbnail', 't')
-      .execute<GetArticleListProjection[]>();
+      .leftJoin('a.media', 't')
+      .andWhere('t.order = 0')
+      .execute<ArticleModel[]>();
 
     const result = articleEntities.map((articleEntity) => ({
       id: articleEntity.id,
