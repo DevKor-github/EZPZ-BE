@@ -34,4 +34,10 @@ export default () => ({
       cloudFrontDomain: process.env.AWS_S3_CLOUDFRONT_DOMAIN,
     },
   },
+
+  // Frontend
+  frontend: {
+    url: process.env.FRONTEND_URL,
+    loginRedirectPath: process.env.FRONTEND_LOGIN_REDIRECT_PATH,
+  },
 });

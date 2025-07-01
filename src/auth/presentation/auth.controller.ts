@@ -10,6 +10,7 @@ import { User, UserPayload } from 'src/shared/presentation/decorator/user.decora
 import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
 import { AuthDocs } from './auth.docs';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,6 +20,7 @@ export class AuthController {
     private readonly authorizeOAuthUseCase: AuthorizeOAuthUseCase,
     private readonly renewTokenUseCase: RenewTokenUseCase,
     private readonly logoutUseCase: LogoutUseCase,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get('oauth/authorization')
@@ -40,7 +42,9 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.status(HttpStatus.OK).send();
+    res.redirect(
+      `${this.configService.getOrThrow('frontend.url')}/${this.configService.getOrThrow('frontend.loginRedirectPath')}`,
+    );
   }
 
   @Get('refresh')
