@@ -68,9 +68,15 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     };
   }
 
-  async findAllByCriteria(): Promise<ArticleModel[]> {
-    const articleEntities = await this.ormRepository
-      .createQueryBuilder('a')
+  async findAllByCriteria(
+    tags?: string[],
+    isFinished?: boolean,
+    sortBy?: 'createdAt' | 'scrapCount' | 'viewCount',
+    // page?: number,
+    // limit?: number,
+  ): Promise<ArticleModel[]> {
+    const query = this.ormRepository.createQueryBuilder('a');
+    query
       .select([
         'a.id',
         'a.title',
@@ -86,8 +92,28 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
         sql`group_concat(distinct tag.name) as tags`,
       ])
       .leftJoin('a.tags', 'tag')
-      .groupBy('a.id')
-      .execute<ArticleModel[]>();
+      .groupBy('a.id');
+
+    if (tags && tags.length > 0) {
+      query.andWhere({ tags: { name: { $in: tags } } });
+    }
+
+    // 조건: isFinished → endAt < now
+    if (typeof isFinished === 'boolean') {
+      const now = new Date();
+      if (isFinished) {
+        query.andWhere({ endAt: { $lt: now } });
+      } else {
+        query.andWhere({ endAt: { $gte: now } });
+      }
+    }
+
+    // 정렬
+    query.orderBy({ [`a.${sortBy}`]: 'DESC' }); // 페이징
+
+    // query.limit(limit).offset((page - 1) * limit);
+
+    const articleEntities = await query.execute<ArticleModel[]>();
 
     const result = articleEntities.map((articleEntity) => ({
       id: articleEntity.id,
