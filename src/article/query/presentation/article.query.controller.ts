@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { GetArticleDetailUseCase } from '../application/detail/get-article-detail.usecase';
-import { GetArticleListUseCase } from '../application/list/get-article-list.usecase';
+import { GetArticleDetailUseCase } from '../application/detail/get-article-detail.use-case';
+import { GetArticleListUseCase } from '../application/list/get-article-list.use-case';
 import { ArticleDetailModel } from '../domain/article-detail.model';
 import { ArticleModel } from '../domain/article.model';
 import { ArticleQueryDocs } from './article.query.docs';
