@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { GetArticleDetailProjection } from './get-article-detail.projection';
 import { GetArticleDetailRequestDto } from './dto/get-article-detail.request.dto';
 import { ARTICLE_QUERY_REPOSITORY, ArticleQueryRepository } from '../../domain/repository/article.query.repository';
+import { ArticleDetailModel } from '../../domain/article-detail.model';
 
 @Injectable()
 export class GetArticleDetailUseCase {
@@ -10,7 +10,7 @@ export class GetArticleDetailUseCase {
     private readonly articleQueryRepository: ArticleQueryRepository,
   ) {}
 
-  async execute(reqDto: GetArticleDetailRequestDto): Promise<GetArticleDetailProjection> {
+  async execute(reqDto: GetArticleDetailRequestDto): Promise<ArticleDetailModel> {
     const { articleId } = reqDto;
     const result = await this.articleQueryRepository.findById(articleId);
     if (!result) throw new NotFoundException('해당 게시글이 존재하지 않습니다.');

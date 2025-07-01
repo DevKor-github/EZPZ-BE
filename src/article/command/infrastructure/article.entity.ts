@@ -1,4 +1,4 @@
-import { Cascade, Collection, Entity, ManyToMany, OneToMany, OneToOne, Property } from '@mikro-orm/core';
+import { Cascade, Collection, Entity, ManyToMany, OneToMany, Property } from '@mikro-orm/core';
 import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
 import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
@@ -31,9 +31,6 @@ export class ArticleEntity extends BaseEntity {
 
   @Property({ type: 'int' })
   viewCount: number;
-
-  @OneToOne(() => MediaEntity, { nullable: true })
-  thumbnail: MediaEntity;
 
   @OneToMany(() => MediaEntity, (media) => media.article, { nullable: true, cascade: [Cascade.ALL] })
   media = new Collection<MediaEntity>(this);
