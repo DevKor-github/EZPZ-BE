@@ -7,6 +7,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { ArticleDetailModel } from '../domain/article-detail.model';
 
 export type ArticleQueryEndpoint = 'list' | 'detail';
 
@@ -19,6 +20,7 @@ export const ArticleQueryDocs = createDocs<ArticleQueryEndpoint>({
       }),
       ApiOkResponse({
         description: '게시글 목록 조회 성공',
+        type: [ArticleDetailModel],
       }),
       ApiBadRequestResponse({
         description: '잘못된 요청',
@@ -36,6 +38,7 @@ export const ArticleQueryDocs = createDocs<ArticleQueryEndpoint>({
       }),
       ApiOkResponse({
         description: '게시글 상세 조회 성공',
+        type: ArticleDetailModel,
       }),
       ApiNotFoundResponse({
         description: '게시글을 찾을 수 없음',
