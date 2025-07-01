@@ -6,10 +6,10 @@ import { ArticleEntity } from './infrastructure/orm-entity/article.entity';
 import { MediaEntity } from 'src/media/infrastructure/orm-entity/media.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 import { ArticleController } from './presentation/article.controller';
-import { ArticleList } from './application/get/article.list';
-import { ArticleDetail } from './application/get/article.detail';
-import { ArticleCreate } from './application/post/article.create';
-import { DeleteArticle } from './application/delete/delete.article';
+import { CreateArticleUseCase } from './application/create-article/create-article.use-case';
+import { DeleteArticleUseCase } from './application/delete-article/delete-article.use-case';
+import { GetArticleDetailUseCase } from './application/get-article-detail/get-article-detail.use-case';
+import { GetArticleListUseCase } from './application/get-article-list/get-article-list.use-case';
 import { MediaModule } from 'src/media/media.module';
 import { TagModule } from 'src/tag/tag.module';
 
@@ -21,10 +21,10 @@ import { TagModule } from 'src/tag/tag.module';
       provide: ARTICLE_REPOSITORY,
       useClass: ArticleRepositoryImpl,
     },
-    ArticleList,
-    ArticleDetail,
-    ArticleCreate,
-    DeleteArticle,
+    CreateArticleUseCase,
+    DeleteArticleUseCase,
+    GetArticleDetailUseCase,
+    GetArticleListUseCase,
   ],
   exports: [ARTICLE_REPOSITORY],
 })

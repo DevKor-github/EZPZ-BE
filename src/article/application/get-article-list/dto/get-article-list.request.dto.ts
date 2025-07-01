@@ -2,7 +2,7 @@ import { IsOptional, IsArray, IsBoolean, IsIn } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ArticleFilterDto {
+export class GetArticleListRequestDto {
   @ApiProperty({
     description: '태그 필터 (콤마로 구분된 문자열)',
     example: 'festival,expo',

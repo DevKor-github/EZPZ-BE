@@ -1,16 +1,18 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
-import { ArticleDetailDto } from '../dto/article.detail.dto';
+import { GetArticleDetailRequestDto } from 'src/article/application/get-article-detail/dto/get-article-detail.request.dto';
+import { GetArticleDetailResponseDto } from 'src/article/application/get-article-detail/dto/get-article-detail.response.dto';
 import { MEDIA_REPOSITORY, MediaRepository } from 'src/media/domain/repository/media.repository';
 
 @Injectable()
-export class ArticleDetail {
+export class GetArticleDetailUseCase {
   constructor(
     @Inject(ARTICLE_REPOSITORY) private readonly articleRepo: ArticleRepository,
     @Inject(MEDIA_REPOSITORY) private readonly mediaRepo: MediaRepository,
   ) {}
 
-  async getDetail(id: string): Promise<ArticleDetailDto> {
+  async execute(requestDto: GetArticleDetailRequestDto): Promise<GetArticleDetailResponseDto> {
+    const { id } = requestDto;
     const article = await this.articleRepo.findById(id);
 
     if (!article) {
@@ -19,7 +21,7 @@ export class ArticleDetail {
 
     const mediaEntities = await Promise.all(article.mediaIds.map(async (m) => this.mediaRepo.findById(m.value)));
 
-    const result = {
+    return {
       id: article.id.value,
       title: article.title,
       organization: article.organization,
@@ -34,7 +36,5 @@ export class ArticleDetail {
       registrationUrl: article.registrationUrl,
       tags: article.tags.map((t) => t.name),
     };
-
-    return result;
   }
 }

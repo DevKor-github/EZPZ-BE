@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
-import { ArticleFilterDto } from 'src/article/application/dto/article.filter.dto';
-import { ArticleListItem } from 'src/article/application/dto/article.list.dto';
+import { GetArticleListRequestDto } from 'src/article/application/get-article-list/dto/get-article-list.request.dto';
+import { GetArticleListResponseDto } from 'src/article/application/get-article-list/dto/get-article-list.response.dto';
 import { Article } from 'src/article/domain/entity/article';
 
 @Injectable()
-export class ArticleList {
+export class GetArticleListUseCase {
   constructor(@Inject(ARTICLE_REPOSITORY) private readonly repo: ArticleRepository) {}
 
-  async getList(filter: ArticleFilterDto): Promise<ArticleListItem[]> {
-    const articles = await this.repo.findList(filter);
+  async execute(requestDto: GetArticleListRequestDto): Promise<GetArticleListResponseDto> {
+    const articles = await this.repo.findList(requestDto);
 
     return articles.map((article: Article) => ({
       id: article.id.value,

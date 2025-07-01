@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ARTICLE_REPOSITORY, ArticleRepository } from 'src/article/domain/repository/article.repository';
-import { ArticleCreateRequestDto, ArticleCreateResponseDto } from 'src/article/application/dto/article.create.dto';
+import { CreateArticleRequestDto } from 'src/article/application/create-article/dto/create-article.request.dto';
+import { CreateArticleResponseDto } from 'src/article/application/create-article/dto/create-article.response.dto';
 import { Article } from 'src/article/domain/entity/article';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { TAG_REPOSITORY, TagRepository } from 'src/tag/domain/repository/tag.repository';
@@ -8,18 +9,18 @@ import { Tag } from 'src/tag/domain/entity/tag';
 // import { GeneratePresignedUrlUseCase } from 'src/media/application/generate-presigned-url/generate-presigned-url.use-case';
 
 @Injectable()
-export class ArticleCreate {
+export class CreateArticleUseCase {
   constructor(
     @Inject(ARTICLE_REPOSITORY) private readonly articleRepo: ArticleRepository,
     @Inject(TAG_REPOSITORY) private readonly tagRepo: TagRepository,
     // private readonly generatePresignedUrlUseCase: GeneratePresignedUrlUseCase,
   ) {}
 
-  async create(createDto: ArticleCreateRequestDto): Promise<ArticleCreateResponseDto> {
+  async execute(requestDto: CreateArticleRequestDto): Promise<CreateArticleResponseDto> {
     const tags: Tag[] = [];
     const articleId = Identifier.create();
 
-    for (const tag of createDto.tags) {
+    for (const tag of requestDto.tags) {
       const existingTag = await this.tagRepo.findByName(tag);
 
       if (!existingTag) {
@@ -40,13 +41,13 @@ export class ArticleCreate {
     // Article 도메인 엔티티 생성
     const article = Article.create({
       id: articleId,
-      title: createDto.title,
-      organization: createDto.organization,
-      description: createDto.description,
-      location: createDto.location,
-      startAt: new Date(createDto.startAt),
-      endAt: new Date(createDto.endAt),
-      registrationUrl: createDto.registrationUrl,
+      title: requestDto.title,
+      organization: requestDto.organization,
+      description: requestDto.description,
+      location: requestDto.location,
+      startAt: new Date(requestDto.startAt),
+      endAt: new Date(requestDto.endAt),
+      registrationUrl: requestDto.registrationUrl,
       scrapCount: 0,
       viewCount: 0,
       mediaIds: [],
