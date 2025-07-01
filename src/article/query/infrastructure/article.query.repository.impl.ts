@@ -1,7 +1,7 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { ArticleQueryRepository } from '../domain/repository/article.query.repository';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
-import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
+import { EntityManager, EntityRepository, sql } from '@mikro-orm/mysql';
 import { ArticleDetailModel } from '../domain/article-detail.model';
 import { ArticleModel } from '../domain/article.model';
 
@@ -27,10 +27,15 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
           'a.scrapCount',
           'a.viewCount',
           'a.registrationUrl',
-          't.media_path as thumbnailPath',
+          sql`(
+            SELECT m.media_path
+            FROM media m
+            WHERE m.article_id = a.id AND m.order = 0
+            LIMIT 1
+          ) AS thumbnailPath`,
+          sql`group_concat(distinct tag.name) as tags`,
         ])
-        .leftJoin('a.media', 't')
-        .andWhere('t.order = 0')
+        .leftJoin('a.tags', 'tag')
         .where({ id: id })
         .execute<ArticleDetailModel[]>()
     )[0];
@@ -59,15 +64,29 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       registrationUrl: articleEntity.registrationUrl,
       thumbnailPath: articleEntity.thumbnailPath,
       imagePaths: imagePaths,
+      tags: articleEntity.tags,
     };
   }
 
   async findAllByCriteria(): Promise<ArticleModel[]> {
     const articleEntities = await this.ormRepository
       .createQueryBuilder('a')
-      .select(['a.id', 'a.title', 'a.organization', 'a.scrapCount', 'a.viewCount', 't.media_path as thumbnailPath'])
-      .leftJoin('a.media', 't')
-      .andWhere('t.order = 0')
+      .select([
+        'a.id',
+        'a.title',
+        'a.organization',
+        'a.scrapCount',
+        'a.viewCount',
+        sql`(
+            SELECT m.media_path
+            FROM media m
+            WHERE m.article_id = a.id AND m.order = 0
+            LIMIT 1
+          ) AS thumbnailPath`,
+        sql`group_concat(distinct tag.name) as tags`,
+      ])
+      .leftJoin('a.tags', 'tag')
+      .groupBy('a.id')
       .execute<ArticleModel[]>();
 
     const result = articleEntities.map((articleEntity) => ({
@@ -77,6 +96,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       scrapCount: articleEntity.scrapCount,
       viewCount: articleEntity.viewCount,
       thumbnailPath: articleEntity.thumbnailPath,
+      tags: articleEntity.tags,
     }));
 
     return result;
