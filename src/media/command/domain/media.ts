@@ -13,7 +13,34 @@ export class Media extends BaseDomainEntity<MediaProps> {
   }
 
   public static create(props: MediaProps): Media {
-    return new Media(props);
+    const media = new Media(props);
+    media.validate();
+
+    return media;
+  }
+
+  public validate(): void {
+    if (!this.props.mediaPath) {
+      throw new Error('미디어 경로는 필수입니다.');
+    }
+    if (!this.validateMediaPath()) {
+      throw new Error('유효하지 않은 미디어 경로입니다.');
+    }
+
+    if (this.props.order === undefined) {
+      throw new Error('이미지 순서는 필수입니다.');
+    }
+
+    if (!this.props.articleId) {
+      throw new Error('articleId는 필수입니다.');
+    }
+  }
+
+  private validateMediaPath(): boolean {
+    const allowedExtensions = ['png', 'jpg', 'jpeg', 'img'].join('|');
+    const pattern = new RegExp(`^https://[^/]+/images/[^/]+/[^/]+\\.(${allowedExtensions})$`);
+
+    return pattern.test(this.props.mediaPath);
   }
 
   get mediaPath(): string {

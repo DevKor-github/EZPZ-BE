@@ -1,15 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class GeneratePresignedUrlResponseDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Media ID',
-    example: '1231312124',
-  })
-  mediaId: string;
-
+export class PresignedUrlInfo {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -17,4 +9,26 @@ export class GeneratePresignedUrlResponseDto {
     example: 'https://example-bucket.s3.amazonaws.com/path/to/file?AWSAccessKeyId=...&Signature=...',
   })
   presignedUrl: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Image URL',
+    example: '/path/to/file.jpg',
+  })
+  objectKey: string;
+}
+
+export class GeneratePresignedUrlResponseDto {
+  @ApiProperty({
+    description: 'Article ID',
+    example: '1231312124',
+  })
+  thumbnailPresignedUrl: PresignedUrlInfo;
+
+  @ApiProperty({
+    description: 'List of presigned URLs',
+    type: [PresignedUrlInfo],
+  })
+  presignedUrls: PresignedUrlInfo[];
 }

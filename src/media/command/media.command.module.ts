@@ -6,8 +6,9 @@ import { GeneratePresignedUrlUseCase } from './application/generate-presigned-ur
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MediaEntity } from './infrastructure/media.entity';
 import { S3Adapter } from './infrastructure/util/s3.adpater';
+import { CreateMediaUseCase } from './application/create/create.use-case';
 
-const usecases = [GeneratePresignedUrlUseCase];
+const usecases = [GeneratePresignedUrlUseCase, CreateMediaUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([MediaEntity])],

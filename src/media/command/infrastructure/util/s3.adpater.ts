@@ -23,11 +23,10 @@ export class S3Adapter {
   }
 
   async upload(articleId: string, fileName: string, mimeType: string) {
-    const key = this.generateKey(fileName, articleId);
-    const imageUrl = this.generateImageUrl(key);
-    const presignedUrl = await this.generatePresignedUrl(mimeType, key);
+    const objectKey = this.generateKey(fileName, articleId);
+    const presignedUrl = await this.generatePresignedUrl(mimeType, objectKey);
 
-    return { presignedUrl, imageUrl };
+    return { presignedUrl, objectKey };
   }
 
   async delete() {}
@@ -39,14 +38,14 @@ export class S3Adapter {
     return `images/${articleId}/${uuid}.${extension}`;
   }
 
-  private generateImageUrl(key: string): string {
+  generateImageUrl(key: string): string {
     return `${this.cloudFrontDomain}/${key}`;
   }
 
-  private async generatePresignedUrl(mimeType: string, key: string): Promise<string> {
+  private async generatePresignedUrl(mimeType: string, objectKey: string): Promise<string> {
     const params = {
       Bucket: this.bucketName,
-      Key: key,
+      Key: objectKey,
       ContentType: mimeType,
     };
 
