@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { Article } from '../../domain/article';
-import { CreateArticleRequestDto } from './dto/create.request.dto';
+import { CreateArticleRequestDto } from './dto/create-article.request.dto';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
-import { CreateArticleResponseDto } from './dto/create.response.dto';
+import { CreateArticleResponseDto } from './dto/create-article.response.dto';
 import { Tag } from 'src/tag/domain/entity/tag';
 import { TAG_REPOSITORY, TagRepository } from 'src/tag/domain/repository/tag.repository';
 

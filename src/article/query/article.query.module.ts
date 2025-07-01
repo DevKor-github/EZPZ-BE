@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { GetArticleDetailUseCase } from './application/detail/get-article-detail.use-case';
-import { GetArticleListUseCase } from './application/list/get-article-list.use-case';
+import { GetArticleDetailUseCase } from './application/article-detail/get-article-detail.use-case';
+import { GetArticleListUseCase } from './application/article-list/get-article-list.use-case';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ArticleEntity } from '../command/infrastructure/article.entity';
 import { ArticleQueryController } from './presentation/article.query.controller';

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateArticleUseCase } from '../application/create/create.use-case';
-import { CreateArticleRequestDto } from '../application/create/dto/create.request.dto';
-import { CreateArticleResponseDto } from '../application/create/dto/create.response.dto';
-import { DeleteArticleUseCase } from '../application/delete/delete.use-case';
+import { CreateArticleUseCase } from '../application/create-article/create-article.use-case';
+import { CreateArticleRequestDto } from '../application/create-article/dto/create-article.request.dto';
+import { CreateArticleResponseDto } from '../application/create-article/dto/create-article.response.dto';
+import { DeleteArticleUseCase } from '../application/delete-article/delete-article.use-case';
 import { ArticleCommandDocs } from './article.command.docs';
 
 @ApiTags('article')
