@@ -1,5 +1,12 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiInternalServerErrorResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiFoundResponse,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
 
 export type AuthEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout';
@@ -11,7 +18,7 @@ export const AuthDocs = createDocs<AuthEndpoint>({
         summary: 'OAuth 로그인 요청',
         description: 'OAuth 로그인 요청 처리. OAuth Provider로부터 인증 URL을 받아 리다이렉트',
       }),
-      ApiOkResponse({
+      ApiFoundResponse({
         description: 'OAuth 로그인 창으로 리다이렉트',
       }),
     ),
@@ -25,7 +32,7 @@ export const AuthDocs = createDocs<AuthEndpoint>({
         accessToken과 refreshToken 발급
         `,
       }),
-      ApiOkResponse({
+      ApiFoundResponse({
         description: 'Access Token과 Refresh Token이 발급됨',
       }),
       ApiUnauthorizedResponse({
@@ -53,7 +60,7 @@ export const AuthDocs = createDocs<AuthEndpoint>({
         summary: '로그아웃',
         description: '사용자의 Access Token과 Refresh Token을 무효화하여 로그아웃 처리',
       }),
-      ApiOkResponse({
+      ApiCreatedResponse({
         description: '로그아웃 성공',
       }),
       ApiUnauthorizedResponse({
