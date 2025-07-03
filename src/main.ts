@@ -11,7 +11,14 @@ async function bootstrap() {
 
   // CORS 설정
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://localhost:5173', 'http://localhost:5173', 'https://goyangeyaong.shop'],
+    origin: [
+      'http://localhost:3000',
+      'https://localhost:5173',
+      'http://localhost:5173',
+      'https://goyangeyaong.shop',
+      'https://www.goyangeyaong.shop',
+      'https://web.goyangeyaong.shop:5173',
+    ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
