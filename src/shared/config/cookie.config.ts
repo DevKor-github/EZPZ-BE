@@ -1,4 +1,5 @@
 import { CookieOptions } from 'express';
+import 'dotenv/config';
 
 export const accessTokenCookieOptions: CookieOptions = {
   httpOnly: true,

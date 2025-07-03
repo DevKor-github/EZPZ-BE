@@ -42,6 +42,8 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
+    console.log(accessTokenCookieOptions.domain);
+
     res.send();
   }
 
