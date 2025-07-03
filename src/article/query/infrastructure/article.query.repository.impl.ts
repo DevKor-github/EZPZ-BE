@@ -109,7 +109,11 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     }
 
     // 정렬
-    query.orderBy({ [`a.${sortBy}`]: 'DESC' }); // 페이징
+    if (sortBy) {
+      query.orderBy({ [`a.${sortBy}`]: 'DESC' });
+    } else {
+      query.orderBy({ 'a.createdAt': 'DESC' }); // 기본 정렬은 생성일 기준
+    }
 
     // query.limit(limit).offset((page - 1) * limit);
 
