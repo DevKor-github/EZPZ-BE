@@ -44,7 +44,9 @@ export class AuthController {
 
     console.log(accessTokenCookieOptions.domain);
 
-    res.send();
+    res.redirect(
+      `${this.configService.getOrThrow('frontend.url')}/${this.configService.getOrThrow('frontend.loginRedirectPath')}`,
+    );
   }
 
   @Get('refresh')
