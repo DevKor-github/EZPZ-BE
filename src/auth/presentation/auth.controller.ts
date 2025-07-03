@@ -42,8 +42,6 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    console.log(accessTokenCookieOptions.domain);
-
     res.redirect(
       `${this.configService.getOrThrow('frontend.url')}/${this.configService.getOrThrow('frontend.loginRedirectPath')}`,
     );
