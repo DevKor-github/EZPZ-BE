@@ -95,21 +95,32 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       .groupBy('a.id');
 
     if (tags && tags.length > 0) {
-      query.andWhere({ tags: { name: { $in: tags } } });
+      const placeholders = tags.map(() => '?').join(',');
+      query.andWhere(
+        `a.id IN (
+          SELECT DISTINCT a2.id 
+          FROM article a2 
+          INNER JOIN article_tags at2 ON a2.id = at2.article_entity_id 
+          INNER JOIN tag t2 ON at2.tag_entity_id = t2.id 
+          WHERE t2.name IN (${placeholders})
+        )`,
+        tags,
+      );
     }
 
-    // 조건: isFinished → endAt < now
-    if (typeof isFinished === 'boolean') {
+    // 조건: isFinished가 false일 때만 진행 중인 것들만 필터링
+    if (isFinished === false) {
       const now = new Date();
-      if (isFinished) {
-        query.andWhere({ endAt: { $lt: now } });
-      } else {
-        query.andWhere({ endAt: { $gte: now } });
-      }
+      query.andWhere({ endAt: { $gte: now } }); // 종료되지 않은 것만
     }
+    // isFinished가 true이거나 undefined면 모든 것을 조회 (필터링 없음)
 
     // 정렬
-    query.orderBy({ [`a.${sortBy}`]: 'DESC' }); // 페이징
+    if (sortBy) {
+      query.orderBy({ [`a.${sortBy}`]: 'DESC' });
+    } else {
+      query.orderBy({ 'a.createdAt': 'DESC' }); // 기본 정렬은 생성일 기준
+    }
 
     // query.limit(limit).offset((page - 1) * limit);
 
