@@ -42,9 +42,7 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.redirect(
-      `${this.configService.getOrThrow('frontend.url')}/${this.configService.getOrThrow('frontend.loginRedirectPath')}`,
-    );
+    res.send();
   }
 
   @Get('refresh')
