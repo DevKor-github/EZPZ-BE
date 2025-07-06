@@ -4,11 +4,12 @@ import {
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
 
-export type ArticleCommandEndpoint = 'create' | 'delete';
+export type ArticleCommandEndpoint = 'create' | 'update' | 'delete';
 
 export const ArticleCommandDocs = createDocs<ArticleCommandEndpoint>({
   create: () =>
@@ -22,6 +23,23 @@ export const ArticleCommandDocs = createDocs<ArticleCommandEndpoint>({
       }),
       ApiInternalServerErrorResponse({
         description: '게시글 생성 실패',
+      }),
+    ),
+
+  update: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '게시글 수정',
+        description: '기존 게시글을 수정합니다. 미디어는 기존 목록과 비교하여 삭제된 것은 제거됩니다.',
+      }),
+      ApiOkResponse({
+        description: '게시글 수정 성공',
+      }),
+      ApiNotFoundResponse({
+        description: '게시글을 찾을 수 없음',
+      }),
+      ApiInternalServerErrorResponse({
+        description: '게시글 수정 실패',
       }),
     ),
 
