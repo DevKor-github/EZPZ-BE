@@ -46,8 +46,8 @@ export class UpdateArticleUseCase {
         }
       }
 
-      // Article의 tags를 직접 교체 (기존 관계 삭제 후 새 관계 설정)
-      article.replaceTags(tags);
+      // Article에 태그 설정
+      article.setTags(tags);
     }
 
     // 미디어 처리
