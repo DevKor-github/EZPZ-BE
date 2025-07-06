@@ -18,6 +18,7 @@ async function bootstrap() {
       'https://goyangeyaong.shop',
       'https://www.goyangeyaong.shop',
       'https://web.goyangeyaong.shop:5173',
+      'https://univent-fe.netlify.app',
     ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
