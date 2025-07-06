@@ -54,6 +54,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       .select(['m.media_path as mediaPath'])
       .leftJoin('a.media', 'm')
       .where({ id: id })
+      .orderBy({ 'm.order': 'ASC' })
       .execute<{ mediaPath: string }[]>();
 
     const imagePaths = mediaEntities.map((m) => m.mediaPath);
