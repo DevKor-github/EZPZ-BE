@@ -13,6 +13,15 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
   ) {}
 
   async findById(id: string): Promise<ArticleDetailModel | null> {
+    // 먼저 게시물 존재 여부 확인
+    const existsCheck = await this.ormRepository.createQueryBuilder('a').select(['a.id']).where({ id: id }).execute();
+
+    if (!existsCheck.length) return null;
+
+    // 조회수 증가
+    await this.em.execute('UPDATE article SET view_count = view_count + 1 WHERE id = ?', [id]);
+
+    // 증가된 조회수가 반영된 게시물 정보 조회
     const articleEntity = (
       await this.ormRepository
         .createQueryBuilder('a')
@@ -49,8 +58,6 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
 
     const imagePaths = mediaEntities.map((m) => m.mediaPath);
 
-    if (!articleEntity) return null;
-
     return {
       id: articleEntity.id,
       title: articleEntity.title,
@@ -64,7 +71,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       registrationUrl: articleEntity.registrationUrl,
       thumbnailPath: articleEntity.thumbnailPath,
       imagePaths: imagePaths,
-      tags: articleEntity.tags,
+      tags: articleEntity.tags ? (articleEntity.tags as unknown as string).split(',') : [],
     };
   }
 
@@ -133,7 +140,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       scrapCount: articleEntity.scrapCount,
       viewCount: articleEntity.viewCount,
       thumbnailPath: articleEntity.thumbnailPath,
-      tags: articleEntity.tags,
+      tags: articleEntity.tags ? (articleEntity.tags as unknown as string).split(',') : [],
     }));
 
     return result;
