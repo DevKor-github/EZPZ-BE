@@ -15,6 +15,9 @@ export class AuthEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true, nullable: true })
   refreshToken: string | null;
 
+  @Property({ type: 'varchar', unique: true, nullable: true })
+  oauthAccessToken: string | null;
+
   @OneToOne(() => UserEntity, (user) => user.auth, {
     owner: true,
     cascade: [Cascade.PERSIST, Cascade.REMOVE],
