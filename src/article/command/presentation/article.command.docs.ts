@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import {
+  ApiBody,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
@@ -8,6 +9,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { UpdateArticleRequestDto } from '../application/update-article/dto/update-article.request.dto';
 
 export type ArticleCommandEndpoint = 'create' | 'update' | 'delete';
 
@@ -31,6 +33,10 @@ export const ArticleCommandDocs = createDocs<ArticleCommandEndpoint>({
       ApiOperation({
         summary: '게시글 수정',
         description: '기존 게시글을 수정합니다. 미디어는 기존 목록과 비교하여 삭제된 것은 제거됩니다.',
+      }),
+      ApiBody({
+        type: UpdateArticleRequestDto,
+        description: '게시글 수정 요청 데이터',
       }),
       ApiOkResponse({
         description: '게시글 수정 성공',
