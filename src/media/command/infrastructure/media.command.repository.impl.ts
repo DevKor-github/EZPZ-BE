@@ -21,4 +21,10 @@ export class MediaCommandRepositoryImpl implements MediaCommandRepository {
     const mediaEntites = meidaList.map((media) => MediaMapper.toEntity(media, this.em));
     await this.em.persistAndFlush(mediaEntites);
   }
+
+  async deleteByIds(mediaIds: string[]): Promise<void> {
+    if (mediaIds.length === 0) return;
+
+    await this.ormRepository.nativeDelete({ id: { $in: mediaIds } });
+  }
 }

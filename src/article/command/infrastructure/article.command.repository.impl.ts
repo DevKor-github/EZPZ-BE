@@ -28,6 +28,7 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
   }
 
   async update(article: Article): Promise<void> {
+    // 기본 필드 업데이트
     await this.em.nativeUpdate(
       ArticleEntity,
       { id: article.id.value },
@@ -43,6 +44,23 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
         viewCount: article.viewCount,
       },
     );
+
+    // 태그 관계 업데이트 (Article의 tags 사용)
+    const articleEntity = await this.ormRepository.findOne({ id: article.id.value }, { populate: ['tags'] });
+    if (articleEntity) {
+      // 기존 태그 관계 제거
+      articleEntity.tags.removeAll();
+
+      // 새로운 태그 관계 설정
+      const tagRefs = await Promise.all(
+        article.tags.map((tag) => {
+          return this.em.getReference(TagEntity, tag.id.value);
+        }),
+      );
+      articleEntity.tags.set(tagRefs);
+
+      await this.em.flush();
+    }
   }
 
   async deleteById(id: string): Promise<void> {

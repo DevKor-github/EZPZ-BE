@@ -3,17 +3,21 @@ import { Module } from '@nestjs/common';
 import { ArticleEntity } from './infrastructure/article.entity';
 import { ArticleCommandController } from './presentation/article.command.controller';
 import { CreateArticleUseCase } from './application/create-article/create-article.use-case';
+import { UpdateArticleUseCase } from './application/update-article/update-article.use-case';
 import { DeleteArticleUseCase } from './application/delete-article/delete-article.use-case';
 import { ARTICLE_COMMAND_REPOSITORY } from './domain/article.command.repository';
 import { ArticleCommandRepositoryImpl } from './infrastructure/article.command.repository.impl';
 import { TAG_REPOSITORY } from 'src/tag/domain/repository/tag.repository';
 import { TagRepositoryImpl } from 'src/tag/infrastructure/repository/tag.repository.impl';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
+import { MEDIA_COMMAND_REPOSITORY } from 'src/media/command/domain/media.command.repository';
+import { MediaCommandRepositoryImpl } from 'src/media/command/infrastructure/media.command.repository.impl';
+import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
 
-const usecases = [CreateArticleUseCase, DeleteArticleUseCase];
+const usecases = [CreateArticleUseCase, UpdateArticleUseCase, DeleteArticleUseCase];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ArticleEntity, TagEntity])],
+  imports: [MikroOrmModule.forFeature([ArticleEntity, TagEntity, MediaEntity])],
   providers: [
     ...usecases,
     {
@@ -23,6 +27,10 @@ const usecases = [CreateArticleUseCase, DeleteArticleUseCase];
     {
       provide: TAG_REPOSITORY,
       useClass: TagRepositoryImpl,
+    },
+    {
+      provide: MEDIA_COMMAND_REPOSITORY,
+      useClass: MediaCommandRepositoryImpl,
     },
   ],
   controllers: [ArticleCommandController],

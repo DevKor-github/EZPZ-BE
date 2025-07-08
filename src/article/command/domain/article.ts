@@ -84,6 +84,11 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     }
   }
 
+  setTags(tags: Tag[]): void {
+    this.props.tags = tags;
+    this.props.updatedAt = new Date();
+  }
+
   get title(): string {
     return this.props.title;
   }
@@ -126,5 +131,40 @@ export class Article extends BaseDomainEntity<ArticleProps> {
 
   get tags(): Tag[] {
     return this.props.tags;
+  }
+
+  public update(props: {
+    title?: string;
+    organization?: string;
+    location?: string;
+    description?: string;
+    registrationUrl?: string;
+    startAt?: Date;
+    endAt?: Date;
+  }): void {
+    if (props.title !== undefined && props.title !== this.props.title) {
+      this.props.title = props.title;
+    }
+    if (props.organization !== undefined && props.organization !== this.props.organization) {
+      this.props.organization = props.organization;
+    }
+    if (props.location !== undefined && props.location !== this.props.location) {
+      this.props.location = props.location;
+    }
+    if (props.description !== undefined && props.description !== this.props.description) {
+      this.props.description = props.description;
+    }
+    if (props.registrationUrl !== undefined && props.registrationUrl !== this.props.registrationUrl) {
+      this.props.registrationUrl = props.registrationUrl;
+    }
+    if (props.startAt !== undefined && props.startAt !== this.props.startAt) {
+      this.props.startAt = props.startAt;
+    }
+    if (props.endAt !== undefined && props.endAt !== this.props.endAt) {
+      this.props.endAt = props.endAt;
+    }
+
+    this.props.updatedAt = new Date();
+    this.validate();
   }
 }
