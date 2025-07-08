@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Auth } from 'src/auth/domain/entity/auth';
 import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
-import { TokenType } from 'src/auth/infrastructure/factory/jwt.factory';
+import { TokenType } from 'src/auth/infrastructure/jwt/jwt.factory';
 import { OAuthProviderFactory } from 'src/shared/infrastructure/oauth/oauth-provider.factory';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
-import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
+import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { Identifier } from 'src/shared/domain/value-object/identifier';
 import { CreateUserUseCase } from 'src/user/application/create-user/create-user.use-case';
 import { Role } from 'src/user/domain/value-object/role.enum';

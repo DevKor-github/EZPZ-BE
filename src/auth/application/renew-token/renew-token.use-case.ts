@@ -1,7 +1,7 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
-import { TokenType } from 'src/auth/infrastructure/factory/jwt.factory';
-import { JwtProvider } from 'src/auth/infrastructure/provider/jwt.provider';
+import { TokenType } from 'src/auth/infrastructure/jwt/jwt.factory';
+import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { RenewTokenRequestDto } from './dto/renew-token.request.dto';
 import { RenewTokenResponseDto } from './dto/renew-token.response.dto';
 
