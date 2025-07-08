@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { BaseOAuthProvider, OAuthUser } from './base-oauth.provider';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 
 interface KakaoTokenResponse {
   access_token: string;
@@ -25,7 +26,11 @@ interface KakaoUserResponse {
 
 @Injectable()
 export class KakaoOAuthProvider implements BaseOAuthProvider {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject(AUTH_REPOSITORY)
+    private readonly authRepository: AuthRepository,
+  ) {}
 
   async getUserInfo(token: string): Promise<OAuthUser> {
     const res = await axios.get<KakaoUserResponse>('https://kapi.kakao.com/v2/user/me', {
@@ -81,5 +86,27 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
     params.append('redirect_uri', redirectUri);
 
     return `${authorizeUrl}?${params.toString()}`;
+  }
+
+  async unlinkAccount(userId: string): Promise<void> {
+    const auth = await this.authRepository.findByUserId(userId);
+    if (!auth) throw new NotFoundException('해당 유저의 인증 정보가 존재하지 않습니다.');
+
+    const oauthId = auth.oauthId;
+    const adminKey = this.configService.getOrThrow<string>('kakao.adminKey');
+
+    const unlinkUrl = 'https://kapi.kakao.com/v1/user/unlink';
+    const headers = {
+      Authorization: `KakaoAK ${adminKey}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const data = `target_id_type=user_id&target_id=${oauthId}`;
+
+    try {
+      return await axios.post(unlinkUrl, data, { headers });
+    } catch (e: unknown) {
+      console.log(e);
+      throw new Error(`카카오 계정 연동 해제 실패`);
+    }
   }
 }
