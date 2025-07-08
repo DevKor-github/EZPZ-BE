@@ -13,9 +13,11 @@ export class AuthMapper {
       oauthId: entity.oauthId,
       provider: entity.provider,
       refreshToken: entity.refreshToken,
+      oauthAccessToken: entity.oauthAccessToken,
       userId: Identifier.from(entity.user.id),
     });
   }
+
   static toEntity(domain: Auth, em: EntityManager): AuthEntity {
     const entity = new AuthEntity();
     entity.id = domain.id.value;
@@ -24,6 +26,7 @@ export class AuthMapper {
     entity.oauthId = domain.oauthId;
     entity.provider = domain.provider;
     entity.refreshToken = domain.refreshToken;
+    entity.oauthAccessToken = domain.oauthAccessToken;
     entity.user = em.getReference(UserEntity, domain.userId.value);
 
     return entity;

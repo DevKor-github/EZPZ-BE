@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { JwtTokenOptions, TokenType } from '../factory/jwt.factory';
+import { JwtTokenOptions, TokenType } from './jwt.factory';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidV4 } from 'uuid';
 

@@ -8,11 +8,12 @@ import { UserController } from './presentation/user.controller';
 import { GetMyInfoUseCase } from './application/get-my-info/get-my-info.use-case';
 import { DeleteMyInfoUseCase } from './application/delete-my-info/delete-my-info.use-case';
 import { ScrapEntity } from 'src/scrap/command/infrastructure/scrap.entity';
+import { SharedModule } from 'src/shared/shared.module';
 
 const useCases = [CreateUserUseCase, GetMyInfoUseCase, DeleteMyInfoUseCase];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([UserEntity, ScrapEntity])],
+  imports: [MikroOrmModule.forFeature([UserEntity, ScrapEntity]), SharedModule],
   providers: [
     ...useCases,
     {

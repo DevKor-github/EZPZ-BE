@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { BaseOAuthProvider } from '../provider/base-oauth.provider';
-import { KakaoOAuthProvider } from '../provider/kakao.provider';
+import { BaseOAuthProvider } from './base-oauth.provider';
+import { KakaoOAuthProvider } from './kakao.provider';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
 @Injectable()

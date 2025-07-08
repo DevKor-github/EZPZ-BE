@@ -6,6 +6,7 @@ export interface AuthProps extends BaseEntityProps {
   oauthId: string;
   provider: OAuthProviderType;
   refreshToken: string | null;
+  oauthAccessToken: string | null;
   userId: Identifier;
 }
 
@@ -53,6 +54,10 @@ export class Auth extends BaseDomainEntity<AuthProps> {
 
   get refreshToken(): string | null {
     return this.props.refreshToken;
+  }
+
+  get oauthAccessToken(): string | null {
+    return this.props.oauthAccessToken;
   }
 
   get userId(): Identifier {
