@@ -39,7 +39,7 @@ export class ScrapModel {
 
   @ApiProperty({
     example: 'tag1,tag2',
-    description: '태그 목록. 배열이 아닌, 문자열 형태로, 쉼표(,)로 띄어쓰기 없이 구분 됨',
+    description: '태그 목록. 배열로 구현',
   })
-  tags: string | null;
+  tags: string[];
 }
