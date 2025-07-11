@@ -35,7 +35,7 @@ export class ScrapQueryRepositoryImpl implements ScrapQueryRepository {
       scrapCount: entity.scrapCount,
       viewCount: entity.viewCount,
       thumbnailPath: '',
-      tags: entity.tags,
+      tags: entity.tags ? (entity.tags as unknown as string).split(',') : [],
     }));
 
     return result;
