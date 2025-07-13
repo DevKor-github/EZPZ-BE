@@ -29,17 +29,15 @@ export class GeneratePresignedUrlRequestDto {
   })
   articleId: string;
 
-  @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => FileInfo)
   @ApiProperty({
     description: '썸네일 정보',
     type: FileInfo,
   })
-  thumbnailInfo: FileInfo;
+  thumbnailInfo?: FileInfo;
 
   @IsArray()
-  @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => FileInfo)
   @ApiProperty({

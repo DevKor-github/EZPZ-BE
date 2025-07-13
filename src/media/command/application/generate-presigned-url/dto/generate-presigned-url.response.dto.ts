@@ -24,7 +24,7 @@ export class GeneratePresignedUrlResponseDto {
     description: 'Article ID',
     type: PresignedUrlInfo,
   })
-  thumbnailPresignedUrl: PresignedUrlInfo;
+  thumbnailPresignedUrl?: PresignedUrlInfo;
 
   @ApiProperty({
     description: 'List of presigned URLs',

@@ -13,11 +13,10 @@ export class GeneratePresignedUrlUseCase {
     const { articleId, thumbnailInfo, fileInfoList } = generatePresignedUrlRequestDto;
     const presignedUrls: PresignedUrlInfo[] = [];
 
-    const thumbnailPresignedUrl = await this.s3Adapter.upload(
-      articleId,
-      thumbnailInfo.fileName,
-      thumbnailInfo.mimeType,
-    );
+    let thumbnailPresignedUrl: PresignedUrlInfo | undefined;
+
+    if (thumbnailInfo)
+      thumbnailPresignedUrl = await this.s3Adapter.upload(articleId, thumbnailInfo.fileName, thumbnailInfo.mimeType);
 
     for (let i = 0; i < fileInfoList.length; i++) {
       const fileInfo = fileInfoList[i];
