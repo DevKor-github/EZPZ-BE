@@ -50,12 +50,6 @@ export class UpdateArticleUseCase {
       article.setTags(tags);
     }
 
-    // 미디어 처리
-    if (reqDto.mediaIds !== undefined && reqDto.mediaIds.length > 0) {
-      // 삭제할 미디어 ID들을 직접 삭제
-      await this.mediaCommandRepo.deleteByIds(reqDto.mediaIds);
-    }
-
     // Article 업데이트
     article.update({
       title: reqDto.title,
