@@ -31,6 +31,7 @@ export class MediaCommandController {
   }
 
   @Patch()
+  @MediaCommandDocs('update')
   async updateMedia(@Body() reqDto: UpdateMediaRequestDto): Promise<void> {
     await this.updateMediaUseCase.execute(reqDto);
   }
