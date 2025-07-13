@@ -7,8 +7,9 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MediaEntity } from './infrastructure/media.entity';
 import { S3Adapter } from './infrastructure/util/s3.adpater';
 import { CreateMediaUseCase } from './application/create/create.use-case';
+import { UpdateMediaUseCase } from './application/update/update.use-case';
 
-const usecases = [GeneratePresignedUrlUseCase, CreateMediaUseCase];
+const usecases = [GeneratePresignedUrlUseCase, CreateMediaUseCase, UpdateMediaUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([MediaEntity])],
