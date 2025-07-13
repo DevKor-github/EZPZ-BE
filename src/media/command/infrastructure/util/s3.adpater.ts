@@ -25,8 +25,9 @@ export class S3Adapter {
   async upload(articleId: string, fileName: string, mimeType: string) {
     const objectKey = this.generateKey(fileName, articleId);
     const presignedUrl = await this.generatePresignedUrl(mimeType, objectKey);
+    const imageUrl = this.generateImageUrl(objectKey);
 
-    return { presignedUrl, objectKey };
+    return { presignedUrl, imageUrl };
   }
 
   async delete() {}

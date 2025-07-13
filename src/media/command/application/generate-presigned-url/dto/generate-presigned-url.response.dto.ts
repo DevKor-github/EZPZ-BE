@@ -14,9 +14,9 @@ export class PresignedUrlInfo {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Image URL',
-    example: '/path/to/file.jpg',
+    example: 'https://aaaaa.com/path/to/file.jpg',
   })
-  objectKey: string;
+  imageUrl: string;
 }
 
 export class GeneratePresignedUrlResponseDto {

@@ -5,7 +5,7 @@ import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 class FileInfo {
   @IsString()
   @IsNotEmpty()
-  objectKey: string;
+  imageUrl: string;
 }
 
 export class CreateMediaRequestDto {
@@ -28,7 +28,7 @@ export class CreateMediaRequestDto {
   @Type(() => FileInfo)
   @ApiProperty({
     description: '파일 정보 목록',
-    example: [{ fileName: 'adfaebarc.jpg', mimeType: 'image/jpeg', isThumbnail: true }],
+    example: [{ objectKey: '/images/1/afdadf' }],
   })
   fileInfoList: FileInfo[];
 }
