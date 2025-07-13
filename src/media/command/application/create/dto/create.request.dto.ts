@@ -2,9 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
-class FileInfo {
+class ImageUrlInfo {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({
+    description: '이미지 경로',
+    example: 'https://aaaaaaa.com/aaaa.png',
+  })
   imageUrl: string;
 }
 
@@ -19,16 +23,20 @@ export class CreateMediaRequestDto {
 
   @IsNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => FileInfo)
-  thumbnailInfo: FileInfo;
+  @Type(() => ImageUrlInfo)
+  @ApiProperty({
+    description: '썸네일 정보',
+    type: ImageUrlInfo,
+  })
+  thumbnailInfo: ImageUrlInfo;
 
   @IsArray()
   @IsNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => FileInfo)
+  @Type(() => ImageUrlInfo)
   @ApiProperty({
     description: '파일 정보 목록',
-    example: [{ objectKey: '/images/1/afdadf' }],
+    type: ImageUrlInfo,
   })
-  fileInfoList: FileInfo[];
+  fileInfoList: ImageUrlInfo[];
 }

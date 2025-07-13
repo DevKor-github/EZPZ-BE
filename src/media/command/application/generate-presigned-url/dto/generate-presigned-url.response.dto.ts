@@ -22,7 +22,7 @@ export class PresignedUrlInfo {
 export class GeneratePresignedUrlResponseDto {
   @ApiProperty({
     description: 'Article ID',
-    example: '1231312124',
+    type: PresignedUrlInfo,
   })
   thumbnailPresignedUrl: PresignedUrlInfo;
 

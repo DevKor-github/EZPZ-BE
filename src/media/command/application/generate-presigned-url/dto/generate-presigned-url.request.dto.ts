@@ -5,10 +5,18 @@ import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 class FileInfo {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({
+    description: '파일명',
+    example: 'aaaaaa.png',
+  })
   fileName: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({
+    description: 'mimetype',
+    example: 'image/jpg',
+  })
   mimeType: string;
 }
 
@@ -24,6 +32,10 @@ export class GeneratePresignedUrlRequestDto {
   @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => FileInfo)
+  @ApiProperty({
+    description: '썸네일 정보',
+    type: FileInfo,
+  })
   thumbnailInfo: FileInfo;
 
   @IsArray()
@@ -32,7 +44,7 @@ export class GeneratePresignedUrlRequestDto {
   @Type(() => FileInfo)
   @ApiProperty({
     description: '파일 정보 목록',
-    example: [{ fileName: 'adfaebarc.jpg', mimeType: 'image/jpeg', isThumbnail: true }],
+    type: [FileInfo],
   })
   fileInfoList: FileInfo[];
 }
