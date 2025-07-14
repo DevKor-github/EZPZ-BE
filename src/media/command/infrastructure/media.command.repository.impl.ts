@@ -17,14 +17,25 @@ export class MediaCommandRepositoryImpl implements MediaCommandRepository {
     await this.em.persistAndFlush(mediaEntity);
   }
 
-  async saveAll(meidaList: Media[]): Promise<void> {
-    const mediaEntites = meidaList.map((media) => MediaMapper.toEntity(media, this.em));
+  async saveAll(mediaList: Media[]): Promise<void> {
+    const mediaEntites = mediaList.map((media) => MediaMapper.toEntity(media, this.em));
     await this.em.persistAndFlush(mediaEntites);
   }
 
   async deleteByIds(mediaIds: string[]): Promise<void> {
     if (mediaIds.length === 0) return;
 
-    await this.ormRepository.nativeDelete({ id: { $in: mediaIds } });
+    await this.ormRepository.nativeDelete({ id: mediaIds });
+  }
+
+  async findByArticleId(articleId: string): Promise<Media[]> {
+    const mediaEntities = await this.ormRepository.find({ article: articleId }, { orderBy: { order: 'ASC' } });
+
+    return mediaEntities.map((mediaEntity) => MediaMapper.toDomain(mediaEntity));
+  }
+
+  async updateAll(mediaList: Media[]): Promise<void> {
+    const mediaEntites = mediaList.map((media) => MediaMapper.toEntity(media, this.em));
+    await this.em.upsertMany(mediaEntites);
   }
 }

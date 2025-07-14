@@ -14,17 +14,17 @@ export class PresignedUrlInfo {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Image URL',
-    example: '/path/to/file.jpg',
+    example: 'https://aaaaa.com/path/to/file.jpg',
   })
-  objectKey: string;
+  imageUrl: string;
 }
 
 export class GeneratePresignedUrlResponseDto {
   @ApiProperty({
     description: 'Article ID',
-    example: '1231312124',
+    type: PresignedUrlInfo,
   })
-  thumbnailPresignedUrl: PresignedUrlInfo;
+  thumbnailPresignedUrl?: PresignedUrlInfo;
 
   @ApiProperty({
     description: 'List of presigned URLs',

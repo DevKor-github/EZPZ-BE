@@ -76,15 +76,4 @@ export class UpdateArticleRequestDto {
   @IsOptional()
   @Type(() => String)
   tags?: string[];
-
-  @ApiProperty({
-    description: '첨부할 미디어 파일 ID 목록',
-    example: ['media-id-1', 'media-id-2'],
-    type: [String],
-    required: false,
-  })
-  @IsArray()
-  @IsOptional()
-  @Type(() => String)
-  mediaIds?: string[];
 }
