@@ -1,7 +1,12 @@
 import { ScrapModel } from './scrap.model';
 
 export interface ScrapQueryRepository {
-  findByUserId(userId: string): Promise<ScrapModel[]>;
+  findByCriteria(
+    userId: string,
+    tags?: string[],
+    isFinished?: boolean,
+    sortBy?: 'createdAt' | 'scrapCount' | 'viewCount',
+  ): Promise<ScrapModel[]>;
   existsByArticleIdAndUserId(articleId: string, userId: string): Promise<boolean>;
 }
 
