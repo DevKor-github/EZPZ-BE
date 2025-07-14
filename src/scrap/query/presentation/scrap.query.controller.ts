@@ -19,7 +19,10 @@ export class ScrapQueryController {
   @UseGuards(AuthGuard('jwt-access'))
   @ScrapQueryDocs('getMyScrap')
   async getMyScrap(@User() user: UserPayload, @Query() reqDto: GetMyScrapRequestDto) {
-    return await this.getMyScrapUseCase.execute({ userId: user.userId, ...reqDto });
+    const userId = user.userId;
+    const { tags, isFinished, sortBy, page, limit } = reqDto;
+
+    return await this.getMyScrapUseCase.execute({ userId, tags, isFinished, sortBy, page, limit });
   }
 
   @Get('article/:id')
