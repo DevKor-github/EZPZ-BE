@@ -1,16 +1,8 @@
 import { applyDecorators } from '@nestjs/common';
-import {
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiParam,
-  ApiQuery,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/presentation/docs/base.docs';
 import { CheckScrapResponseDto } from '../application/check-scrap/dto/check-scrap.response.dto';
 import { ScrapModel } from '../domain/scrap.model';
-import { GetMyScrapRequestDto } from './dto/get-my-scrap.request.dto';
 
 export type ScrapQueryEndpoint = 'getMyScrap' | 'checkScrap';
 
@@ -20,10 +12,6 @@ export const ScrapQueryDocs = createDocs<ScrapQueryEndpoint>({
       ApiOperation({
         summary: '본인 스크랩 목록 조회',
         description: '사용자가 스크랩한 게시글 목록 조회.',
-      }),
-      ApiQuery({
-        description: '스크랩 목록 조회 쿼리',
-        type: GetMyScrapRequestDto,
       }),
       ApiOkResponse({
         description: '스크랩 목록 조회 성공',

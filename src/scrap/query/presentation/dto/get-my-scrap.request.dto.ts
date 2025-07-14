@@ -37,12 +37,14 @@ export class GetMyScrapRequestDto {
   @ApiProperty({
     description: '페이지 번호',
     example: 1,
+    required: false,
   })
-  page: number;
+  page?: number;
 
   @ApiProperty({
     description: '페이지당 게시글 수',
     example: 10,
+    required: false,
   })
-  limit: number;
+  limit?: number;
 }
