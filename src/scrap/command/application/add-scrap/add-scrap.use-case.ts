@@ -30,6 +30,8 @@ export class AddScrapUseCase {
   private async saveScrap(articleId: string, userId: string, now: Date): Promise<void> {
     const existingScrap = await this.scrapCommandRepository.existsByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
+    const article = await this.articleCommandRepository.findById(articleId);
+    if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
 
     const scrap = Scrap.create({
       id: Identifier.create(),
