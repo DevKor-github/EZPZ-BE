@@ -1,10 +1,11 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
 import { GetMyScrapUseCase } from '../application/get-my-scrap/get-my-scrap.use-case';
 import { CheckScrapUseCase } from '../application/check-scrap/check-scrap.use-case';
 import { ScrapQueryDocs } from './scrap.query.docs';
+import { GetMyScrapRequestDto } from './dto/get-my-scrap.request.dto';
 
 @ApiTags('scrap')
 @Controller('scrap')
@@ -17,8 +18,8 @@ export class ScrapQueryController {
   @Get()
   @UseGuards(AuthGuard('jwt-access'))
   @ScrapQueryDocs('getMyScrap')
-  async getMyScrap(@User() user: UserPayload) {
-    return await this.getMyScrapUseCase.execute({ userId: user.userId });
+  async getMyScrap(@User() user: UserPayload, @Query() reqDto: GetMyScrapRequestDto) {
+    return await this.getMyScrapUseCase.execute({ userId: user.userId, ...reqDto });
   }
 
   @Get('article/:id')

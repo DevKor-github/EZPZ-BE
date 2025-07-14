@@ -11,8 +11,8 @@ export class GetMyScrapUseCase {
   ) {}
 
   async execute(reqDto: GetMyScrapRequestDto): Promise<ScrapModel[]> {
-    const { userId } = reqDto;
-    const result = await this.scrapQueryRepository.findByUserId(userId);
+    const { userId, tags, isFinished, sortBy } = reqDto;
+    const result = await this.scrapQueryRepository.findByCriteria(userId, tags, isFinished, sortBy);
 
     return result;
   }

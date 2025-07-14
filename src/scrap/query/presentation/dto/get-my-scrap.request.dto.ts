@@ -1,16 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsBoolean, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsIn, IsOptional } from 'class-validator';
 
 export class GetMyScrapRequestDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: '사용자 ID',
-    example: '12321231',
-  })
-  userId: string;
-
   @ApiProperty({
     description: '태그 필터 (콤마로 구분된 문자열)',
     example: 'festival,expo',
