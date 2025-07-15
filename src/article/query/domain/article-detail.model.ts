@@ -15,18 +15,6 @@ export class ArticleDetailModel extends ArticleModel {
   location: string;
 
   @ApiProperty({
-    example: '2023-10-01T00:00:00Z',
-    description: '행사 시작 시간',
-  })
-  startAt: string;
-
-  @ApiProperty({
-    example: '2023-10-31T23:59:59Z',
-    description: '행사 종료 시간',
-  })
-  endAt: string;
-
-  @ApiProperty({
     example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
     description: '이미지 경로 목록',
   })

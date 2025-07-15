@@ -90,6 +90,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
         'a.id',
         'a.title',
         'a.organization',
+        'a.startAt',
+        'a.endAt',
         'a.scrapCount',
         'a.viewCount',
         sql`(
@@ -143,6 +145,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       viewCount: articleEntity.viewCount,
       thumbnailPath: articleEntity.thumbnailPath,
       tags: articleEntity.tags ? (articleEntity.tags as unknown as string).split(',') : [],
+      startAt: articleEntity.startAt,
+      endAt: articleEntity.endAt,
     }));
 
     return result;

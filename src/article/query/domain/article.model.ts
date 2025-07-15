@@ -42,4 +42,16 @@ export class ArticleModel {
     description: '게시글 태그 목록',
   })
   tags: string[];
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '행사 시작 시간',
+  })
+  startAt: string;
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '행사 종료 시간',
+  })
+  endAt: string;
 }
