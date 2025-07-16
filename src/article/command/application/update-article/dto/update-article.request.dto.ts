@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString, Length } from 'class-validator';
 
 export class UpdateArticleRequestDto {
   @ApiProperty({
@@ -27,6 +27,7 @@ export class UpdateArticleRequestDto {
     required: false,
   })
   @IsString()
+  @Length(0)
   @IsOptional()
   description?: string;
 
@@ -63,6 +64,7 @@ export class UpdateArticleRequestDto {
     required: false,
   })
   @IsString()
+  @Length(0)
   @IsOptional()
   registrationUrl?: string;
 
