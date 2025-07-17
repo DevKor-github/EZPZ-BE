@@ -41,11 +41,11 @@ export class Article extends BaseDomainEntity<ArticleProps> {
       throw new Error('위치는 필수입니다.');
     }
 
-    if (!this.props.description) {
+    if (this.props.description === undefined || this.props.description === null) {
       throw new Error('설명은 필수입니다.');
     }
 
-    if (!this.props.registrationUrl) {
+    if (this.props.registrationUrl === undefined || this.props.registrationUrl === null) {
       throw new Error('등록 URL은 필수입니다.');
     }
 
