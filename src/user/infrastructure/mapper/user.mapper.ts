@@ -1,6 +1,6 @@
 import { User } from 'src/user/domain/entity/user';
 import { UserEntity } from '../orm-entity/user.entity';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 
 export class UserMapper {
   static toDomain(entity: UserEntity): User {

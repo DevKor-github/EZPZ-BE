@@ -5,6 +5,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './shared/config/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { GlobalExceptionFilter } from './shared/exception/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -36,6 +37,9 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
+  // Filter 설정
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   // Swagger 설정
   const document = SwaggerModule.createDocument(app, swaggerConfig());

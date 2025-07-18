@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { GetMyInfoResponseDto } from '../application/get-my-info/dto/get-my-info.response.dto';
 
 export type UserEndpoint = 'getMyInfo' | 'deleteMyInfo';

@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
 import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
 import { Tag } from 'src/tag/domain/entity/tag';

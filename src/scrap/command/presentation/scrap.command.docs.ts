@@ -7,7 +7,7 @@ import {
   ApiParam,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 
 export type ScrapCommandEndpoint = 'addScrap' | 'deleteScrap';
 

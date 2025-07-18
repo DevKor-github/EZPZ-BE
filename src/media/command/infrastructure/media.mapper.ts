@@ -1,4 +1,4 @@
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { Media } from '../domain/media';
 import { MediaEntity } from './media.entity';
 import { EntityManager } from '@mikro-orm/mysql';
