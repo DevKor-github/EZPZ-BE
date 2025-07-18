@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { OAuthProviderFactory } from './infrastructure/oauth/oauth-provider.factory';
-import { KakaoOAuthProvider } from './infrastructure/oauth/kakao.provider';
+import { OAuthProviderFactory } from './core/infrastructure/oauth/oauth-provider.factory';
+import { KakaoOAuthProvider } from './core/infrastructure/oauth/kakao.provider';
 import { AUTH_REPOSITORY } from 'src/auth/domain/repository/auth.repository';
 import { AuthRepositoryImpl } from 'src/auth/infrastructure/repository/auth.repository.impl';
 import { MikroOrmModule } from '@mikro-orm/nestjs';

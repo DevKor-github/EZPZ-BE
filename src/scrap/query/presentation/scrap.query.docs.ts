@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { CheckScrapResponseDto } from '../application/check-scrap/dto/check-scrap.response.dto';
 import { ScrapModel } from '../domain/scrap.model';
 

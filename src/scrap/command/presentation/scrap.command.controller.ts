@@ -1,7 +1,7 @@
 import { Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
+import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { AddScrapUseCase } from '../application/add-scrap/add-scrap.use-case';
 import { DeleteScrapUseCase } from '../application/delete-scrap/delete-scrap.use-case';
 import { ScrapCommandDocs } from './scrap.command.docs';

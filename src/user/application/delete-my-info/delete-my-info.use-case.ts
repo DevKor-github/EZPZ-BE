@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DeleteMyInfoRequestDto } from './dto/delete-my-info.request.dto';
 import { USER_REPOSITORY, UserRepository } from 'src/user/domain/repository/user.repository';
-import { OAuthProviderFactory } from 'src/shared/infrastructure/oauth/oauth-provider.factory';
+import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth-provider.factory';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
 @Injectable()

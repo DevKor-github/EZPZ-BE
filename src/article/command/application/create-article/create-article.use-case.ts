@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { Article } from '../../domain/article';
 import { CreateArticleRequestDto } from './dto/create-article.request.dto';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';

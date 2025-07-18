@@ -1,4 +1,4 @@
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { Article } from '../domain/article';
 import { TagMapper } from 'src/tag/infrastructure/mapper/tag.mapper';
 import { ArticleEntity } from './article.entity';

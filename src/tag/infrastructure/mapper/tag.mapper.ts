@@ -1,7 +1,7 @@
 import { Tag } from 'src/tag/domain/entity/tag';
 import { TagEntity } from '../orm-entity/tag.entity';
-import { createMapper } from 'src/shared/infrastructure/mapper/base.mapper';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { createMapper } from 'src/shared/core/infrastructure/mapper/base.mapper';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 
 export const TagMapper = createMapper<Tag, TagEntity>(
   (entity: TagEntity): Tag => {

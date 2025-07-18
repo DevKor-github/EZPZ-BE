@@ -6,7 +6,7 @@ import { OAuthLoginUseCase } from '../application/oauth-login/oauth-login.use-ca
 import { AuthorizeOAuthUseCase } from '../application/authorize-oauth/authorize-oauth.use-case';
 import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/config/cookie.config';
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
-import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
+import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
 import { AuthDocs } from './auth.docs';

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UpdateMediaRequestDto } from './dto/update.request.dto';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { S3Adapter } from '../../infrastructure/util/s3.adpater';
 import { MEDIA_COMMAND_REPOSITORY, MediaCommandRepository } from '../../domain/media.command.repository';
 import { Media } from '../../domain/media';

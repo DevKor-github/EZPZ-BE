@@ -7,7 +7,7 @@ import {
   ApiOperation,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 
 export type AuthEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout';
 

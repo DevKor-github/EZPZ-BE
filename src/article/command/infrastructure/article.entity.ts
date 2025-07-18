@@ -1,6 +1,6 @@
 import { Cascade, Collection, Entity, ManyToMany, OneToMany, Property } from '@mikro-orm/core';
 import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
-import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
+import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 
 @Entity({ tableName: 'article' })

@@ -6,7 +6,7 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { ArticleDetailModel } from '../domain/article-detail.model';
 
 export type ArticleQueryEndpoint = 'list' | 'detail';

@@ -1,6 +1,6 @@
 import { Auth } from 'src/auth/domain/entity/auth';
 import { AuthEntity } from '../orm-entity/auth.entity';
-import { Identifier } from 'src/shared/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/value-object/identifier';
 import { EntityManager } from '@mikro-orm/mysql';
 import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 

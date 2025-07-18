@@ -10,7 +10,7 @@ import {
   ApiOperation,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { createDocs } from 'src/shared/presentation/docs/base.docs';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { GeneratePresignedUrlResponseDto } from '../application/generate-presigned-url/dto/generate-presigned-url.response.dto';
 import { UpdateMediaRequestDto } from '../application/update/dto/update.request.dto';
 import { CreateMediaRequestDto } from '../application/create/dto/create.request.dto';

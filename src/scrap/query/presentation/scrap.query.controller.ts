@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
+import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { GetMyScrapUseCase } from '../application/get-my-scrap/get-my-scrap.use-case';
 import { CheckScrapUseCase } from '../application/check-scrap/check-scrap.use-case';
 import { ScrapQueryDocs } from './scrap.query.docs';

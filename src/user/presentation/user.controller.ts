@@ -2,7 +2,7 @@ import { Controller, Delete, Get, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetMyInfoUseCase } from '../application/get-my-info/get-my-info.use-case';
 import { AuthGuard } from '@nestjs/passport';
-import { User, UserPayload } from 'src/shared/presentation/decorator/user.decorator';
+import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { DeleteMyInfoUseCase } from '../application/delete-my-info/delete-my-info.use-case';
 import { UserDocs } from './user.docs';
 

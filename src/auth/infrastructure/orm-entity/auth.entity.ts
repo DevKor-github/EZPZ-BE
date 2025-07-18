@@ -1,5 +1,5 @@
 import { Cascade, Entity, OneToOne, Property, Unique } from '@mikro-orm/core';
-import { BaseEntity } from 'src/shared/infrastructure/orm-entity/base.entity';
+import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
 import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 
