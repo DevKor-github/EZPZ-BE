@@ -1710,10 +1710,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-11.0.5.tgz#dd3e506c2fb7ddc80fd1321c01cc1a0ca6d6b609"
   integrity sha512-ulQX6mbjlws92PIM15Naes4F4p2JoxGnIJuUsdXQPT+Oo2sqQmENEZXM7eYuimocfHnKlcfZOuyzbA33LwUlOQ==
 
-"@nestjs/platform-express@^11.1.3":
-  version "11.1.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.1.3.tgz#bf470f2e270ca9daa930974476dd0d7d62879556"
-  integrity sha512-hEDNMlaPiBO72fxxX/CuRQL3MEhKRc/sIYGVoXjrnw6hTxZdezvvM6A95UaLsYknfmcZZa/CdG1SMBZOu9agHQ==
+"@nestjs/platform-express@^11.1.4":
+  version "11.1.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.1.4.tgz#91f4257f6d5616540b92503d1ac53a8d2bb59c83"
+  integrity sha512-SDpfSDJogCZ3fOeP518+GdjKnpJc51LN0dylapq3xBfxJeiEOqmqiZM1tWMOsoijPlUVsz0acpmaVEaOiMXpXw==
   dependencies:
     cors "2.8.5"
     express "5.1.0"
@@ -5885,7 +5885,7 @@ ms@^2.1.1, ms@^2.1.3:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-multer@2.0.1, multer@^2.0.1:
+multer@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/multer/-/multer-2.0.1.tgz#3ed335ed2b96240e3df9e23780c91cfcf5d29202"
   integrity sha512-Ug8bXeTIUlxurg8xLTEskKShvcKDZALo1THEX5E41pYCD2sCVub5/kIRIGqWNoqV6szyLyQKV6mD4QUrWE5GCQ==
