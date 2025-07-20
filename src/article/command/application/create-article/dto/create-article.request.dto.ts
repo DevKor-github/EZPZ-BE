@@ -11,7 +11,6 @@ export class CreateArticleRequestDto {
   organization: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsString()
@@ -27,7 +26,6 @@ export class CreateArticleRequestDto {
   endAt: string;
 
   @IsString()
-  @IsNotEmpty()
   registrationUrl: string;
 
   @IsArray()
