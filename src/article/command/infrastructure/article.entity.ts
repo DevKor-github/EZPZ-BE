@@ -14,7 +14,7 @@ export class ArticleEntity extends BaseEntity {
   @Property({ type: 'varchar' })
   location: string;
 
-  @Property({ type: 'varchar' })
+  @Property({ type: 'varchar', length: 1024 })
   description: string;
 
   @Property({ type: 'varchar' })

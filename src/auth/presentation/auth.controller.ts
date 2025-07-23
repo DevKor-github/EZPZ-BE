@@ -33,7 +33,11 @@ export class AuthController {
 
   @Get('login/oauth/callback')
   @AuthDocs('oauthCallback')
-  async oAuthLogin(@Query('code') code: string, @Res() res: Response) {
+  async oAuthLogin(@Res() res: Response, @Query('code') code: string, @Query('error') error?: string) {
+    if (error && error === 'access_denied') {
+      return res.redirect(`${this.configService.getOrThrow('frontend.url')}/login?error=cancelled`);
+    }
+
     const { accessToken, refreshToken } = await this.oAuthLoginUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
       code,
