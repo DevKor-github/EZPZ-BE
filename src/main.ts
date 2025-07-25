@@ -20,7 +20,7 @@ async function bootstrap() {
       'https://www.goyangeyaong.shop',
       'https://web.goyangeyaong.shop:5173',
       'https://univent-fe.netlify.app',
-      'https://univen.my',
+      'https://univent.my',
       'https://www.univent.my',
       'https://web.univent.my:5173',
     ],
