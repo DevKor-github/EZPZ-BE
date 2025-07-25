@@ -24,6 +24,8 @@ export class ScrapQueryRepositoryImpl implements ScrapQueryRepository {
         'a.organization as organization',
         'a.scrap_count as scrapCount',
         'a.view_count as viewCount',
+        'a.start_at as startAt',
+        'a.end_at as endAt',
         sql`(
             SELECT m.media_path
             FROM media m
@@ -74,6 +76,8 @@ export class ScrapQueryRepositoryImpl implements ScrapQueryRepository {
       viewCount: entity.viewCount,
       thumbnailPath: entity.thumbnailPath,
       tags: entity.tags ? (entity.tags as unknown as string).split(',') : [],
+      startAt: entity.startAt,
+      endAt: entity.endAt,
     }));
 
     return result;

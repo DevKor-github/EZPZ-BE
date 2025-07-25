@@ -42,4 +42,16 @@ export class ScrapModel {
     description: '태그 목록. 배열로 구현',
   })
   tags: string[];
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '행사 시작 시간',
+  })
+  startAt: string;
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '행사 종료 시간',
+  })
+  endAt: string;
 }
