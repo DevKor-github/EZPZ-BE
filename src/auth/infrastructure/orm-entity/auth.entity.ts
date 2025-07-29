@@ -1,7 +1,7 @@
 import { Cascade, Entity, OneToOne, Property, Unique } from '@mikro-orm/core';
 import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
-import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 @Entity({ tableName: 'auth' })
 @Unique({ properties: ['oauthId', 'provider'] })

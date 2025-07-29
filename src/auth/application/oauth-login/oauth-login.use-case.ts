@@ -6,11 +6,11 @@ import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { Identifier } from 'src/shared/core/domain/value-object/identifier';
-import { CreateUserUseCase } from 'src/user/application/create-user/create-user.use-case';
-import { Role } from 'src/user/domain/value-object/role.enum';
 import { OAuthLoginRequestDto } from './dto/oauth-login.request.dto';
 import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
 import { Transactional } from '@mikro-orm/core';
+import { CreateUserUseCase } from 'src/user/command/application/create/create.use-case';
+import { Role } from 'src/user/command/domain/value-object/role.enum';
 
 @Injectable()
 export class OAuthLoginUseCase {
