@@ -1,5 +1,5 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/entity/base.entity';
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
+import { Identifier } from 'src/shared/core/domain/identifier';
 
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;

@@ -1,4 +1,4 @@
-import { Identifier } from '../value-object/identifier';
+import { Identifier } from './identifier';
 
 export interface BaseEntityProps {
   id: Identifier;

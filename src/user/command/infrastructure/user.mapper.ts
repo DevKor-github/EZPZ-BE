@@ -1,4 +1,4 @@
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/identifier';
 import { User } from '../domain/user';
 import { UserEntity } from './user.entity';
 

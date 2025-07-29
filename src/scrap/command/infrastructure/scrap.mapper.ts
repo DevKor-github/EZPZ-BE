@@ -1,4 +1,4 @@
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/identifier';
 import { Scrap } from '../domain/scrap';
 import { ScrapEntity } from './scrap.entity';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
