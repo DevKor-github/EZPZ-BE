@@ -1,8 +1,8 @@
 import { Cascade, Collection, Entity, OneToMany, OneToOne, Property } from '@mikro-orm/core';
-import { Role } from 'src/user/domain/value-object/role.enum';
 import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
-import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
 import { ScrapEntity } from 'src/scrap/command/infrastructure/scrap.entity';
+import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
+import { Role } from '../domain/value-object/role.enum';
 
 @Entity({ tableName: 'user' })
 export class UserEntity extends BaseEntity {

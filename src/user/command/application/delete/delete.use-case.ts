@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeleteMyInfoRequestDto } from './dto/delete-my-info.request.dto';
-import { USER_REPOSITORY, UserRepository } from 'src/user/domain/repository/user.repository';
+import { DeleteMyInfoRequestDto } from './dto/delete.request.dto';
 import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth-provider.factory';
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { USER_COMMAND_REPOSITORY, UserCommandRepository } from '../../domain/user.command.repository';
 
 @Injectable()
 export class DeleteMyInfoUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    @Inject(USER_COMMAND_REPOSITORY)
+    private readonly userCommandRepository: UserCommandRepository,
     private readonly oAuthProviderFactory: OAuthProviderFactory,
   ) {}
 
@@ -17,6 +17,6 @@ export class DeleteMyInfoUseCase {
     const oAuthProvider = this.oAuthProviderFactory.getProvider(OAuthProviderType.KAKAO);
     await oAuthProvider.unlinkAccount(userId);
 
-    await this.userRepository.deleteById(userId);
+    await this.userCommandRepository.deleteById(userId);
   }
 }

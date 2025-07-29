@@ -1,5 +1,5 @@
-import { Role } from 'src/user/domain/value-object/role.enum';
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/entity/base.entity';
+import { Role } from './value-object/role.enum';
 
 export interface UserProps extends BaseEntityProps {
   email: string;

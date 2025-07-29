@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from 'src/user/domain/entity/user';
-import { USER_REPOSITORY, UserRepository } from 'src/user/domain/repository/user.repository';
 import { CreateUserRequestDto } from './dto/create-user.request.dto';
+import { USER_COMMAND_REPOSITORY, UserCommandRepository } from '../../domain/user.command.repository';
+import { User } from '../../domain/user';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    @Inject(USER_COMMAND_REPOSITORY)
+    private readonly userCommandRepository: UserCommandRepository,
   ) {}
 
   async execute(createUserRequestDto: CreateUserRequestDto): Promise<void> {
@@ -21,6 +21,6 @@ export class CreateUserUseCase {
       role: role,
     });
 
-    await this.userRepository.save(user);
+    await this.userCommandRepository.save(user);
   }
 }
