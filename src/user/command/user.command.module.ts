@@ -2,18 +2,21 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { SharedModule } from 'src/shared/shared.module';
 import { UserEntity } from './infrastructure/user.entity';
-import { ScrapEntity } from 'src/scrap/command/infrastructure/scrap.entity';
 import { USER_COMMAND_REPOSITORY } from './domain/user.command.repository';
 import { UserCommandRepositoryImpl } from './infrastructure/user.command.repository.impl';
 import { DeleteMyInfoUseCase } from './application/delete/delete.use-case';
-import { CreateUserUseCase } from './application/create/create.use-case';
+import { CreateUserHandler } from './application/create/create-user.handler';
+import { CqrsModule } from '@nestjs/cqrs';
+import { CreateUserListener } from './application/create/create-user.listener';
 
-const useCases = [DeleteMyInfoUseCase, CreateUserUseCase];
+const useCases = [DeleteMyInfoUseCase, CreateUserHandler];
+const listeners = [CreateUserListener];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([UserEntity, ScrapEntity]), SharedModule],
+  imports: [MikroOrmModule.forFeature([UserEntity]), SharedModule, CqrsModule],
   providers: [
     ...useCases,
+    ...listeners,
     {
       provide: USER_COMMAND_REPOSITORY,
       useClass: UserCommandRepositoryImpl,
