@@ -4,12 +4,13 @@ import { SharedModule } from 'src/shared/shared.module';
 import { UserEntity } from './infrastructure/user.entity';
 import { USER_COMMAND_REPOSITORY } from './domain/user.command.repository';
 import { UserCommandRepositoryImpl } from './infrastructure/user.command.repository.impl';
-import { DeleteMyInfoUseCase } from './application/delete/delete.use-case';
 import { CreateUserHandler } from './application/create/create-user.handler';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateUserListener } from './application/create/create-user.listener';
+import { DeleteMyInfoHandler } from './application/delete/delete.handler';
+import { UserCommandController } from './presentation/user.command.controller';
 
-const useCases = [DeleteMyInfoUseCase, CreateUserHandler];
+const useCases = [DeleteMyInfoHandler, CreateUserHandler];
 const listeners = [CreateUserListener];
 
 @Module({
@@ -23,6 +24,6 @@ const listeners = [CreateUserListener];
     },
   ],
   exports: [],
-  controllers: [],
+  controllers: [UserCommandController],
 })
 export class UserCommandModule {}
