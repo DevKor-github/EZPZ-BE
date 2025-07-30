@@ -6,13 +6,15 @@ import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth
 import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
 import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { Identifier } from 'src/shared/core/domain/identifier';
-import { OAuthLoginRequestDto } from './dto/oauth-login.request.dto';
 import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
 import { Transactional } from '@mikro-orm/core';
-import { CreateUserUseCase } from 'src/user/command/application/create/create-user.handler';
 import { Role } from 'src/user/command/domain/value-object/role.enum';
+import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { AuthCreatedEvent } from 'src/auth/domain/event/auth-created.event';
+import { OAuthLoginCommand } from './oauth-login.command';
 
 @Injectable()
+@CommandHandler(OAuthLoginCommand)
 export class OAuthLoginUseCase {
   private readonly now: Date;
   constructor(
@@ -20,16 +22,16 @@ export class OAuthLoginUseCase {
     private readonly jwtProvider: JwtProvider,
     @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepository,
-    private readonly createUserUseCase: CreateUserUseCase,
+    private readonly eventBus: EventBus,
   ) {
     this.now = new Date();
   }
 
   @Transactional()
-  async execute(requestDto: OAuthLoginRequestDto): Promise<OAuthLoginResponseDto> {
-    const { oAuthProviderType, code } = requestDto;
+  async execute(command: OAuthLoginCommand): Promise<OAuthLoginResponseDto> {
+    const { oAuthProviderType, code } = command;
     const { oauthId, provider, email } = await this.getOAuthUserInfo(oAuthProviderType, code);
-    const auth = await this.findOrCreateUser(oauthId, provider, email);
+    const auth = await this.findOrCreateAuth(oauthId, provider, email);
     const { accessToken, refreshToken } = await this.generateAndSaveTokens(auth);
 
     return { accessToken, refreshToken };
@@ -44,16 +46,13 @@ export class OAuthLoginUseCase {
   }
 
   // 유저 생성 및 정보 가져오기
-  private async findOrCreateUser(oauthId: string, provider: OAuthProviderType, email: string): Promise<Auth> {
+  private async findOrCreateAuth(oauthId: string, provider: OAuthProviderType, email: string): Promise<Auth> {
     const existingAuth = await this.authRepository.findByOAuthIdandProvider(oauthId, provider);
     if (existingAuth) return existingAuth;
 
     const userId = Identifier.create();
-    await this.createUserUseCase.execute({
-      userId,
-      email,
-      role: Role.GENERAL,
-    });
+
+    await this.eventBus.publish(new AuthCreatedEvent(userId, email, Role.GENERAL));
 
     const auth = Auth.create({
       id: Identifier.create(),

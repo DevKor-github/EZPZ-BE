@@ -2,7 +2,7 @@ import { Controller, Get, HttpStatus, Post, Query, Res, UseGuards } from '@nestj
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { OAuthLoginUseCase } from '../application/oauth-login/oauth-login.use-case';
+import { OAuthLoginUseCase } from '../application/oauth-login/oauth-login.handler';
 import { AuthorizeOAuthUseCase } from '../application/authorize-oauth/authorize-oauth.use-case';
 import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/config/cookie.config';
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
