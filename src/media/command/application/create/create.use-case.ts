@@ -3,7 +3,7 @@ import { MEDIA_COMMAND_REPOSITORY, MediaCommandRepository } from '../../domain/m
 import { S3Adapter } from '../../infrastructure/util/s3.adpater';
 import { CreateMediaRequestDto } from './dto/create.request.dto';
 import { Media } from '../../domain/media';
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/identifier';
 
 @Injectable()
 export class CreateMediaUseCase {

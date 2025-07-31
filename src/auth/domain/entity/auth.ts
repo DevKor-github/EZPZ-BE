@@ -1,6 +1,7 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/entity/base.entity';
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
+import { Identifier } from 'src/shared/core/domain/identifier';
 import { OAuthProviderType } from '../value-object/oauth-provider.enum';
+import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;
@@ -10,7 +11,7 @@ export interface AuthProps extends BaseEntityProps {
   userId: Identifier;
 }
 
-export class Auth extends BaseDomainEntity<AuthProps> {
+export class Auth extends AggregateRoot<AuthProps> {
   constructor(props: AuthProps) {
     super(props);
   }

@@ -3,7 +3,7 @@ import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/s
 import { Transactional } from '@mikro-orm/core';
 import { AddScrapRequestDto } from './dto/add-scrap.request.dto';
 import { Scrap } from '../../domain/scrap';
-import { Identifier } from 'src/shared/core/domain/value-object/identifier';
+import { Identifier } from 'src/shared/core/domain/identifier';
 import {
   ARTICLE_COMMAND_REPOSITORY,
   ArticleCommandRepository,

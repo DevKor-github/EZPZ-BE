@@ -6,8 +6,8 @@ import { SCRAP_QUERY_REPOSITORY } from './domain/scrap.query.repository';
 import { ScrapQueryRepositoryImpl } from './infrastructure/scrap.query.repository.impl';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ScrapEntity } from '../command/infrastructure/scrap.entity';
-import { UserEntity } from 'src/user/infrastructure/orm-entity/user.entity';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
+import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 const useCases = [GetMyScrapUseCase, CheckScrapUseCase];
 
