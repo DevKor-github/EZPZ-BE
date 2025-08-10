@@ -3,15 +3,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { AddScrapHandler } from '../application/add-scrap/add-scrap.handler';
-import { DeleteScrapUseCase } from '../application/delete-scrap/delete-scrap.use-case';
 import { ScrapCommandDocs } from './scrap.command.docs';
+import { DeleteScrapHandler } from '../application/delete-scrap/delete-scrap.handler';
 
 @ApiTags('scrap')
 @Controller('scrap')
 export class ScrapCommandController {
   constructor(
     private readonly addScrapHandler: AddScrapHandler,
-    private readonly deleteScrapUseCase: DeleteScrapUseCase,
+    private readonly deleteScrapHandler: DeleteScrapHandler,
   ) {}
 
   @Post(':id')
@@ -25,6 +25,6 @@ export class ScrapCommandController {
   @UseGuards(AuthGuard('jwt-access'))
   @ScrapCommandDocs('deleteScrap')
   async deleteScrap(@Param('id') articleId: string, @User() user: UserPayload) {
-    await this.deleteScrapUseCase.execute({ articleId, userId: user.userId });
+    await this.deleteScrapHandler.execute({ articleId, userId: user.userId });
   }
 }
