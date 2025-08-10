@@ -9,6 +9,6 @@ export class IncreaseScrapCountListener implements IEventHandler<ScrapAddedEvent
   async handle(event: ScrapAddedEvent): Promise<void> {
     const { articleId } = event;
 
-    await this.increaseScrapCountHandler.execute(articleId);
+    await this.increaseScrapCountHandler.execute({ articleId });
   }
 }

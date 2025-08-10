@@ -9,7 +9,6 @@ import {
 } from 'src/article/command/domain/article.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { AddScrapCommand } from './add-scrap.command';
-import { ScrapAddedEvent } from '../../domain/event/scrap-added.event';
 
 @Injectable()
 @CommandHandler(AddScrapCommand)
@@ -27,11 +26,6 @@ export class AddScrapHandler {
     const { articleId, userId } = command;
     const now = new Date();
 
-    await this.saveScrap(articleId, userId, now);
-    await this.eventBus.publish(new ScrapAddedEvent(articleId, userId));
-  }
-
-  private async saveScrap(articleId: string, userId: string, now: Date): Promise<void> {
     const existingScrap = await this.scrapCommandRepository.existsByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
     const article = await this.articleCommandRepository.findById(articleId);
@@ -44,6 +38,12 @@ export class AddScrapHandler {
       createdAt: now,
       updatedAt: now,
     });
+
+    const events = scrap.pullDomainEvents();
+
+    for (const event of events) {
+      await this.eventBus.publish(event);
+    }
 
     await this.scrapCommandRepository.save(scrap);
   }

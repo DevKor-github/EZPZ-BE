@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
+import { IncreaseScrapCountCommand } from './increase-srcrap-count.command';
 
 @Injectable()
 export class IncreaseScrapCountHandler {
@@ -8,7 +9,9 @@ export class IncreaseScrapCountHandler {
     private readonly articleCommandRepository: ArticleCommandRepository,
   ) {}
 
-  async execute(articleId: string): Promise<void> {
+  async execute(command: IncreaseScrapCountCommand): Promise<void> {
+    const { articleId } = command;
+
     const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물입니다.');
 
