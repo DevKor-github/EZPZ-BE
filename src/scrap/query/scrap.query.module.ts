@@ -5,14 +5,13 @@ import { ScrapQueryController } from './presentation/scrap.query.controller';
 import { SCRAP_QUERY_REPOSITORY } from './domain/scrap.query.repository';
 import { ScrapQueryRepositoryImpl } from './infrastructure/scrap.query.repository.impl';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { ScrapViewEntity } from './infrastructure/scrap.view.entity';
 import { ScrapEntity } from '../command/infrastructure/scrap.entity';
-import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
-import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 const useCases = [GetMyScrapUseCase, CheckScrapUseCase];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ScrapEntity, UserEntity, ArticleEntity])],
+  imports: [MikroOrmModule.forFeature([ScrapEntity, ScrapViewEntity])],
   providers: [
     ...useCases,
     {
