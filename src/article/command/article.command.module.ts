@@ -13,13 +13,25 @@ import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
 import { MEDIA_COMMAND_REPOSITORY } from 'src/media/command/domain/media.command.repository';
 import { MediaCommandRepositoryImpl } from 'src/media/command/infrastructure/media.command.repository.impl';
 import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
+import { IncreaseScrapCountListener } from './application/increase-scrap-count/increase-scrap-count.listener';
+import { IncreaseScrapCountHandler } from './application/increase-scrap-count/increase-scrap-count.handler';
+import { DecreaseScrapCountListener } from './application/decrease-scrap-count/decrease-scrap-count.listener';
+import { DecreaseScrapCountHandler } from './application/decrease-scrap-count/decrease-scrap-count.handler';
 
-const usecases = [CreateArticleUseCase, UpdateArticleUseCase, DeleteArticleUseCase];
+const usecases = [
+  CreateArticleUseCase,
+  UpdateArticleUseCase,
+  DeleteArticleUseCase,
+  IncreaseScrapCountHandler,
+  DecreaseScrapCountHandler,
+];
+const listeners = [IncreaseScrapCountListener, DecreaseScrapCountListener];
 
 @Module({
   imports: [MikroOrmModule.forFeature([ArticleEntity, TagEntity, MediaEntity])],
   providers: [
     ...usecases,
+    ...listeners,
     {
       provide: ARTICLE_COMMAND_REPOSITORY,
       useClass: ArticleCommandRepositoryImpl,

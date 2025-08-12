@@ -1,12 +1,14 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
+import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
+import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
+import { ScrapAddedEvent } from './event/scrap-added.event';
 
 export interface ScrapProps extends BaseEntityProps {
   articleId: Identifier;
   userId: Identifier;
 }
 
-export class Scrap extends BaseDomainEntity<ScrapProps> {
+export class Scrap extends AggregateRoot<ScrapProps> {
   protected constructor(props: ScrapProps) {
     super(props);
   }
@@ -14,6 +16,8 @@ export class Scrap extends BaseDomainEntity<ScrapProps> {
   public static create(props: ScrapProps): Scrap {
     const scrap = new Scrap(props);
     scrap.validate();
+
+    scrap.addDomainEvent(new ScrapAddedEvent(props.articleId.value));
 
     return scrap;
   }
