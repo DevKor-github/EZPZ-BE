@@ -26,7 +26,7 @@ export class AddScrapHandler {
     const { articleId, userId } = command;
     const now = new Date();
 
-    const existingScrap = await this.scrapCommandRepository.existsByArticleIdAndUserId(articleId, userId);
+    const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
     const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
