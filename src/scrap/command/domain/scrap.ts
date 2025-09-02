@@ -2,6 +2,7 @@ import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { ScrapAddedEvent } from './event/scrap-added.event';
+import { ScrapDeletedEvent } from './event/scrap-deleted.event';
 
 export interface ScrapProps extends BaseEntityProps {
   articleId: Identifier;
@@ -26,6 +27,10 @@ export class Scrap extends AggregateRoot<ScrapProps> {
     if (!this.props.articleId || !this.props.userId) {
       throw new Error('게시글ID와 사용자ID는 필수입니다.');
     }
+  }
+
+  public delete(): void {
+    this.addDomainEvent(new ScrapDeletedEvent(this.articleId.value));
   }
 
   get articleId(): Identifier {
