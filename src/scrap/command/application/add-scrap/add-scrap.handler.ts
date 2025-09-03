@@ -1,6 +1,5 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
-import { Transactional } from '@mikro-orm/core';
 import { Scrap } from '../../domain/scrap';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import {
@@ -21,12 +20,11 @@ export class AddScrapHandler {
     private readonly articleCommandRepository: ArticleCommandRepository,
   ) {}
 
-  @Transactional()
   async execute(command: AddScrapCommand): Promise<void> {
     const { articleId, userId } = command;
     const now = new Date();
 
-    const existingScrap = await this.scrapCommandRepository.existsByArticleIdAndUserId(articleId, userId);
+    const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
     const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
@@ -39,12 +37,12 @@ export class AddScrapHandler {
       updatedAt: now,
     });
 
+    await this.scrapCommandRepository.save(scrap);
+
     const events = scrap.pullDomainEvents();
 
     for (const event of events) {
       await this.eventBus.publish(event);
     }
-
-    await this.scrapCommandRepository.save(scrap);
   }
 }
