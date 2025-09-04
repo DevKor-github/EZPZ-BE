@@ -15,14 +15,28 @@ export class ArticleDetailModel extends ArticleModel {
   location: string;
 
   @ApiProperty({
-    example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
-    description: '이미지 경로 목록',
-  })
-  imagePaths: string[];
-
-  @ApiProperty({
     example: 'https://example.com/register',
     description: '등록 URL',
   })
   registrationUrl: string;
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '등록 시작 시간',
+    required: false,
+  })
+  registrationStartAt?: string;
+
+  @ApiProperty({
+    example: '2023-10-01T00:00:00Z',
+    description: '등록 종료 시간',
+    required: false,
+  })
+  registrationEndAt?: string;
+
+  @ApiProperty({
+    example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
+    description: '이미지 경로 목록',
+  })
+  imagePaths: string[];
 }
