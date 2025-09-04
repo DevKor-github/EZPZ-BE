@@ -1,33 +1,47 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+import { CustomException } from './custom-exception';
+import { ExceptionInfo } from './custom-exception-code';
+import { BaseApiResponse } from '../core/presentation/base.api.response';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const status = exception.getStatus();
 
-    const exceptionResponse = exception.getResponse();
+    if (exception instanceof CustomException) {
+      const { code, data } = exception;
+      const { status, message } = ExceptionInfo[code];
 
-    let message: string | string[];
+      const res: BaseApiResponse<unknown> = {
+        success: false,
+        message,
+        data: data,
+        errorCode: status.toString(),
+      };
 
-    if (typeof exceptionResponse === 'string') {
-      message = exceptionResponse;
-    } else if (typeof exceptionResponse === 'object') {
-      const msg = (exceptionResponse as { message: string | string[] }).message;
-      message = msg;
-    } else {
-      message = 'Unexpected error';
+      return response.status(status).json(res);
     }
 
-    response.status(status).json({
+    // Handle standard HttpExceptions (like BadRequestException)
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+
+      const res: BaseApiResponse<unknown> = {
+        success: false,
+        message: exception.message,
+        data: exception.message,
+        errorCode: status.toString(),
+      };
+
+      return response.status(status).json(res);
+    }
+
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
-      path: request.url,
-      message,
-      data: null,
-      errorCode: status,
+      message: 'Internal Server Error',
+      errorCode: HttpStatus.INTERNAL_SERVER_ERROR.toString(),
     });
   }
 }
