@@ -4,7 +4,8 @@ import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { User } from '../domain/user';
 import { UserMapper } from './user.mapper';
 import { UserCommandRepository } from '../domain/user.command.repository';
-import { NotFoundException } from '@nestjs/common';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export class UserCommandRepositoryImpl implements UserCommandRepository {
   constructor(
@@ -20,7 +21,11 @@ export class UserCommandRepositoryImpl implements UserCommandRepository {
 
   async deleteById(userId: string): Promise<void> {
     const userEntity = await this.ormRepository.findOne({ id: userId }, { populate: ['auth', 'scraps'] });
-    if (!userEntity) throw new NotFoundException('존재하지 않는 유저입니다.');
+    if (!userEntity)
+      throw new CustomException(
+        CustomExceptionCode.USER_NOT_FOUND,
+        `[UserCommandRepository] ${userId}에 해당하는 사용자가 존재하지 않습니다.`,
+      );
 
     await this.em.removeAndFlush(userEntity);
   }

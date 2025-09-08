@@ -1,5 +1,7 @@
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Role } from './value-object/role.enum';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export interface UserProps extends BaseEntityProps {
   email: string;
@@ -19,17 +21,17 @@ export class User extends BaseDomainEntity<UserProps> {
 
   public validate(): void {
     if (!this.props.email) {
-      throw new Error('이메일은 필수입니다.');
+      throw new CustomException(CustomExceptionCode.USER_EMAIL_EMPTY);
     }
     if (!this.props.email || !this.props.email.includes('@')) {
-      throw new Error('유효하지 않은 이메일 형식입니다.');
+      throw new CustomException(CustomExceptionCode.USER_INVALID_EMAIL_FORMAT);
     }
 
     if (!this.props.role) {
-      throw new Error('role은 필수입니다.');
+      throw new CustomException(CustomExceptionCode.USER_ROLE_EMPTY);
     }
     if (!Object.values(Role).includes(this.props.role)) {
-      throw new Error('유효하지 않은 role입니다.');
+      throw new CustomException(CustomExceptionCode.USER_INVALID_ROLE);
     }
   }
 
