@@ -15,14 +15,14 @@ export class ArticleDetailModel extends ArticleModel {
   location: string;
 
   @ApiProperty({
-    example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
-    description: '이미지 경로 목록',
-  })
-  imagePaths: string[];
-
-  @ApiProperty({
     example: 'https://example.com/register',
     description: '등록 URL',
   })
   registrationUrl: string;
+
+  @ApiProperty({
+    example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
+    description: '이미지 경로 목록',
+  })
+  imagePaths: string[];
 }

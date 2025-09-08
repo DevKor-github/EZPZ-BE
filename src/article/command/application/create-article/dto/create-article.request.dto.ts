@@ -28,6 +28,12 @@ export class CreateArticleRequestDto {
   @IsString()
   registrationUrl: string;
 
+  @IsString()
+  registrationStartAt?: string;
+
+  @IsString()
+  registrationEndAt?: string;
+
   @IsArray()
   @Type(() => String)
   tags: string[];

@@ -69,6 +69,24 @@ export class UpdateArticleRequestDto {
   registrationUrl?: string;
 
   @ApiProperty({
+    description: '신청 시작 일시 (ISO 8601 형식)',
+    example: '2024-03-01T00:00:00Z',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  registrationStartAt?: string;
+
+  @ApiProperty({
+    description: '신청 종료 일시 (ISO 8601 형식)',
+    example: '2024-03-10T23:59:59Z',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  registrationEndAt?: string;
+
+  @ApiProperty({
     description: '관련 태그 목록',
     example: ['스타트업', '기술', '컨퍼런스'],
     type: [String],
