@@ -54,4 +54,18 @@ export class ArticleModel {
     description: '행사 종료 시간',
   })
   endAt: string;
+
+  @ApiProperty({
+    example: '2023-09-01T00:00:00Z',
+    description: '등록 시작 시간',
+    required: false,
+  })
+  registrationStartAt?: string;
+
+  @ApiProperty({
+    example: '2023-09-30T23:59:59Z',
+    description: '등록 종료 시간',
+    required: false,
+  })
+  registrationEndAt?: string;
 }
