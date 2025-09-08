@@ -13,6 +13,8 @@ import { Entity, Property } from '@mikro-orm/core';
       a.created_at,
       m.media_path AS thumbnail_path,
       s.user_id AS user_id,
+      a.registration_start_at,
+      a.registration_end_at,
       tags.tags
     FROM scrap s
     JOIN article a ON s.article_id = a.id
@@ -60,4 +62,10 @@ export class ScrapViewEntity {
 
   @Property()
   tags: string;
+
+  @Property()
+  registrationStartAt: Date;
+
+  @Property()
+  registrationEndAt: Date;
 }
