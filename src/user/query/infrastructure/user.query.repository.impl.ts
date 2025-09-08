@@ -17,7 +17,7 @@ export class UserQueryRepositoryImpl implements UserQueryRepository {
     const userEntity = await this.ormRepository
       .createQueryBuilder('u')
       .select(['id', 'email'])
-      .where({ id: '1' })
+      .where({ id: userId })
       .getSingleResult();
 
     if (!userEntity)
