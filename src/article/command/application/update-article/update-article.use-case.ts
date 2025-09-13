@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
 import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
@@ -20,9 +20,6 @@ export class UpdateArticleUseCase {
   async execute(articleId: string, reqDto: UpdateArticleRequestDto): Promise<void> {
     // 기존 Article 조회
     const article = await this.articleCommandRepo.findById(articleId);
-    if (!article) {
-      throw new NotFoundException('게시물을 찾을 수 없습니다.');
-    }
 
     // 태그 처리
     if (reqDto.tags !== undefined) {

@@ -5,6 +5,7 @@ import { ArticleMapper } from './article.mapper';
 import { ArticleEntity } from './article.entity';
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { TagEntity } from 'src/tag/infrastructure/orm-entity/tag.entity';
+import { NotFoundException } from '@nestjs/common';
 
 export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
   constructor(
@@ -73,12 +74,9 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
     }
   }
 
-  async findById(id: string): Promise<Article | null> {
+  async findById(id: string): Promise<Article> {
     const articleEntity = await this.ormRepository.findOne({ id }, { populate: ['tags', 'media'], strategy: 'joined' });
-
-    if (!articleEntity) {
-      return null;
-    }
+    if (!articleEntity) throw new NotFoundException();
 
     const article = ArticleMapper.toDomain(articleEntity);
     return article;
