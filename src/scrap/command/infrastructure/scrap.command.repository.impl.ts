@@ -2,9 +2,10 @@ import { Scrap } from '../domain/scrap';
 import { ScrapCommandRepository } from '../domain/scrap.command.repository';
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { ScrapEntity } from './scrap.entity';
-import { NotFoundException } from '@nestjs/common';
 import { ScrapMapper } from './scrap.mapper';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export class ScrapCommandRepositoryImpl implements ScrapCommandRepository {
   constructor(
@@ -20,14 +21,14 @@ export class ScrapCommandRepositoryImpl implements ScrapCommandRepository {
 
   async deleteByArticleIdAndUserId(articleId: string, userId: string): Promise<void> {
     const scrapEntity = await this.scrapOrmRepository.findOne({ article: { id: articleId }, user: { id: userId } });
-    if (!scrapEntity) throw new NotFoundException('스크랩이 존재하지 않습니다.');
+    if (!scrapEntity) throw new CustomException(CustomExceptionCode.SCRAP_NOT_FOUND);
 
     await this.em.removeAndFlush(scrapEntity);
   }
 
   async findByArticleIdAndUserId(articleId: string, userId: string): Promise<Scrap> {
     const scrapEntity = await this.scrapOrmRepository.findOne({ article: { id: articleId }, user: { id: userId } });
-    if (!scrapEntity) throw new NotFoundException('스크랩이 존재하지 않습니다.');
+    if (!scrapEntity) throw new CustomException(CustomExceptionCode.SCRAP_NOT_FOUND);
 
     const scrap = ScrapMapper.toDomain(scrapEntity);
 

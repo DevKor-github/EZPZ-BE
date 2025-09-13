@@ -26,6 +26,7 @@ export enum CustomExceptionCode {
   // Scrap
   SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY = 'SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY',
   SCRAP_ALREADY_EXISTS = 'SCRAP_ALREADY_EXISTS',
+  SCRAP_NOT_FOUND = 'SCRAP_NOT_FOUND',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -115,5 +116,11 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.SCRAP_ALREADY_EXISTS]: {
     status: HttpStatus.CONFLICT,
     message: '[Scrap] 이미 스크랩한 게시물 입니다.',
+  },
+
+  // Infrastructure
+  [CustomExceptionCode.SCRAP_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[Scrap] 스크랩이 존재하지 않습니다.',
   },
 };
