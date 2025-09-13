@@ -1,9 +1,11 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { TokenType } from 'src/auth/infrastructure/jwt/jwt.factory';
 import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { RenewTokenRequestDto } from './dto/renew-token.request.dto';
 import { RenewTokenResponseDto } from './dto/renew-token.response.dto';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 @Injectable()
 export class RenewTokenUseCase {
@@ -16,7 +18,7 @@ export class RenewTokenUseCase {
   async execute(reqeustDto: RenewTokenRequestDto): Promise<RenewTokenResponseDto> {
     const { userId, jti } = reqeustDto;
     const auth = await this.authRepository.findByRefreshToken(jti);
-    if (!auth || userId != auth.userId.value) throw new UnauthorizedException('유효하지 않은 refresh token 입니다. a');
+    if (!auth || userId != auth.userId.value) throw new CustomException(CustomExceptionCode.AUTH_INVALID_REFRESH_TOKEN);
 
     const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, userId);
     const { token: refreshToken, jti: newJti } = await this.jwtProvider.generateToken(TokenType.REFRESH, userId);

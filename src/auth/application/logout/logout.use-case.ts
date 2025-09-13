@@ -1,6 +1,8 @@
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { LogoutRequestDto } from './dto/logout.request.dto';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 @Injectable()
 export class LogoutUseCase {
@@ -12,7 +14,7 @@ export class LogoutUseCase {
   async execute(requestDto: LogoutRequestDto): Promise<void> {
     const { userId } = requestDto;
     const auth = await this.authRepository.findByUserId(userId);
-    if (!auth) throw new InternalServerErrorException('해당 유저의 인증 정보가 없습니다.');
+    if (!auth) throw new CustomException(CustomExceptionCode.AUTH_INFO_NOT_FOUND);
 
     auth.updateRefreshToken(null, new Date());
     await this.authRepository.update(auth);

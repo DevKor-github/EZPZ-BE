@@ -13,6 +13,8 @@ export enum CustomExceptionCode {
   AUTH_PROVIDER_EMPTY = 'AUTH_OAUTH_PROVIDER_EMPTY',
   AUTH_INVALID_PROVIDER = 'AUTH_INVALID_PROVIDER',
   AUTH_USER_ID_EMPTY = 'AUTH_USER_ID_EMPTY',
+  AUTH_INFO_NOT_FOUND = 'AUTH_INFO_NOT_FOUND',
+  AUTH_INVALID_REFRESH_TOKEN = 'AUTH_INVALID_REFRESH_TOKEN',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -54,5 +56,13 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.AUTH_USER_ID_EMPTY]: {
     status: HttpStatus.BAD_REQUEST,
     message: '[Auth] UserId는 필수 입니다.',
+  },
+  [CustomExceptionCode.AUTH_INFO_NOT_FOUND]: {
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    message: '[Auth] 해당 유저의 인증 정보를 찾을 수 없습니다.',
+  },
+  [CustomExceptionCode.AUTH_INVALID_REFRESH_TOKEN]: {
+    status: HttpStatus.UNAUTHORIZED,
+    message: '[Auth] 유효하지 않은 Refresh Token 입니다.',
   },
 };
