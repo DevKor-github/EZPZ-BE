@@ -1,6 +1,17 @@
 import { HttpStatus } from '@nestjs/common';
 
 export enum CustomExceptionCode {
+  // Article
+  ARTICLE_TITLE_EMPTY = 'ARTICLE_TITLE_EMPTY',
+  ARTICLE_ORGANIZATION_EMPTY = 'ARTICLE_ORGANIZATION_EMPTY',
+  ARTICLE_LOCATION_EMPTY = 'ARTICLE_LOCATION_EMPTY',
+  ARTICLE_START_AT_EMPTY = 'ARTICLE_START_AT_EMPTY',
+  ARTICLE_START_AT_EXCEEDS_END_AT = 'ARTICLE_START_AT_EXCEEDS_END_AT',
+  ARTICLE_END_AT_EMPTY = 'ARTICLE_END_AT_EMPTY',
+  ARTICLE_SCRAP_COUNT_NEGATIVE = 'ARTICLE_SCRAP_NEGATIVE',
+  ARTICLE_VIEW_COUNT_NEGATIVE = 'ARTICLE_VIEW_COUNT_NEGATIVE',
+  ARTICLE_MEDIA_MAX_IMAGES_EXCEEDED = 'MEDIA_MAX_IMAGES_EXCEEDED',
+
   // User
   USER_EMAIL_EMPTY = 'USER_EMAIL_EMPTY',
   USER_INVALID_EMAIL_FORMAT = 'USER_INVALID_EMAIL_FORMAT',
@@ -30,6 +41,45 @@ export enum CustomExceptionCode {
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
+  // Article
+  // Domain
+  [CustomExceptionCode.ARTICLE_TITLE_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 제목은 필수입니다.',
+  },
+  [CustomExceptionCode.ARTICLE_ORGANIZATION_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 조직은 필수입니다.',
+  },
+  [CustomExceptionCode.ARTICLE_LOCATION_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 위치는 필수입니다.',
+  },
+  [CustomExceptionCode.ARTICLE_START_AT_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 행사 시작일은 필수입니다.',
+  },
+  [CustomExceptionCode.ARTICLE_START_AT_EXCEEDS_END_AT]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 행사 시작일은 종료일보다 이전이어야 합니다.',
+  },
+  [CustomExceptionCode.ARTICLE_END_AT_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 행사 종료일은 필수입니다.',
+  },
+  [CustomExceptionCode.ARTICLE_SCRAP_COUNT_NEGATIVE]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 스크랩 수는 0 이상이어야 합니다.',
+  },
+  [CustomExceptionCode.ARTICLE_VIEW_COUNT_NEGATIVE]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 조회수는 0이상이어야 합니다.',
+  },
+  [CustomExceptionCode.ARTICLE_MEDIA_MAX_IMAGES_EXCEEDED]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Article] 이미지는 최대 10개까지 업로드할 수 있습니다.',
+  },
+
   // User
   [CustomExceptionCode.USER_EMAIL_EMPTY]: {
     status: HttpStatus.BAD_REQUEST,
