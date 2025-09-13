@@ -11,6 +11,7 @@ export enum CustomExceptionCode {
   ARTICLE_SCRAP_COUNT_NEGATIVE = 'ARTICLE_SCRAP_NEGATIVE',
   ARTICLE_VIEW_COUNT_NEGATIVE = 'ARTICLE_VIEW_COUNT_NEGATIVE',
   ARTICLE_MEDIA_MAX_IMAGES_EXCEEDED = 'MEDIA_MAX_IMAGES_EXCEEDED',
+  ARTICLE_NOT_FOUND = 'ARTICLE_NOT_FOUND',
 
   // User
   USER_EMAIL_EMPTY = 'USER_EMAIL_EMPTY',
@@ -78,6 +79,12 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.ARTICLE_MEDIA_MAX_IMAGES_EXCEEDED]: {
     status: HttpStatus.BAD_REQUEST,
     message: '[Article] 이미지는 최대 10개까지 업로드할 수 있습니다.',
+  },
+
+  // Infrastructure
+  [CustomExceptionCode.ARTICLE_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[Article] 해당 게시글이 존재하지 않습니다.',
   },
 
   // User

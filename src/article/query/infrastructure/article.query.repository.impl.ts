@@ -4,6 +4,8 @@ import { ArticleEntity } from 'src/article/command/infrastructure/article.entity
 import { EntityManager, EntityRepository, sql } from '@mikro-orm/mysql';
 import { ArticleDetailModel } from '../domain/article-detail.model';
 import { ArticleModel } from '../domain/article.model';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
   constructor(
@@ -12,11 +14,11 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     private readonly em: EntityManager,
   ) {}
 
-  async findById(id: string): Promise<ArticleDetailModel | null> {
+  async findById(id: string): Promise<ArticleDetailModel> {
     // 먼저 게시물 존재 여부 확인
     const existsCheck = await this.ormRepository.createQueryBuilder('a').select(['a.id']).where({ id: id }).execute();
 
-    if (!existsCheck.length) return null;
+    if (!existsCheck.length) throw new CustomException(CustomExceptionCode.ARTICLE_NOT_FOUND);
 
     // 조회수 증가
     await this.em.execute('UPDATE article SET view_count = view_count + 1 WHERE id = ?', [id]);
