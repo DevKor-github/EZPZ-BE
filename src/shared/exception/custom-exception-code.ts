@@ -16,6 +16,12 @@ export enum CustomExceptionCode {
   AUTH_INFO_NOT_FOUND = 'AUTH_INFO_NOT_FOUND',
   AUTH_INVALID_REFRESH_TOKEN = 'AUTH_INVALID_REFRESH_TOKEN',
   AUTH_INVALID_ACCESS_TOKEN = 'AUTH_INVALID_ACCESS_TOKEN',
+
+  // Media
+  MEDIA_PATH_EMPTY = 'MEDIA_PATH_EMPTY',
+  MEDIA_INVALID_PATH = 'MEDIA_INVALID_PATH',
+  MEDIA_ORDER_EMPTY = 'MEDIA_ORDER_EMPTY',
+  MEDIA_ARTICLE_ID_EMPTY = 'MEDIA_ARTICLE_ID_EMPTY',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -73,5 +79,24 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.AUTH_INVALID_ACCESS_TOKEN]: {
     status: HttpStatus.UNAUTHORIZED,
     message: '[Auth] 유효하지 않은 Access Token 입니다.',
+  },
+
+  // Media
+  // Domain
+  [CustomExceptionCode.MEDIA_PATH_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Media] 미디어 경로는 필수 입니다.',
+  },
+  [CustomExceptionCode.MEDIA_INVALID_PATH]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Media] 유효하지 않은 미디어 경로 입니다.',
+  },
+  [CustomExceptionCode.MEDIA_ORDER_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Media] 미디어 순서는 필수 입니다.',
+  },
+  [CustomExceptionCode.MEDIA_ARTICLE_ID_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Media] articleId는 필수 입니다.',
   },
 };
