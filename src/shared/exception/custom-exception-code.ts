@@ -22,6 +22,9 @@ export enum CustomExceptionCode {
   MEDIA_INVALID_PATH = 'MEDIA_INVALID_PATH',
   MEDIA_ORDER_EMPTY = 'MEDIA_ORDER_EMPTY',
   MEDIA_ARTICLE_ID_EMPTY = 'MEDIA_ARTICLE_ID_EMPTY',
+
+  // Scrap
+  SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY = 'SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -98,5 +101,12 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.MEDIA_ARTICLE_ID_EMPTY]: {
     status: HttpStatus.BAD_REQUEST,
     message: '[Media] articleId는 필수 입니다.',
+  },
+
+  // Scrap
+  // Domain
+  [CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Scrap] ArticleId와 UserId는 필수입니다.',
   },
 };
