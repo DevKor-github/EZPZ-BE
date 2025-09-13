@@ -1,8 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 interface RefreshTokenPayload {
   userId: string;
@@ -19,7 +21,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
             return req.cookies?.refreshToken as string;
           } catch (e: unknown) {
             console.log(e);
-            throw new UnauthorizedException('유효하지 않은 refresh token 입니다.');
+            throw new CustomException(CustomExceptionCode.AUTH_INVALID_REFRESH_TOKEN);
           }
         },
       ]),
