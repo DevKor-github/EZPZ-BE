@@ -7,6 +7,12 @@ export enum CustomExceptionCode {
   USER_ROLE_EMPTY = 'USER_ROLE_EMPTY',
   USER_INVALID_ROLE = 'USER_INVALID_ROLE',
   USER_NOT_FOUND = 'USER_NOT_FOUND',
+
+  // Auth
+  AUTH_OAUTH_ID_EMPTY = 'AUTH_OAUTH_ID_EMPTY',
+  AUTH_PROVIDER_EMPTY = 'AUTH_OAUTH_PROVIDER_EMPTY',
+  AUTH_INVALID_PROVIDER = 'AUTH_INVALID_PROVIDER',
+  AUTH_USER_ID_EMPTY = 'AUTH_USER_ID_EMPTY',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -30,5 +36,23 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.USER_NOT_FOUND]: {
     status: HttpStatus.NOT_FOUND,
     message: '[UserRepository] 해당 사용자가 존재하지 않습니다.',
+  },
+
+  // Auth
+  [CustomExceptionCode.AUTH_OAUTH_ID_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Auth] OAuthId는 필수 입니다.',
+  },
+  [CustomExceptionCode.AUTH_PROVIDER_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Auth] OAuth Provider는 필수 입니다.',
+  },
+  [CustomExceptionCode.AUTH_INVALID_PROVIDER]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Auth] 유효하지 않은 OAuth Provider 입니다.',
+  },
+  [CustomExceptionCode.AUTH_USER_ID_EMPTY]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Auth] UserId는 필수 입니다.',
   },
 };
