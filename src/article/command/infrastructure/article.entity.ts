@@ -26,6 +26,12 @@ export class ArticleEntity extends BaseEntity {
   @Property({ type: 'datetime' })
   endAt: Date;
 
+  @Property({ type: 'datetime', nullable: true })
+  registrationStartAt?: Date;
+
+  @Property({ type: 'datetime', nullable: true })
+  registrationEndAt?: Date;
+
   @Property({ type: 'int' })
   scrapCount: number;
 

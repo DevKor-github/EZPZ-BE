@@ -51,6 +51,8 @@ export class ScrapQueryRepositoryImpl implements ScrapQueryRepository {
       tags: entity.tags ? (entity.tags as unknown as string).split(',') : [],
       startAt: entity.startAt,
       endAt: entity.endAt,
+      registrationStartAt: entity.registrationStartAt,
+      registrationEndAt: entity.registrationEndAt,
     }));
 
     return result;

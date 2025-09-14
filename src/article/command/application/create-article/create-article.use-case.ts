@@ -48,6 +48,8 @@ export class CreateArticleUseCase {
       startAt: new Date(reqDto.startAt),
       endAt: new Date(reqDto.endAt),
       registrationUrl: reqDto.registrationUrl,
+      registrationStartAt: reqDto.registrationStartAt ? new Date(reqDto.registrationStartAt) : undefined,
+      registrationEndAt: reqDto.registrationEndAt ? new Date(reqDto.registrationEndAt) : undefined,
       scrapCount: 0,
       viewCount: 0,
       mediaIds: [],

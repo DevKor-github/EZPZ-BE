@@ -12,6 +12,8 @@ export interface ArticleProps extends BaseEntityProps {
   registrationUrl: string;
   startAt: Date;
   endAt: Date;
+  registrationStartAt?: Date;
+  registrationEndAt?: Date;
   scrapCount: number;
   viewCount: number;
   mediaIds: Identifier[];
@@ -111,6 +113,14 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     return this.props.endAt;
   }
 
+  get registrationStartAt(): Date | undefined {
+    return this.props.registrationStartAt;
+  }
+
+  get registrationEndAt(): Date | undefined {
+    return this.props.registrationEndAt;
+  }
+
   get scrapCount(): number {
     return this.props.scrapCount;
   }
@@ -135,6 +145,8 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     registrationUrl?: string;
     startAt?: Date;
     endAt?: Date;
+    registrationStartAt?: Date;
+    registrationEndAt?: Date;
   }): void {
     if (props.title !== undefined && props.title !== this.props.title) {
       this.props.title = props.title;
@@ -156,6 +168,12 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     }
     if (props.endAt !== undefined && props.endAt !== this.props.endAt) {
       this.props.endAt = props.endAt;
+    }
+    if (props.registrationStartAt !== undefined && props.registrationStartAt !== this.props.registrationStartAt) {
+      this.props.registrationStartAt = props.registrationStartAt;
+    }
+    if (props.registrationEndAt !== undefined && props.registrationEndAt !== this.props.registrationEndAt) {
+      this.props.registrationEndAt = props.registrationEndAt;
     }
 
     this.props.updatedAt = new Date();

@@ -56,6 +56,8 @@ export class UpdateArticleUseCase {
       startAt: reqDto.startAt ? new Date(reqDto.startAt) : undefined,
       endAt: reqDto.endAt ? new Date(reqDto.endAt) : undefined,
       registrationUrl: reqDto.registrationUrl,
+      registrationStartAt: reqDto.registrationStartAt ? new Date(reqDto.registrationStartAt) : undefined,
+      registrationEndAt: reqDto.registrationEndAt ? new Date(reqDto.registrationEndAt) : undefined,
     });
 
     await this.articleCommandRepo.update(article);

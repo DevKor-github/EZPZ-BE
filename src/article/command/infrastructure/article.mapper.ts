@@ -18,6 +18,8 @@ export class ArticleMapper {
       registrationUrl: entity.registrationUrl,
       startAt: entity.startAt,
       endAt: entity.endAt,
+      registrationStartAt: entity.registrationStartAt,
+      registrationEndAt: entity.registrationEndAt,
       scrapCount: entity.scrapCount,
       viewCount: entity.viewCount,
       mediaIds: entity.media ? entity.media.map((m) => Identifier.from(m.id)) : [],
@@ -37,6 +39,8 @@ export class ArticleMapper {
     entity.registrationUrl = domain.registrationUrl;
     entity.startAt = domain.startAt;
     entity.endAt = domain.endAt;
+    entity.registrationStartAt = domain.registrationStartAt;
+    entity.registrationEndAt = domain.registrationEndAt;
     entity.scrapCount = domain.scrapCount;
     entity.viewCount = domain.viewCount;
     entity.tags = new Collection<TagEntity>(entity);

@@ -35,6 +35,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
           'a.location',
           'a.startAt',
           'a.endAt',
+          'a.registrationStartAt',
+          'a.registrationEndAt',
           'a.scrapCount',
           'a.viewCount',
           'a.registrationUrl',
@@ -70,6 +72,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       location: articleEntity.location,
       startAt: articleEntity.startAt,
       endAt: articleEntity.endAt,
+      registrationStartAt: articleEntity.registrationStartAt,
+      registrationEndAt: articleEntity.registrationEndAt,
       scrapCount: articleEntity.scrapCount,
       viewCount: articleEntity.viewCount,
       registrationUrl: articleEntity.registrationUrl,
@@ -94,6 +98,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
         'a.organization',
         'a.startAt',
         'a.endAt',
+        'a.registrationStartAt',
+        'a.registrationEndAt',
         'a.scrapCount',
         'a.viewCount',
         sql`(
@@ -149,6 +155,8 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       tags: articleEntity.tags ? (articleEntity.tags as unknown as string).split(',') : [],
       startAt: articleEntity.startAt,
       endAt: articleEntity.endAt,
+      registrationStartAt: articleEntity.registrationStartAt,
+      registrationEndAt: articleEntity.registrationEndAt,
     }));
 
     return result;

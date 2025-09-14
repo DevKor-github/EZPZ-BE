@@ -42,6 +42,8 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
         registrationUrl: article.registrationUrl,
         startAt: article.startAt,
         endAt: article.endAt,
+        registrationStartAt: article.registrationStartAt,
+        registrationEndAt: article.registrationEndAt,
         scrapCount: article.scrapCount,
         viewCount: article.viewCount,
       },
