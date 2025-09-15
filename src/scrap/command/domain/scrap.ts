@@ -3,6 +3,8 @@ import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { ScrapAddedEvent } from './event/scrap-added.event';
 import { ScrapDeletedEvent } from './event/scrap-deleted.event';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export interface ScrapProps extends BaseEntityProps {
   articleId: Identifier;
@@ -25,7 +27,7 @@ export class Scrap extends AggregateRoot<ScrapProps> {
 
   public validate(): void {
     if (!this.props.articleId || !this.props.userId) {
-      throw new Error('게시글ID와 사용자ID는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY);
     }
   }
 

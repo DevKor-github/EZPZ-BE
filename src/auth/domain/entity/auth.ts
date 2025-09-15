@@ -2,6 +2,8 @@ import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { OAuthProviderType } from '../value-object/oauth-provider.enum';
 import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;
@@ -25,18 +27,18 @@ export class Auth extends AggregateRoot<AuthProps> {
 
   public validate(): void {
     if (!this.props.oauthId) {
-      throw new Error('OAuth ID는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.AUTH_OAUTH_ID_EMPTY);
     }
 
     if (!this.props.provider) {
-      throw new Error('OAuth 제공자는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.AUTH_PROVIDER_EMPTY);
     }
     if (!Object.values(OAuthProviderType).includes(this.props.provider)) {
-      throw new Error('유효하지 않은 OAuth provider입니다.');
+      throw new CustomException(CustomExceptionCode.AUTH_INVALID_PROVIDER);
     }
 
     if (!this.props.userId) {
-      throw new Error('사용자 ID는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.AUTH_USER_ID_EMPTY);
     }
   }
 

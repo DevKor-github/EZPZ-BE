@@ -1,5 +1,7 @@
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 export interface MediaProps extends BaseEntityProps {
   mediaPath: string;
@@ -21,18 +23,18 @@ export class Media extends BaseDomainEntity<MediaProps> {
 
   public validate(): void {
     if (!this.props.mediaPath) {
-      throw new Error('미디어 경로는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.MEDIA_PATH_EMPTY);
     }
     if (!this.validateMediaPath()) {
-      throw new Error('유효하지 않은 미디어 경로입니다.');
+      throw new CustomException(CustomExceptionCode.MEDIA_INVALID_PATH);
     }
 
     if (this.props.order === undefined) {
-      throw new Error('이미지 순서는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.MEDIA_ORDER_EMPTY);
     }
 
     if (!this.props.articleId) {
-      throw new Error('articleId는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.MEDIA_ARTICLE_ID_EMPTY);
     }
   }
 

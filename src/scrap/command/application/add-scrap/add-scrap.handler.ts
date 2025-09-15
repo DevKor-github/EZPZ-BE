@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { Scrap } from '../../domain/scrap';
 import { Identifier } from 'src/shared/core/domain/identifier';
@@ -24,8 +24,7 @@ export class AddScrapHandler {
     const { articleId, userId } = command;
     const now = new Date();
 
-    const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
-    if (existingScrap) throw new ConflictException('이미 스크랩한 게시물 입니다.');
+    await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
     const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
 

@@ -1,5 +1,7 @@
 import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { Tag } from 'src/tag/domain/entity/tag';
 
 export interface ArticleProps extends BaseEntityProps {
@@ -32,37 +34,37 @@ export class Article extends BaseDomainEntity<ArticleProps> {
 
   public validate(): void {
     if (!this.props.title) {
-      throw new Error('제목은 필수입니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_TITLE_EMPTY);
     }
 
     if (!this.props.organization) {
-      throw new Error('조직은 필수입니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_ORGANIZATION_EMPTY);
     }
 
     if (!this.props.location) {
-      throw new Error('위치는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_LOCATION_EMPTY);
     }
 
     if (!this.props.startAt) {
-      throw new Error('시작 날짜는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_START_AT_EMPTY);
     }
     if (this.props.startAt > this.props.endAt) {
-      throw new Error('시작 날짜는 종료 날짜보다 이전이어야 합니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_START_AT_EXCEEDS_END_AT);
     }
 
     if (!this.props.endAt) {
-      throw new Error('종료 날짜는 필수입니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_END_AT_EMPTY);
     }
 
     if (this.props.scrapCount < 0) {
-      throw new Error('스크랩 수는 0 이상이어야 합니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_SCRAP_COUNT_NEGATIVE);
     }
     if (this.props.viewCount < 0) {
-      throw new Error('조회 수는 0 이상이어야 합니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_VIEW_COUNT_NEGATIVE);
     }
 
     if (this.mediaIds.length > 10) {
-      throw new Error('이미지는 최대 10개까지 업로드할 수 있습니다.');
+      throw new CustomException(CustomExceptionCode.ARTICLE_MEDIA_MAX_IMAGES_EXCEEDED);
     }
   }
 

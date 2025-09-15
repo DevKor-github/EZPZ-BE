@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { DeleteScrapCommand } from './delete-scrap.command';
@@ -16,7 +16,6 @@ export class DeleteScrapHandler {
     const { articleId, userId } = command;
 
     const scrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
-    if (!scrap) throw new NotFoundException('스크랩이 존재하지 않습니다.');
 
     await this.scrapCommandRepository.deleteByArticleIdAndUserId(articleId, userId);
 

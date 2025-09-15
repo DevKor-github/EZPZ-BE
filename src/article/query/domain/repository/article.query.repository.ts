@@ -2,7 +2,7 @@ import { ArticleDetailModel } from '../article-detail.model';
 import { ArticleModel } from '../article.model';
 
 export interface ArticleQueryRepository {
-  findById(id: string): Promise<ArticleDetailModel | null>;
+  findById(id: string): Promise<ArticleDetailModel>;
   findAllByCriteria(
     tags?: string[],
     isFinished?: boolean,
