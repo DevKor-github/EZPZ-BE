@@ -8,8 +8,6 @@ import {
 } from 'src/article/command/domain/article.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { AddScrapCommand } from './add-scrap.command';
-import { CustomException } from 'src/shared/exception/custom-exception';
-import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 @Injectable()
 @CommandHandler(AddScrapCommand)
@@ -26,8 +24,7 @@ export class AddScrapHandler {
     const { articleId, userId } = command;
     const now = new Date();
 
-    const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
-    if (existingScrap) throw new CustomException(CustomExceptionCode.SCRAP_ALREADY_EXISTS);
+    await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
     const article = await this.articleCommandRepository.findById(articleId);
     if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
 

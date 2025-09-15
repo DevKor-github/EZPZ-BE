@@ -27,7 +27,7 @@ export class Scrap extends AggregateRoot<ScrapProps> {
 
   public validate(): void {
     if (!this.props.articleId || !this.props.userId) {
-      throw new CustomException(CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY);
+      throw new CustomException(CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY);
     }
   }
 

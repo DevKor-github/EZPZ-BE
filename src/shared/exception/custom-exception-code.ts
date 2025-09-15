@@ -36,7 +36,7 @@ export enum CustomExceptionCode {
   MEDIA_ARTICLE_ID_EMPTY = 'MEDIA_ARTICLE_ID_EMPTY',
 
   // Scrap
-  SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY = 'SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY',
+  SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY = 'SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY',
   SCRAP_ALREADY_EXISTS = 'SCRAP_ALREADY_EXISTS',
   SCRAP_NOT_FOUND = 'SCRAP_NOT_FOUND',
 }
@@ -164,7 +164,7 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
 
   // Scrap
   // Domain
-  [CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMTPY]: {
+  [CustomExceptionCode.SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY]: {
     status: HttpStatus.BAD_REQUEST,
     message: '[Scrap] ArticleId와 UserId는 필수입니다.',
   },
