@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateArticleRequestDto {
   @IsString()
@@ -26,12 +26,15 @@ export class CreateArticleRequestDto {
   endAt: string;
 
   @IsString()
+  @IsOptional()
   registrationUrl: string;
 
   @IsString()
+  @IsOptional()
   registrationStartAt?: string;
 
   @IsString()
+  @IsOptional()
   registrationEndAt?: string;
 
   @IsArray()
