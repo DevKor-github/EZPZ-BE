@@ -74,6 +74,7 @@ export class UpdateArticleRequestDto {
     required: false,
   })
   @IsString()
+  @Length(0)
   @IsOptional()
   registrationStartAt?: string;
 
@@ -83,6 +84,7 @@ export class UpdateArticleRequestDto {
     required: false,
   })
   @IsString()
+  @Length(0)
   @IsOptional()
   registrationEndAt?: string;
 

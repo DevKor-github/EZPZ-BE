@@ -169,11 +169,16 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     if (props.endAt !== undefined && props.endAt !== this.props.endAt) {
       this.props.endAt = props.endAt;
     }
-    if (props.registrationStartAt !== undefined && props.registrationStartAt !== this.props.registrationStartAt) {
-      this.props.registrationStartAt = props.registrationStartAt;
+    // Optional date fields: allow explicit clearing when the key is present even if value is undefined
+    if (Object.prototype.hasOwnProperty.call(props, 'registrationStartAt')) {
+      if (props.registrationStartAt !== this.props.registrationStartAt) {
+        this.props.registrationStartAt = props.registrationStartAt;
+      }
     }
-    if (props.registrationEndAt !== undefined && props.registrationEndAt !== this.props.registrationEndAt) {
-      this.props.registrationEndAt = props.registrationEndAt;
+    if (Object.prototype.hasOwnProperty.call(props, 'registrationEndAt')) {
+      if (props.registrationEndAt !== this.props.registrationEndAt) {
+        this.props.registrationEndAt = props.registrationEndAt;
+      }
     }
 
     this.props.updatedAt = new Date();
