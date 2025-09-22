@@ -26,9 +26,9 @@ export class ScrapCommandRepositoryImpl implements ScrapCommandRepository {
     await this.em.removeAndFlush(scrapEntity);
   }
 
-  async findByArticleIdAndUserId(articleId: string, userId: string): Promise<Scrap> {
+  async findByArticleIdAndUserId(articleId: string, userId: string): Promise<Scrap | null> {
     const scrapEntity = await this.scrapOrmRepository.findOne({ article: { id: articleId }, user: { id: userId } });
-    if (!scrapEntity) throw new CustomException(CustomExceptionCode.SCRAP_NOT_FOUND);
+    if (!scrapEntity) return null;
 
     const scrap = ScrapMapper.toDomain(scrapEntity);
 
