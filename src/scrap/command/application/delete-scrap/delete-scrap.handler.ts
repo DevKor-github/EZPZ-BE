@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { DeleteScrapCommand } from './delete-scrap.command';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 @Injectable()
 @CommandHandler(DeleteScrapCommand)
@@ -16,6 +18,7 @@ export class DeleteScrapHandler {
     const { articleId, userId } = command;
 
     const scrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
+    if (!scrap) throw new CustomException(CustomExceptionCode.SCRAP_NOT_FOUND);
 
     await this.scrapCommandRepository.deleteByArticleIdAndUserId(articleId, userId);
 

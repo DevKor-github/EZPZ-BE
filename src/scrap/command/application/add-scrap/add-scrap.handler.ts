@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { Scrap } from '../../domain/scrap';
 import { Identifier } from 'src/shared/core/domain/identifier';
@@ -8,6 +8,8 @@ import {
 } from 'src/article/command/domain/article.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { AddScrapCommand } from './add-scrap.command';
+import { CustomException } from 'src/shared/exception/custom-exception';
+import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 
 @Injectable()
 @CommandHandler(AddScrapCommand)
@@ -24,9 +26,10 @@ export class AddScrapHandler {
     const { articleId, userId } = command;
     const now = new Date();
 
-    await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
+    const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
+    if (existingScrap) throw new CustomException(CustomExceptionCode.SCRAP_ALREADY_EXISTS);
     const article = await this.articleCommandRepository.findById(articleId);
-    if (!article) throw new NotFoundException('존재하지 않는 게시물 입니다.');
+    if (!article) throw new CustomException(CustomExceptionCode.ARTICLE_NOT_FOUND);
 
     const scrap = Scrap.create({
       id: Identifier.create(),
