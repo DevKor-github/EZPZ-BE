@@ -41,4 +41,9 @@ export default () => ({
     url: process.env.FRONTEND_URL,
     loginRedirectPath: process.env.FRONTEND_LOGIN_REDIRECT_PATH,
   },
+
+  // Amplitude
+  amplitude: {
+    apiKey: process.env.AMPLITUDE_API_KEY,
+  },
 });
