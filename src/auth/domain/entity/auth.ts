@@ -4,6 +4,7 @@ import { OAuthProviderType } from '../value-object/oauth-provider.enum';
 import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { LoginSucceededEvent } from '../event/login-succeeded.event';
 
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;
@@ -21,6 +22,7 @@ export class Auth extends AggregateRoot<AuthProps> {
   public static create(props: AuthProps): Auth {
     const auth = new Auth(props);
     auth.validate();
+    auth.addDomainEvent(new LoginSucceededEvent(auth.userId));
 
     return auth;
   }
