@@ -6,6 +6,7 @@ import { RenewTokenRequestDto } from './dto/renew-token.request.dto';
 import { RenewTokenResponseDto } from './dto/renew-token.response.dto';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { EventBus } from '@nestjs/cqrs';
 
 @Injectable()
 export class RenewTokenUseCase {
@@ -13,6 +14,7 @@ export class RenewTokenUseCase {
     private readonly jwtProvider: JwtProvider,
     @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepository,
+    private readonly eventBus: EventBus,
   ) {}
 
   async execute(reqeustDto: RenewTokenRequestDto): Promise<RenewTokenResponseDto> {
@@ -25,6 +27,8 @@ export class RenewTokenUseCase {
 
     auth.updateRefreshToken(newJti, new Date());
     await this.authRepository.update(auth);
+
+    await this.eventBus.publishAll(auth.pullDomainEvents());
 
     return { accessToken, refreshToken };
   }
