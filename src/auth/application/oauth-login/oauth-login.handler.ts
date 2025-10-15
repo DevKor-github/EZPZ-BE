@@ -55,7 +55,7 @@ export class OAuthLoginUseCase {
 
     const userId = Identifier.create();
 
-    await this.eventBus.publish(new AuthCreatedEvent(userId, email, Role.GENERAL));
+    await this.eventBus.publish(new AuthCreatedEvent(userId, email, Role.GENERAL, provider));
 
     const auth = Auth.create({
       id: Identifier.create(),
