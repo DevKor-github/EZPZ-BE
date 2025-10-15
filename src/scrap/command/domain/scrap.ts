@@ -16,11 +16,11 @@ export class Scrap extends AggregateRoot<ScrapProps> {
     super(props);
   }
 
-  public static create(props: ScrapProps): Scrap {
+  public static create(props: ScrapProps, tags: string[]): Scrap {
     const scrap = new Scrap(props);
     scrap.validate();
 
-    scrap.addDomainEvent(new ScrapAddedEvent(props.articleId.value));
+    scrap.addDomainEvent(new ScrapAddedEvent(props.userId.value, props.articleId.value, tags));
 
     return scrap;
   }
@@ -31,8 +31,8 @@ export class Scrap extends AggregateRoot<ScrapProps> {
     }
   }
 
-  public delete(): void {
-    this.addDomainEvent(new ScrapDeletedEvent(this.articleId.value));
+  public delete(tags: string[]): void {
+    this.addDomainEvent(new ScrapDeletedEvent(this.userId.value, this.articleId.value, tags));
   }
 
   get articleId(): Identifier {
