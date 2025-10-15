@@ -22,7 +22,7 @@ export class Auth extends AggregateRoot<AuthProps> {
   public static create(props: AuthProps): Auth {
     const auth = new Auth(props);
     auth.validate();
-    auth.addDomainEvent(new LoginSucceededEvent(auth.userId));
+    auth.addDomainEvent(new LoginSucceededEvent(auth.userId, auth.provider));
 
     return auth;
   }
