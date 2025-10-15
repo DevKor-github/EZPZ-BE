@@ -3,9 +3,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AnalyticsService } from './infrastructure/analytics.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AuthEventsHandler } from './application/auth-event.handler';
+import { AuthCreatedEventHandler, LoginSucceededEventHandler } from './application/auth-event.handler';
+import { ScrapAddedEventHandler, ScrapDeletedEventHandler } from './application/scrap-event.handler';
 
 export const AMPLITUDE_CLIENT = Symbol('AMPLITUDE_CLIENT');
+
+const eventHandlers = [
+  AuthCreatedEventHandler,
+  LoginSucceededEventHandler,
+  ScrapAddedEventHandler,
+  ScrapDeletedEventHandler,
+];
 
 @Module({
   imports: [ConfigModule, CqrsModule],
@@ -20,7 +28,7 @@ export const AMPLITUDE_CLIENT = Symbol('AMPLITUDE_CLIENT');
       inject: [ConfigService],
     },
     AnalyticsService,
-    AuthEventsHandler,
+    ...eventHandlers,
   ],
   exports: [AnalyticsService],
 })
