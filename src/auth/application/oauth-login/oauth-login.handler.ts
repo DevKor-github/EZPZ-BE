@@ -34,7 +34,7 @@ export class OAuthLoginUseCase {
     const auth = await this.findOrCreateAuth(oauthId, provider, email);
     const { accessToken, refreshToken } = await this.generateAndSaveTokens(auth);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, userId: auth.userId.value };
   }
 
   // 소셜로그인 유저저 정보 가져오기
