@@ -6,16 +6,13 @@ import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 export class ScrapMapper {
   static toDomain(entity: ScrapEntity): Scrap {
-    return Scrap.create(
-      {
-        id: Identifier.from(entity.id),
-        createdAt: entity.createdAt,
-        updatedAt: entity.updatedAt,
-        articleId: Identifier.from(entity.article.id),
-        userId: Identifier.from(entity.user.id),
-      },
-      [],
-    );
+    return Scrap.create({
+      id: Identifier.from(entity.id),
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      articleId: Identifier.from(entity.article.id),
+      userId: Identifier.from(entity.user.id),
+    });
   }
 
   static toEntity(domain: Scrap): ScrapEntity {

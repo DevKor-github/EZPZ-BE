@@ -10,6 +10,7 @@ import {
   ARTICLE_QUERY_REPOSITORY,
   ArticleQueryRepository,
 } from 'src/article/query/domain/repository/article.query.repository';
+import { ScrapAddedEvent } from '../../domain/event/scrap-added.event';
 
 @Injectable()
 @CommandHandler(AddScrapCommand)
@@ -31,23 +32,16 @@ export class AddScrapHandler {
     const article = await this.articleQueryRepository.findById(articleId);
     if (!article) throw new CustomException(CustomExceptionCode.ARTICLE_NOT_FOUND);
 
-    const scrap = Scrap.create(
-      {
-        id: Identifier.create(),
-        userId: Identifier.from(userId),
-        articleId: Identifier.from(articleId),
-        createdAt: now,
-        updatedAt: now,
-      },
-      article.tags,
-    );
+    const scrap = Scrap.create({
+      id: Identifier.create(),
+      userId: Identifier.from(userId),
+      articleId: Identifier.from(articleId),
+      createdAt: now,
+      updatedAt: now,
+    });
 
     await this.scrapCommandRepository.save(scrap);
 
-    const events = scrap.pullDomainEvents();
-
-    for (const event of events) {
-      await this.eventBus.publish(event);
-    }
+    this.eventBus.publish(new ScrapAddedEvent(scrap.userId.value, scrap.articleId.value, article.tags));
   }
 }
