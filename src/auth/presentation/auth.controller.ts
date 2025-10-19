@@ -25,20 +25,25 @@ export class AuthController {
 
   @Get('oauth/authorization')
   @AuthDocs('oauthAuthorization')
-  authorizeOAuth(@Res() res: Response) {
-    const { authUrl } = this.authorizeOAuthUseCase.execute({ oAuthProviderType: OAuthProviderType.KAKAO });
+  authorizeOAuth(@Query('redirectUrl') redirectUrl?: string) {
+    const { authUrl } = this.authorizeOAuthUseCase.execute({ oAuthProviderType: OAuthProviderType.KAKAO, redirectUrl });
 
-    res.redirect(authUrl);
+    return authUrl;
   }
 
-  @Get('login/oauth/callback')
+  @Post('login/oauth/callback')
   @AuthDocs('oauthCallback')
-  async oAuthLogin(@Res() res: Response, @Query('code') code: string, @Query('error') error?: string) {
+  async oAuthLogin(
+    @Res() res: Response,
+    @Query('code') code: string,
+    @Query('error') error?: string,
+    //@Query('state') state?: string,
+  ) {
     if (error && error === 'access_denied') {
-      return res.redirect(`${this.configService.getOrThrow('frontend.url')}/login?error=cancelled`);
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Access denied' });
     }
 
-    const { accessToken, refreshToken } = await this.oAuthLoginUseCase.execute({
+    const { accessToken, refreshToken, userId } = await this.oAuthLoginUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
       code,
     });
@@ -46,9 +51,7 @@ export class AuthController {
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.redirect(
-      `${this.configService.getOrThrow('frontend.url')}/${this.configService.getOrThrow('frontend.loginRedirectPath')}`,
-    );
+    res.json({ userId });
   }
 
   @Get('refresh')
