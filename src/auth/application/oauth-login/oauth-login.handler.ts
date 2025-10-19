@@ -48,11 +48,14 @@ export class OAuthLoginUseCase {
   // 유저 생성 및 정보 가져오기
   private async findOrCreateAuth(oauthId: string, provider: OAuthProviderType, email: string): Promise<Auth> {
     const existingAuth = await this.authRepository.findByOAuthIdandProvider(oauthId, provider);
-    if (existingAuth) return existingAuth;
+    if (existingAuth) {
+      this.eventBus.publish(existingAuth);
+      return existingAuth;
+    }
 
     const userId = Identifier.create();
 
-    await this.eventBus.publish(new AuthCreatedEvent(userId, email, Role.GENERAL));
+    await this.eventBus.publish(new AuthCreatedEvent(userId, email, Role.GENERAL, provider));
 
     const auth = Auth.create({
       id: Identifier.create(),
@@ -66,6 +69,8 @@ export class OAuthLoginUseCase {
     });
 
     await this.authRepository.save(auth);
+
+    await this.eventBus.publishAll(auth.pullDomainEvents());
 
     return auth;
   }

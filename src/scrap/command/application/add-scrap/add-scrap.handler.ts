@@ -2,14 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SCRAP_COMMAND_REPOSITORY, ScrapCommandRepository } from '../../domain/scrap.command.repository';
 import { Scrap } from '../../domain/scrap';
 import { Identifier } from 'src/shared/core/domain/identifier';
-import {
-  ARTICLE_COMMAND_REPOSITORY,
-  ArticleCommandRepository,
-} from 'src/article/command/domain/article.command.repository';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
 import { AddScrapCommand } from './add-scrap.command';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import {
+  ARTICLE_QUERY_REPOSITORY,
+  ArticleQueryRepository,
+} from 'src/article/query/domain/repository/article.query.repository';
+import { ScrapAddedEvent } from '../../domain/event/scrap-added.event';
 
 @Injectable()
 @CommandHandler(AddScrapCommand)
@@ -18,8 +19,8 @@ export class AddScrapHandler {
     @Inject(SCRAP_COMMAND_REPOSITORY)
     private readonly scrapCommandRepository: ScrapCommandRepository,
     private readonly eventBus: EventBus,
-    @Inject(ARTICLE_COMMAND_REPOSITORY)
-    private readonly articleCommandRepository: ArticleCommandRepository,
+    @Inject(ARTICLE_QUERY_REPOSITORY)
+    private readonly articleQueryRepository: ArticleQueryRepository,
   ) {}
 
   async execute(command: AddScrapCommand): Promise<void> {
@@ -28,7 +29,7 @@ export class AddScrapHandler {
 
     const existingScrap = await this.scrapCommandRepository.findByArticleIdAndUserId(articleId, userId);
     if (existingScrap) throw new CustomException(CustomExceptionCode.SCRAP_ALREADY_EXISTS);
-    const article = await this.articleCommandRepository.findById(articleId);
+    const article = await this.articleQueryRepository.findById(articleId);
     if (!article) throw new CustomException(CustomExceptionCode.ARTICLE_NOT_FOUND);
 
     const scrap = Scrap.create({
@@ -41,10 +42,6 @@ export class AddScrapHandler {
 
     await this.scrapCommandRepository.save(scrap);
 
-    const events = scrap.pullDomainEvents();
-
-    for (const event of events) {
-      await this.eventBus.publish(event);
-    }
+    this.eventBus.publish(new ScrapAddedEvent(scrap.userId.value, scrap.articleId.value, article.tags));
   }
 }

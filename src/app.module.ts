@@ -12,6 +12,7 @@ import { MediaModule } from './media/media.module';
 import { ScrapModule } from './scrap/scrap.module';
 import mikroOrmConfig from './shared/config/mikro-orm.config';
 import config from 'src/shared/config/configuration';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import config from 'src/shared/config/configuration';
       isGlobal: true,
       load: [config],
     }),
+    AnalyticsModule,
     AuthModule,
     ArticleModule,
     UserModule,

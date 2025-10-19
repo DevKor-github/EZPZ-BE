@@ -1,7 +1,6 @@
 import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
-import { ScrapAddedEvent } from './event/scrap-added.event';
 import { ScrapDeletedEvent } from './event/scrap-deleted.event';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
@@ -20,8 +19,6 @@ export class Scrap extends AggregateRoot<ScrapProps> {
     const scrap = new Scrap(props);
     scrap.validate();
 
-    scrap.addDomainEvent(new ScrapAddedEvent(props.articleId.value));
-
     return scrap;
   }
 
@@ -31,8 +28,8 @@ export class Scrap extends AggregateRoot<ScrapProps> {
     }
   }
 
-  public delete(): void {
-    this.addDomainEvent(new ScrapDeletedEvent(this.articleId.value));
+  public delete(tags: string[]): void {
+    this.addDomainEvent(new ScrapDeletedEvent(this.userId.value, this.articleId.value, tags));
   }
 
   get articleId(): Identifier {
