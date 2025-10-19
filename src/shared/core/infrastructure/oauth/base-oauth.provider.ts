@@ -3,7 +3,7 @@ import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.e
 export interface BaseOAuthProvider {
   getToken(code: string): Promise<string>;
   getUserInfo(token: string): Promise<OAuthUser>;
-  getAuthorizationUrl(): string;
+  getAuthorizationUrl(state?: string): string;
   unlinkAccount(userId: string): Promise<void>;
 }
 
