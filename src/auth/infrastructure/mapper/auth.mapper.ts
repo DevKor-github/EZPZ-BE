@@ -6,7 +6,7 @@ import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 export class AuthMapper {
   static toDomain(entity: AuthEntity): Auth {
-    return Auth.create({
+    return Auth.of({
       id: Identifier.from(entity.id),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
