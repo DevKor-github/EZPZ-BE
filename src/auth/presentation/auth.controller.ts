@@ -25,13 +25,13 @@ export class AuthController {
 
   @Get('oauth/authorization')
   @AuthDocs('oauthAuthorization')
-  authorizeOAuth(@Query('redirectPath') redirectPath?: string) {
+  authorizeOAuth(@Query('returnPath') returnPath?: string) {
     const { authUrl } = this.authorizeOAuthUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
-      redirectUrl: redirectPath,
+      redirectUrl: returnPath,
     });
 
-    return { authUrl, redirectPath };
+    return { authUrl, returnPath };
   }
 
   @Post('login/oauth/callback')
