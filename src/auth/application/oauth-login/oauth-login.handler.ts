@@ -33,8 +33,9 @@ export class OAuthLoginUseCase {
     const { oauthId, provider, email } = await this.getOAuthUserInfo(oAuthProviderType, code);
     const auth = await this.findOrCreateAuth(oauthId, provider, email);
     const { accessToken, refreshToken } = await this.generateAndSaveTokens(auth);
+    const redirectUrl = this.decodeRedirectUrl(command.state);
 
-    return { accessToken, refreshToken, userId: auth.userId.value };
+    return { accessToken, refreshToken, userId: auth.userId.value, redirectUrl };
   }
 
   // 소셜로그인 유저저 정보 가져오기
@@ -84,5 +85,14 @@ export class OAuthLoginUseCase {
     await this.authRepository.update(auth);
 
     return { accessToken, refreshToken };
+  }
+
+  // 리다이렉트 url 복호화 및 반환
+  private decodeRedirectUrl(state?: string): string {
+    if (!state) return '';
+
+    const decodedState = decodeURIComponent(state);
+
+    return decodedState;
   }
 }

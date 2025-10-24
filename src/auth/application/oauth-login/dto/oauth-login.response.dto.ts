@@ -12,4 +12,7 @@ export class OAuthLoginResponseDto {
   @IsString()
   @IsNotEmpty()
   userId: string;
+
+  @IsString()
+  redirectUrl: string;
 }

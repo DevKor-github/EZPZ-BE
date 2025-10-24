@@ -25,10 +25,13 @@ export class AuthController {
 
   @Get('oauth/authorization')
   @AuthDocs('oauthAuthorization')
-  authorizeOAuth(@Query('redirectUrl') redirectUrl?: string) {
-    const { authUrl } = this.authorizeOAuthUseCase.execute({ oAuthProviderType: OAuthProviderType.KAKAO, redirectUrl });
+  authorizeOAuth(@Query('redirectPath') redirectPath?: string) {
+    const { authUrl } = this.authorizeOAuthUseCase.execute({
+      oAuthProviderType: OAuthProviderType.KAKAO,
+      redirectUrl: redirectPath,
+    });
 
-    return authUrl;
+    return { authUrl, redirectPath };
   }
 
   @Post('login/oauth/callback')
@@ -37,21 +40,22 @@ export class AuthController {
     @Res() res: Response,
     @Query('code') code: string,
     @Query('error') error?: string,
-    //@Query('state') state?: string,
+    @Query('state') state?: string,
   ) {
     if (error && error === 'access_denied') {
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Access denied' });
     }
 
-    const { accessToken, refreshToken, userId } = await this.oAuthLoginUseCase.execute({
+    const { accessToken, refreshToken, userId, redirectUrl } = await this.oAuthLoginUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
       code,
+      state,
     });
 
     res.cookie('accessToken', accessToken, accessTokenCookieOptions);
     res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
-    res.json({ userId });
+    res.json({ userId, redirectUrl });
   }
 
   @Get('refresh')
