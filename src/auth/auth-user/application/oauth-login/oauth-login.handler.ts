@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Auth } from 'src/auth/domain/entity/auth';
-import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
+import { Auth } from 'src/auth/auth-user/domain/auth';
 import { TokenType } from 'src/auth/infrastructure/jwt/jwt.factory';
 import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth-provider.factory';
-import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
 import { JwtProvider } from 'src/auth/infrastructure/jwt/jwt.provider';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { OAuthLoginResponseDto } from './dto/oauth-login.response.dto';
 import { Transactional } from '@mikro-orm/core';
 import { Role } from 'src/user/command/domain/value-object/role.enum';
 import { CommandHandler, EventBus } from '@nestjs/cqrs';
-import { AuthCreatedEvent } from 'src/auth/domain/event/auth-created.event';
+import { AuthCreatedEvent } from 'src/auth/auth-user/domain/event/auth-created.event';
 import { OAuthLoginCommand } from './oauth-login.command';
+import { AUTH_REPOSITORY, AuthRepository } from '../../domain/auth.repository';
 
 @Injectable()
 @CommandHandler(OAuthLoginCommand)

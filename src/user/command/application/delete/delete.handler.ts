@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth-provider.factory';
-import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
 import { USER_COMMAND_REPOSITORY, UserCommandRepository } from '../../domain/user.command.repository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteMyInfoCommand } from './delete.command';

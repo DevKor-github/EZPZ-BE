@@ -1,10 +1,10 @@
 import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
-import { OAuthProviderType } from '../value-object/oauth-provider.enum';
+import { OAuthProviderType } from './value-object/oauth-provider.enum';
 import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
-import { LoginSucceededEvent } from '../event/login-succeeded.event';
+import { LoginSucceededEvent } from './event/login-succeeded.event';
 
 export interface AuthProps extends BaseEntityProps {
   oauthId: string;

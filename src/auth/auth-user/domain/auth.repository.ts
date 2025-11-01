@@ -1,4 +1,4 @@
-import { Auth } from '../entity/auth';
+import { Auth } from './auth';
 
 export interface AuthRepository {
   save(auth: Auth): Promise<void>;

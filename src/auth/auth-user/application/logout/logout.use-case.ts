@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/domain/repository/auth.repository';
 import { LogoutRequestDto } from './dto/logout.request.dto';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { AUTH_REPOSITORY, AuthRepository } from '../../domain/auth.repository';
 
 @Injectable()
 export class LogoutUseCase {
