@@ -27,6 +27,10 @@ export class Auth extends AggregateRoot<AuthProps> {
     return auth;
   }
 
+  public static of(props: AuthProps): Auth {
+    return new Auth(props);
+  }
+
   public validate(): void {
     if (!this.props.oauthId) {
       throw new CustomException(CustomExceptionCode.AUTH_OAUTH_ID_EMPTY);

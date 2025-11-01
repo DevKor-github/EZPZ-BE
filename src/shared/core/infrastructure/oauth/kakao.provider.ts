@@ -71,7 +71,7 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
     return res.data.access_token;
   }
 
-  getAuthorizationUrl(): string {
+  getAuthorizationUrl(state?: string): string {
     const authorizeUrl = 'https://kauth.kakao.com/oauth/authorize';
     const clientId = this.configService.get<string>('kakao.clientId');
     const redirectUri = this.configService.get<string>('kakao.redirectUri');
@@ -84,6 +84,9 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
     params.append('response_type', 'code');
     params.append('client_id', clientId);
     params.append('redirect_uri', redirectUri);
+    if (state) {
+      params.append('state', state);
+    }
 
     return `${authorizeUrl}?${params.toString()}`;
   }

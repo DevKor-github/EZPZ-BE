@@ -8,9 +8,12 @@ export class AuthorizeOAuthUseCase {
   constructor(private readonly oAuthProviderFactory: OAuthProviderFactory) {}
 
   execute(requestDto: AuthorizeOAuthRequestDto): AuthorizeOAuthResponseDto {
-    const { oAuthProviderType } = requestDto;
+    const { oAuthProviderType, redirectUrl } = requestDto;
     const provider = this.oAuthProviderFactory.getProvider(oAuthProviderType);
-    const authUrl = provider.getAuthorizationUrl();
+
+    const encodedState = encodeURIComponent(redirectUrl || '');
+
+    const authUrl = provider.getAuthorizationUrl(encodedState);
 
     return { authUrl };
   }
