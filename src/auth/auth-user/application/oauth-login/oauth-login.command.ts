@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
 
 export class OAuthLoginCommand implements ICommand {
   constructor(

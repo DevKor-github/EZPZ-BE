@@ -39,6 +39,17 @@ export enum CustomExceptionCode {
   SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY = 'SCRAP_ARTICLE_ID_OR_USER_ID_EMPTY',
   SCRAP_ALREADY_EXISTS = 'SCRAP_ALREADY_EXISTS',
   SCRAP_NOT_FOUND = 'SCRAP_NOT_FOUND',
+
+  // Auth Organization
+  AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_FORMAT = 'AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_FORMAT',
+  AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_LENGTH = 'AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_LENGTH',
+  AUTH_ORGANIZATION_INVALID_PASSWORD_LENGTH = 'AUTH_ORGANIZATION_INVALID_PASSWORD_LENGTH',
+  AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT = 'AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT',
+
+  // Organization
+  ORGANIZATION_INVALID_NAME_LENGTH = 'ORGANIZATION_INVALID_NAME_LENGTH',
+  ORGANIZATION_INVALID_CONTACT_FORMAT = 'ORGANIZATION_INVALID_CONTACT_FORMAT',
+  ORGANIZATION_NOT_FOUND = 'ORGANIZATION_NOT_FOUND',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -179,5 +190,40 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.SCRAP_NOT_FOUND]: {
     status: HttpStatus.NOT_FOUND,
     message: '[Scrap] 스크랩이 존재하지 않습니다.',
+  },
+
+  // Auth Organization
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_FORMAT]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[AuthOrganization] 계정 ID는 영문 소문자, 숫자, 밑줄(_)로 구성된 4~20자의 문자열이어야 합니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_LENGTH]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[AuthOrganization] 계정 ID는 4자 이상 20자 이하여야 합니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD_LENGTH]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[AuthOrganization] 비밀번호는 10자 이상 30자 이하여야 합니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[AuthOrganization] 비밀번호는 영문자와 숫자를 모두 포함해야 합니다.',
+  },
+
+  // Organization
+  // Domain
+  [CustomExceptionCode.ORGANIZATION_INVALID_NAME_LENGTH]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Organization] 이름은 1자 이상 63자 이하여야 합니다.',
+  },
+  [CustomExceptionCode.ORGANIZATION_INVALID_CONTACT_FORMAT]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Organization] 연락처 형식이 유효하지 않습니다. (예: 010-1234-5678)',
+  },
+
+  // infrastructure
+  [CustomExceptionCode.ORGANIZATION_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[OrganizationRepository] 해당 기관이 존재하지 않습니다.',
   },
 };

@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AUTH_REPOSITORY } from './domain/repository/auth.repository';
-import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
-import { AuthController } from './presentation/auth.controller';
+import { AuthRepositoryImpl } from './auth-user/infrasturcture/auth.repository.impl';
+import { AuthController } from './auth-user/presentation/auth.controller';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { AuthEntity } from './infrastructure/orm-entity/auth.entity';
-import { OAuthLoginUseCase } from './application/oauth-login/oauth-login.handler';
+import { AuthEntity } from './auth-user/infrasturcture/auth.entity';
+import { OAuthLoginUseCase } from './auth-user/application/oauth-login/oauth-login.handler';
 import { OAuthProviderFactory } from '../shared/core/infrastructure/oauth/oauth-provider.factory';
 import { KakaoOAuthProvider } from '../shared/core/infrastructure/oauth/kakao.provider';
-import { AuthorizeOAuthUseCase } from './application/authorize-oauth/authorize-oauth.use-case';
+import { AuthorizeOAuthUseCase } from './auth-user/application/authorize-oauth/authorize-oauth.use-case';
 import { JwtProvider } from './infrastructure/jwt/jwt.provider';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAccessStrategy } from './infrastructure/jwt/jwt-access.strategy';
 import { JwtRefreshStrategy } from './infrastructure/jwt/jwt-refresh.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { RenewTokenUseCase } from './application/renew-token/renew-token.use-case';
-import { LogoutUseCase } from './application/logout/logout.use-case';
+import { RenewTokenUseCase } from './auth-user/application/renew-token/renew-token.use-case';
+import { LogoutUseCase } from './auth-user/application/logout/logout.use-case';
 import { SharedModule } from 'src/shared/shared.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { AUTH_REPOSITORY } from './auth-user/domain/auth.repository';
 
 const useCases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase];
 

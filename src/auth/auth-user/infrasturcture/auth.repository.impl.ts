@@ -1,10 +1,10 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
-import { Auth } from 'src/auth/domain/entity/auth';
-import { AuthRepository } from 'src/auth/domain/repository/auth.repository';
-import { AuthMapper } from '../mapper/auth.mapper';
-import { AuthEntity } from '../orm-entity/auth.entity';
-import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { Auth } from 'src/auth/auth-user/domain/auth';
+import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { AuthRepository } from 'src/auth/auth-user/domain/auth.repository';
+import { AuthEntity } from './auth.entity';
+import { AuthMapper } from './auth.mapper';
 
 export class AuthRepositoryImpl implements AuthRepository {
   constructor(

@@ -1,8 +1,8 @@
-import { Auth } from 'src/auth/domain/entity/auth';
-import { AuthEntity } from '../orm-entity/auth.entity';
+import { Auth } from 'src/auth/auth-user/domain/auth';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { EntityManager } from '@mikro-orm/mysql';
 import { UserEntity } from 'src/user/command/infrastructure/user.entity';
+import { AuthEntity } from './auth.entity';
 
 export class AuthMapper {
   static toDomain(entity: AuthEntity): Auth {

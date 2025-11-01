@@ -1,5 +1,5 @@
 import { Cascade, Collection, Entity, OneToMany, OneToOne, Property } from '@mikro-orm/core';
-import { AuthEntity } from 'src/auth/infrastructure/orm-entity/auth.entity';
+import { AuthEntity } from 'src/auth/auth-user/infrasturcture/auth.entity';
 import { ScrapEntity } from 'src/scrap/command/infrastructure/scrap.entity';
 import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
 import { Role } from '../domain/value-object/role.enum';

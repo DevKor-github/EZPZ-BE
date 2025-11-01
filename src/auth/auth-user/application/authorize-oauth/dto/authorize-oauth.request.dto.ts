@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { OAuthProviderType } from 'src/auth/domain/value-object/oauth-provider.enum';
+import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
 
 export class AuthorizeOAuthRequestDto {
   @IsEnum(OAuthProviderType)
