@@ -1,9 +1,8 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { BaseOAuthProvider, OAuthUser } from './base-oauth.provider';
 import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
-import { AUTH_USER_REPOSITORY, AuthUserRepository } from 'src/auth/auth-user/domain/auth-user.repository';
 
 interface KakaoTokenResponse {
   access_token: string;
@@ -26,11 +25,7 @@ interface KakaoUserResponse {
 
 @Injectable()
 export class KakaoOAuthProvider implements BaseOAuthProvider {
-  constructor(
-    private readonly configService: ConfigService,
-    @Inject(AUTH_USER_REPOSITORY)
-    private readonly authRepository: AuthUserRepository,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   async getUserInfo(token: string): Promise<OAuthUser> {
     const res = await axios.get<KakaoUserResponse>('https://kapi.kakao.com/v2/user/me', {
@@ -91,11 +86,7 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
     return `${authorizeUrl}?${params.toString()}`;
   }
 
-  async unlinkAccount(userId: string): Promise<void> {
-    const auth = await this.authRepository.findByUserId(userId);
-    if (!auth) throw new NotFoundException('해당 유저의 인증 정보가 존재하지 않습니다.');
-
-    const oauthId = auth.oauthId;
+  async unlinkAccount(oAuthId: string): Promise<void> {
     const adminKey = this.configService.getOrThrow<string>('kakao.adminKey');
 
     const unlinkUrl = 'https://kapi.kakao.com/v1/user/unlink';
@@ -103,7 +94,7 @@ export class KakaoOAuthProvider implements BaseOAuthProvider {
       Authorization: `KakaoAK ${adminKey}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    const data = `target_id_type=user_id&target_id=${oauthId}`;
+    const data = `target_id_type=user_id&target_id=${oAuthId}`;
 
     try {
       return await axios.post(unlinkUrl, data, { headers });
