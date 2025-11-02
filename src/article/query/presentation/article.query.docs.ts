@@ -8,8 +8,9 @@ import {
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { ArticleDetailModel } from '../domain/article-detail.model';
+import { ArticleModel } from '../domain/article.model';
 
-export type ArticleQueryEndpoint = 'list' | 'detail';
+export type ArticleQueryEndpoint = 'list' | 'detail' | 'search';
 
 export const ArticleQueryDocs = createDocs<ArticleQueryEndpoint>({
   list: () =>
@@ -42,6 +43,24 @@ export const ArticleQueryDocs = createDocs<ArticleQueryEndpoint>({
       }),
       ApiNotFoundResponse({
         description: '게시글을 찾을 수 없음',
+      }),
+    ),
+
+  search: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '게시글 검색',
+        description: '제목을 기준으로 게시글을 검색합니다.',
+      }),
+      ApiOkResponse({
+        description: '게시글 검색 성공',
+        type: [ArticleModel],
+      }),
+      ApiBadRequestResponse({
+        description: '잘못된 요청',
+      }),
+      ApiInternalServerErrorResponse({
+        description: '서버 오류',
       }),
     ),
 });

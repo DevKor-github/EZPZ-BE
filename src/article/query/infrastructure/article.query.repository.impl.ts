@@ -175,4 +175,62 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
 
     return result;
   }
+
+  async searchByKeyword(keyword: string): Promise<ArticleModel[]> {
+    const query = this.ormRepository.createQueryBuilder('a');
+    query
+      .select([
+        'a.id',
+        'a.title',
+        'a.organization',
+        'a.startAt',
+        'a.endAt',
+        'a.registrationStartAt',
+        'a.registrationEndAt',
+        'a.scrapCount',
+        'a.viewCount',
+        sql`(
+            SELECT m.media_path
+            FROM media m
+            WHERE m.article_id = a.id AND m.order = 0
+            LIMIT 1
+          ) AS thumbnailPath`,
+        sql`group_concat(distinct tag.name) as tags`,
+      ])
+      .leftJoin('a.tags', 'tag')
+      .groupBy('a.id');
+
+    // 검색어 조건: 제목에서 검색
+    query.andWhere(`a.title LIKE ?`, [`%${keyword}%`]);
+
+    // 정렬: 현재 시간에 가장 가까운 순서 (미래 우선)
+    query.orderBy([
+      {
+        [sql`CASE WHEN COALESCE(a.registration_start_at, a.start_at) >= NOW() THEN 0 ELSE 1 END` as unknown as string]:
+          'asc',
+      },
+      {
+        [sql`ABS(TIMESTAMPDIFF(SECOND, COALESCE(a.registration_start_at, a.start_at), NOW()))` as unknown as string]:
+          'asc',
+      },
+    ]);
+
+    const articleEntities = await query.execute<ArticleModel[]>();
+
+    const result = articleEntities.map((articleEntity) => ({
+      id: articleEntity.id,
+      title: articleEntity.title,
+      organization: articleEntity.organization,
+      scrapCount: articleEntity.scrapCount,
+      viewCount: articleEntity.viewCount,
+      thumbnailPath: articleEntity.thumbnailPath,
+      tags: articleEntity.tags ? (articleEntity.tags as unknown as string).split(',') : [],
+      startAt: articleEntity.startAt,
+      endAt: articleEntity.endAt,
+      registrationStartAt: articleEntity.registrationStartAt,
+      registrationEndAt: articleEntity.registrationEndAt,
+    }));
+
+    return result;
+  }
 }

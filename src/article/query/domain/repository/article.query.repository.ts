@@ -10,6 +10,7 @@ export interface ArticleQueryRepository {
     page?: number,
     limit?: number,
   ): Promise<ArticleModel[]>;
+  searchByKeyword(keyword: string): Promise<ArticleModel[]>;
 }
 
 export const ARTICLE_QUERY_REPOSITORY = Symbol('ARTICLE_QUERY_REPOSITORY');
