@@ -4,7 +4,7 @@ export interface BaseOAuthProvider {
   getToken(code: string): Promise<string>;
   getUserInfo(token: string): Promise<OAuthUser>;
   getAuthorizationUrl(state?: string): string;
-  unlinkAccount(userId: string): Promise<void>;
+  unlinkAccount(oAuthId: string): Promise<void>;
 }
 
 export interface OAuthUser {
