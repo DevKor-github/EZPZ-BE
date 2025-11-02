@@ -9,8 +9,8 @@ import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-ca
 import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
-import { ConfigService } from '@nestjs/config';
 import { AuthUserDocs } from './auth-user.docs';
+import { UnlinkOAuthUseCase } from '../application/unlink-oauth/unlink-oauth.use-case';
 
 @ApiTags('auth-user')
 @Controller('auth')
@@ -20,7 +20,7 @@ export class AuthUserController {
     private readonly authorizeOAuthUseCase: AuthorizeOAuthUseCase,
     private readonly renewTokenUseCase: RenewTokenUseCase,
     private readonly logoutUseCase: LogoutUseCase,
-    private readonly configService: ConfigService,
+    private readonly unlinkOAuthUseCase: UnlinkOAuthUseCase,
   ) {}
 
   @Get('oauth/authorization')
@@ -80,5 +80,16 @@ export class AuthUserController {
     res.clearCookie('refreshToken', refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
+  }
+
+  @Post('withdraw')
+  @UseGuards(AuthGuard('jwt-access'))
+  async withdraw(@User() user: UserPayload, @Res() res: Response) {
+    await this.unlinkOAuthUseCase.execute({ userId: user.userId, oAuthProviderType: OAuthProviderType.KAKAO });
+
+    res.clearCookie('accessToken', accessTokenCookieOptions);
+    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+    res.status(HttpStatus.NO_CONTENT).send();
   }
 }
