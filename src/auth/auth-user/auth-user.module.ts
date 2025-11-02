@@ -11,8 +11,9 @@ import { LogoutUseCase } from './application/logout/logout.use-case';
 import { AuthCoreModule } from '../core/auth-core.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { UnlinkOAuthUseCase } from './application/unlink-oauth/unlink-oauth.use-case';
 
-const usecases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase];
+const usecases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase, UnlinkOAuthUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([AuthUserEntity]), AuthCoreModule, SharedModule, CqrsModule],
