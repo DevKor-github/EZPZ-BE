@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { JwtTokenOptions, TokenType } from './jwt.factory';
+import { JwtSignOptionsMapper, JwtVerifyOptionsMapper, TokenType } from './jwt.factory';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -12,7 +12,7 @@ export class JwtProvider {
   ) {}
 
   async generateToken(tokenType: TokenType, userId: string): Promise<{ token: string; jti: string }> {
-    const jwtSignOptions = JwtTokenOptions(this.configService)[tokenType];
+    const jwtSignOptions = JwtSignOptionsMapper(this.configService)[tokenType];
     const jti = uuidV4();
     const payload = { userId, jti };
     const token = await this.jwtService.signAsync(payload, jwtSignOptions);
@@ -21,9 +21,9 @@ export class JwtProvider {
   }
 
   async verifyToken(token: string, tokenType: TokenType): Promise<any> {
-    const jwtSignOptions = JwtTokenOptions(this.configService)[tokenType];
+    const jwtVerifyOptions = JwtVerifyOptionsMapper(this.configService)[tokenType];
 
-    return this.jwtService.verifyAsync(token, jwtSignOptions);
+    return this.jwtService.verifyAsync(token, jwtVerifyOptions);
   }
 
   async saveRefreshToken(): Promise<void> {}

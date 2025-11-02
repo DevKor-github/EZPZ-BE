@@ -9,12 +9,12 @@ import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-ca
 import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
-import { AuthDocs } from './auth.docs';
 import { ConfigService } from '@nestjs/config';
+import { AuthUserDocs } from './auth-user.docs';
 
-@ApiTags('auth')
+@ApiTags('auth-user')
 @Controller('auth')
-export class AuthController {
+export class AuthUserController {
   constructor(
     private readonly oAuthLoginUseCase: OAuthLoginUseCase,
     private readonly authorizeOAuthUseCase: AuthorizeOAuthUseCase,
@@ -24,7 +24,7 @@ export class AuthController {
   ) {}
 
   @Get('oauth/authorization')
-  @AuthDocs('oauthAuthorization')
+  @AuthUserDocs('oauthAuthorization')
   authorizeOAuth(@Query('returnPath') returnPath?: string) {
     const { authUrl } = this.authorizeOAuthUseCase.execute({
       oAuthProviderType: OAuthProviderType.KAKAO,
@@ -35,7 +35,7 @@ export class AuthController {
   }
 
   @Post('login/oauth/callback')
-  @AuthDocs('oauthCallback')
+  @AuthUserDocs('oauthCallback')
   async oAuthLogin(
     @Res() res: Response,
     @Query('code') code: string,
@@ -60,7 +60,7 @@ export class AuthController {
 
   @Get('refresh')
   @UseGuards(AuthGuard('jwt-refresh'))
-  @AuthDocs('renewToken')
+  @AuthUserDocs('renewToken')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute({ userId: user.userId, jti: user.jti });
 
@@ -72,7 +72,7 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(AuthGuard('jwt-access'))
-  @AuthDocs('logout')
+  @AuthUserDocs('logout')
   async logout(@User() user: UserPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ userId: user.userId });
 

@@ -9,9 +9,9 @@ import {
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/core/presentation/base.docs';
 
-export type AuthEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout';
+export type AuthUserEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout';
 
-export const AuthDocs = createDocs<AuthEndpoint>({
+export const AuthUserDocs = createDocs<AuthUserEndpoint>({
   oauthAuthorization: () =>
     applyDecorators(
       ApiOperation({

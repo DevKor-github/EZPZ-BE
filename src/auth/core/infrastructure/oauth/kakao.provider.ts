@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { BaseOAuthProvider, OAuthUser } from './base-oauth.provider';
 import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
-import { AUTH_REPOSITORY, AuthRepository } from 'src/auth/auth-user/domain/auth.repository';
+import { AUTH_USER_REPOSITORY, AuthUserRepository } from 'src/auth/auth-user/domain/auth-user.repository';
 
 interface KakaoTokenResponse {
   access_token: string;
@@ -28,8 +28,8 @@ interface KakaoUserResponse {
 export class KakaoOAuthProvider implements BaseOAuthProvider {
   constructor(
     private readonly configService: ConfigService,
-    @Inject(AUTH_REPOSITORY)
-    private readonly authRepository: AuthRepository,
+    @Inject(AUTH_USER_REPOSITORY)
+    private readonly authRepository: AuthUserRepository,
   ) {}
 
   async getUserInfo(token: string): Promise<OAuthUser> {

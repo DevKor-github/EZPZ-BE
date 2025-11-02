@@ -14,7 +14,6 @@ import mikroOrmConfig from './shared/config/mikro-orm.config';
 import config from 'src/shared/config/configuration';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { OrganizationModule } from './organization/organization.module';
-import { AuthOrganizationModule } from './auth/auth-organization/auth-organization.module';
 
 @Module({
   imports: [
@@ -25,7 +24,6 @@ import { AuthOrganizationModule } from './auth/auth-organization/auth-organizati
     }),
     AnalyticsModule,
     AuthModule,
-    AuthOrganizationModule,
     ArticleModule,
     UserModule,
     SharedModule,

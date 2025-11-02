@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OAuthProviderFactory } from 'src/shared/core/infrastructure/oauth/oauth-provider.factory';
+import { OAuthProviderFactory } from 'src/auth/core/infrastructure/oauth/oauth-provider.factory';
 import { AuthorizeOAuthRequestDto } from './dto/authorize-oauth.request.dto';
 import { AuthorizeOAuthResponseDto } from './dto/authorize-oauth.response.dto';
 
