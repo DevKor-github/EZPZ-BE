@@ -5,6 +5,7 @@ import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { LoginSucceededEvent } from './event/login-succeeded.event';
+import { AuthDeletedEvent } from './event/auth-deleted.event';
 
 export interface AuthUserProps extends BaseEntityProps {
   oauthId: string;
@@ -51,6 +52,10 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
   updateRefreshToken(refreshToken: string | null, updatedAt: Date): void {
     this.props.refreshToken = refreshToken;
     this.props.updatedAt = updatedAt;
+  }
+
+  delete() {
+    this.addDomainEvent(new AuthDeletedEvent(this.userId.value));
   }
 
   get oauthId(): string {
