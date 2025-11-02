@@ -20,7 +20,7 @@ export class UserCommandRepositoryImpl implements UserCommandRepository {
   }
 
   async deleteById(userId: string): Promise<void> {
-    const userEntity = await this.ormRepository.findOne({ id: userId }, { populate: ['auth', 'scraps'] });
+    const userEntity = await this.ormRepository.findOne({ id: userId }, { populate: ['authUser', 'scraps'] });
     if (!userEntity)
       throw new CustomException(
         CustomExceptionCode.USER_NOT_FOUND,

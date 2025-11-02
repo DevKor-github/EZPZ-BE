@@ -5,7 +5,7 @@ import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 
 @Entity({ tableName: 'auth' })
 @Unique({ properties: ['oauthId', 'provider'] })
-export class AuthEntity extends BaseEntity {
+export class AuthUserEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true })
   oauthId: string;
 
@@ -18,7 +18,7 @@ export class AuthEntity extends BaseEntity {
   @Property({ type: 'varchar', unique: true, nullable: true })
   oauthAccessToken: string | null;
 
-  @OneToOne(() => UserEntity, (user) => user.auth, {
+  @OneToOne(() => UserEntity, (user) => user.authUser, {
     owner: true,
     cascade: [Cascade.PERSIST, Cascade.REMOVE],
     unique: true,

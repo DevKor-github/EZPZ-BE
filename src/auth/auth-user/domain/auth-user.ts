@@ -6,7 +6,7 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { LoginSucceededEvent } from './event/login-succeeded.event';
 
-export interface AuthProps extends BaseEntityProps {
+export interface AuthUserProps extends BaseEntityProps {
   oauthId: string;
   provider: OAuthProviderType;
   refreshToken: string | null;
@@ -14,21 +14,21 @@ export interface AuthProps extends BaseEntityProps {
   userId: Identifier;
 }
 
-export class Auth extends AggregateRoot<AuthProps> {
-  constructor(props: AuthProps) {
+export class AuthUser extends AggregateRoot<AuthUserProps> {
+  constructor(props: AuthUserProps) {
     super(props);
   }
 
-  public static create(props: AuthProps): Auth {
-    const auth = new Auth(props);
-    auth.validate();
-    auth.addDomainEvent(new LoginSucceededEvent(auth.userId, auth.provider));
+  public static create(props: AuthUserProps): AuthUser {
+    const authUser = new AuthUser(props);
+    authUser.validate();
+    authUser.addDomainEvent(new LoginSucceededEvent(authUser.userId, authUser.provider));
 
-    return auth;
+    return authUser;
   }
 
-  public static of(props: AuthProps): Auth {
-    return new Auth(props);
+  public static of(props: AuthUserProps): AuthUser {
+    return new AuthUser(props);
   }
 
   public validate(): void {
