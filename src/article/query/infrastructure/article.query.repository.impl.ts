@@ -86,14 +86,14 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
   async findAllByCriteria(
     tags?: string[],
     isFinished?: boolean,
-    sortBy?: 'registrationEndAt' | 'scrapCount' | 'viewCount',
+    sortBy?: 'registrationStartAt' | 'scrapCount' | 'viewCount',
     // page?: number,
     // limit?: number,
   ): Promise<ArticleModel[]> {
     const query = this.ormRepository.createQueryBuilder('a');
     // 런타임 안전 가드: 허용되지 않은 sortBy 값이 오면 기본 정렬로 처리
-    const safeSortBy: 'registrationEndAt' | 'scrapCount' | 'viewCount' | undefined =
-      sortBy === 'registrationEndAt' || sortBy === 'scrapCount' || sortBy === 'viewCount' ? sortBy : undefined;
+    const safeSortBy: 'registrationStartAt' | 'scrapCount' | 'viewCount' | undefined =
+      sortBy === 'registrationStartAt' || sortBy === 'scrapCount' || sortBy === 'viewCount' ? sortBy : undefined;
     query
       .select([
         'a.id',
@@ -138,15 +138,15 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     // isFinished가 true이거나 undefined면 모든 것을 조회 (필터링 없음)
 
     // 정렬
-    if (!safeSortBy || safeSortBy === 'registrationEndAt') {
-      // 현재 시간에 가장 가까운 순서 (미래 우선), 값 없으면 endAt 사용
+    if (!safeSortBy || safeSortBy === 'registrationStartAt') {
+      // 현재 시간에 가장 가까운 순서 (미래 우선), 값 없으면 startAt 사용
       query.orderBy([
         {
-          [sql`CASE WHEN COALESCE(a.registration_end_at, a.end_at) >= NOW() THEN 0 ELSE 1 END` as unknown as string]:
+          [sql`CASE WHEN COALESCE(a.registration_start_at, a.start_at) >= NOW() THEN 0 ELSE 1 END` as unknown as string]:
             'asc',
         },
         {
-          [sql`ABS(TIMESTAMPDIFF(SECOND, COALESCE(a.registration_end_at, a.end_at), NOW()))` as unknown as string]:
+          [sql`ABS(TIMESTAMPDIFF(SECOND, COALESCE(a.registration_start_at, a.start_at), NOW()))` as unknown as string]:
             'asc',
         },
       ]);

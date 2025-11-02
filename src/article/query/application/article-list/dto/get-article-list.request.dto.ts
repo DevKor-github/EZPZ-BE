@@ -26,13 +26,13 @@ export class GetArticleListRequestDto {
 
   @ApiProperty({
     description: '정렬 기준',
-    example: 'registrationEndAt',
+    example: 'registrationStartAt',
     required: false,
-    enum: ['registrationEndAt', 'scrapCount', 'viewCount'],
+    enum: ['registrationStartAt', 'scrapCount', 'viewCount'],
   })
   @IsOptional()
-  @IsIn(['registrationEndAt', 'scrapCount', 'viewCount'])
-  sortBy?: 'registrationEndAt' | 'scrapCount' | 'viewCount';
+  @IsIn(['registrationStartAt', 'scrapCount', 'viewCount'])
+  sortBy?: 'registrationStartAt' | 'scrapCount' | 'viewCount';
 
   @ApiProperty({
     description: '페이지 번호',

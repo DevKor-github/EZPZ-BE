@@ -6,7 +6,7 @@ export interface ArticleQueryRepository {
   findAllByCriteria(
     tags?: string[],
     isFinished?: boolean,
-    sortBy?: 'registrationEndAt' | 'scrapCount' | 'viewCount',
+    sortBy?: 'registrationStartAt' | 'scrapCount' | 'viewCount',
     page?: number,
     limit?: number,
   ): Promise<ArticleModel[]>;
