@@ -84,6 +84,7 @@ export class AuthUserController {
 
   @Post('withdraw')
   @UseGuards(AuthGuard('jwt-access'))
+  @AuthUserDocs('withdraw')
   async withdraw(@User() user: UserPayload, @Res() res: Response) {
     await this.unlinkOAuthUseCase.execute({ userId: user.userId, oAuthProviderType: OAuthProviderType.KAKAO });
 

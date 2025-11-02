@@ -3,13 +3,14 @@ import {
   ApiCreatedResponse,
   ApiFoundResponse,
   ApiInternalServerErrorResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/core/presentation/base.docs';
 
-export type AuthUserEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout';
+export type AuthUserEndpoint = 'oauthAuthorization' | 'oauthCallback' | 'renewToken' | 'logout' | 'withdraw';
 
 export const AuthUserDocs = createDocs<AuthUserEndpoint>({
   oauthAuthorization: () =>
@@ -62,6 +63,23 @@ export const AuthUserDocs = createDocs<AuthUserEndpoint>({
       }),
       ApiCreatedResponse({
         description: '로그아웃 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 토큰',
+      }),
+      ApiInternalServerErrorResponse({
+        description: '유저 인증 정보가 존재하지 않음',
+      }),
+    ),
+
+  withdraw: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '회원탈퇴',
+        description: '사용자 정보 및 인증 정보 삭제 및 토큰 무효화',
+      }),
+      ApiNoContentResponse({
+        description: '회원탈퇴 성공',
       }),
       ApiUnauthorizedResponse({
         description: '유효하지 않은 토큰',
