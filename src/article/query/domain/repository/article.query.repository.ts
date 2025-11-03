@@ -6,10 +6,11 @@ export interface ArticleQueryRepository {
   findAllByCriteria(
     tags?: string[],
     isFinished?: boolean,
-    sortBy?: 'registrationEndAt' | 'scrapCount' | 'viewCount',
+    sortBy?: 'registrationStartAt' | 'scrapCount' | 'viewCount',
     page?: number,
     limit?: number,
   ): Promise<ArticleModel[]>;
+  searchByKeyword(keyword: string): Promise<ArticleModel[]>;
 }
 
 export const ARTICLE_QUERY_REPOSITORY = Symbol('ARTICLE_QUERY_REPOSITORY');
