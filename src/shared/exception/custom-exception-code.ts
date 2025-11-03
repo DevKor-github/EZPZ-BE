@@ -29,6 +29,9 @@ export enum CustomExceptionCode {
   AUTH_INVALID_REFRESH_TOKEN = 'AUTH_INVALID_REFRESH_TOKEN',
   AUTH_INVALID_ACCESS_TOKEN = 'AUTH_INVALID_ACCESS_TOKEN',
 
+  // Auth User
+  AUTH_USER_NOT_FOUND = 'AUTH_USER_NOT_FOUND',
+
   // Media
   MEDIA_PATH_EMPTY = 'MEDIA_PATH_EMPTY',
   MEDIA_INVALID_PATH = 'MEDIA_INVALID_PATH',
@@ -152,6 +155,12 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.AUTH_INVALID_ACCESS_TOKEN]: {
     status: HttpStatus.UNAUTHORIZED,
     message: '[Auth] 유효하지 않은 Access Token 입니다.',
+  },
+
+  // Auth User
+  [CustomExceptionCode.AUTH_USER_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[Auth] 해당 유저의 인증 정보를 찾을 수 없습니다.',
   },
 
   // Media
