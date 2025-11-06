@@ -27,4 +27,23 @@ export class OrganizationStoreImpl implements OrganizationStore {
         `[OrganizationCommandRepository] ${organizationId}에 해당하는 기관이 존재하지 않습니다.`,
       );
   }
+
+  async updateById(organization: Organization): Promise<void> {
+    await this.em.nativeUpdate(
+      OrganizationEntity,
+      { id: organization.id.value },
+      {
+        name: organization.name,
+        contact: organization.contact,
+        updatedAt: organization.updatedAt,
+      },
+    );
+  }
+
+  async loadById(organizationId: string): Promise<Organization | null> {
+    const entity = await this.ormRepository.findOne({ id: organizationId });
+    if (!entity) return null;
+
+    return OrganizationMapper.toDomain(entity);
+  }
 }
