@@ -34,13 +34,15 @@ export class Organization extends AggregateRoot<OrganizationProps> {
     }
   }
 
-  public update(name: string | null, contact: string | null): void {
-    if (name) this.props.name = name;
-    if (contact) this.props.contact = contact;
+  public update(name?: string, contact?: string): void {
+    if (name !== undefined) this.props.name = name;
+    if (contact !== undefined) this.props.contact = contact;
     this.props.updatedAt = new Date();
 
     this.validate();
   }
+
+  delete(): void {}
 
   get name(): string {
     return this.props.name;
