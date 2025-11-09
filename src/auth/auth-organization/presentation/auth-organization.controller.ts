@@ -10,6 +10,7 @@ import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { LoginUseCase } from '../application/login/login.use-case';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthOrganizationDocs } from './auth-organization.docs';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
@@ -22,6 +23,7 @@ export class AuthOrganizationController {
   ) {}
 
   @Post('register')
+  @AuthOrganizationDocs('register')
   async registerOrganization(@Body() dto: RegisterOrganizationRequestDto) {
     await this.createAuthOrganizationUseCase.execute({
       accountId: dto.accountId,
@@ -32,6 +34,7 @@ export class AuthOrganizationController {
   }
 
   @Post('login')
+  @AuthOrganizationDocs('login')
   async login(@Body() dto: LoginRequestDto, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.loginUseCase.execute({
       accountId: dto.accountId,
@@ -46,6 +49,7 @@ export class AuthOrganizationController {
 
   @Post('refresh')
   @UseGuards(AuthGuard('jwt-refresh'))
+  @AuthOrganizationDocs('refresh')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
     const { userId, jti } = user;
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute({
@@ -61,6 +65,7 @@ export class AuthOrganizationController {
 
   @Post('logout')
   @UseGuards(AuthGuard('jwt-access'))
+  @AuthOrganizationDocs('logout')
   async logout(@User() user: UserPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ organizationId: user.userId });
 

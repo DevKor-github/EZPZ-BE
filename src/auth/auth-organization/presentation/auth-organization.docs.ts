@@ -1,0 +1,74 @@
+import { applyDecorators } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { createDocs } from 'src/shared/core/presentation/base.docs';
+import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
+import { LoginRequestDto } from './dto/request/login.request.dto';
+
+export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh';
+
+export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
+  register: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '회원가입',
+        description: '아이디, 비밀번호, 연락처, 조직명을 받아 회원가입 처리',
+      }),
+      ApiBody({
+        description: '회원가입 요청 DTO',
+        type: RegisterOrganizationRequestDto,
+      }),
+      ApiCreatedResponse({
+        description: '회원가입 성공',
+      }),
+    ),
+  login: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '로그인',
+        description: '아이디, 비밀번호를 받아 로그인 처리',
+      }),
+      ApiBody({
+        description: '로그인 요청 DTO',
+        type: LoginRequestDto,
+      }),
+      ApiOkResponse({
+        description: '로그인 성공',
+      }),
+      ApiNotFoundResponse({
+        description: '아이디 또는 비밀번호 불일치',
+      }),
+    ),
+  logout: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '로그아웃',
+        description: '현재 사용자를 로그아웃 처리',
+      }),
+      ApiOkResponse({
+        description: '로그아웃 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 access token',
+      }),
+    ),
+  refresh: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '토큰 갱신',
+        description: '쿠키의 Refresh Token을 추출해 토큰 갱신 처리',
+      }),
+      ApiOkResponse({
+        description: '토큰 갱신 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 refresh token',
+      }),
+    ),
+});
