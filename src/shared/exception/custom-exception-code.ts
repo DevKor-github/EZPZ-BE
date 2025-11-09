@@ -48,6 +48,11 @@ export enum CustomExceptionCode {
   AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_LENGTH = 'AUTH_ORGANIZATION_INVALID_ACCOUNT_ID_LENGTH',
   AUTH_ORGANIZATION_INVALID_PASSWORD_LENGTH = 'AUTH_ORGANIZATION_INVALID_PASSWORD_LENGTH',
   AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT = 'AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT',
+  AUTH_ORGANIZATION_ACCOUNT_ID_ALREADY_EXISTS = 'AUTH_ORGANIZATION_ACCOUNT_ID_ALREADY_EXISTS',
+  AUTH_ORGANIZATION_INVALID_REFRESH_TOKEN = 'AUTH_ORGANIZATION_INVALID_REFRESH_TOKEN',
+  AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN = 'AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN',
+  AUTH_ORGANIZATION_NOT_FOUND = 'AUTH_ORGANIZATION_NOT_FOUND',
+  AUTH_ORGANIZATION_INVALID_PASSWORD = 'AUTH_ORGANIZATION_INVALID_PASSWORD',
 
   // Organization
   ORGANIZATION_INVALID_NAME_LENGTH = 'ORGANIZATION_INVALID_NAME_LENGTH',
@@ -217,6 +222,28 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD_FORMAT]: {
     status: HttpStatus.BAD_REQUEST,
     message: '[AuthOrganization] 비밀번호는 영문자와 숫자를 모두 포함해야 합니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_ACCOUNT_ID_ALREADY_EXISTS]: {
+    status: HttpStatus.CONFLICT,
+    message: '[AuthOrganization] 이미 사용중인 아이디 입니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_REFRESH_TOKEN]: {
+    status: HttpStatus.UNAUTHORIZED,
+    message: '[AuthOrganization] 유효하지 않은 Refresh Token 입니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN]: {
+    status: HttpStatus.UNAUTHORIZED,
+    message: '[AuthOrganization] 유효하지 않은 Access Token 입니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[AuthOrganization] 해당 계정 정보가 존재하지 않습니다.',
+    //message: '[AuthOrganization] 해당 기관 인증 정보가 존재하지 않습니다.',
+  },
+  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD]: {
+    status: HttpStatus.UNAUTHORIZED,
+    message: '[AuthOrganization] 해당 계정 정보가 존재하지 않습니다.',
+    //message: '[AuthOrganization] 비밀번호가 올바르지 않습니다.',
   },
 
   // Organization
