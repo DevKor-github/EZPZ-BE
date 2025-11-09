@@ -10,8 +10,10 @@ import {
 import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
+import { CheckAccountIdRequestDto } from './dto/request/check-account-id.request.dto';
+import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
 
-export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh';
+export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh' | 'checkAccountId';
 
 export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
   register: () =>
@@ -43,6 +45,24 @@ export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
       }),
       ApiNotFoundResponse({
         description: '아이디 또는 비밀번호 불일치',
+      }),
+    ),
+  checkAccountId: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '아이디 중복 체크',
+        description: '아이디 중복 체크',
+      }),
+      ApiBody({
+        description: '아이디 중복 체크 요청 DTO',
+        type: CheckAccountIdRequestDto,
+      }),
+      ApiOkResponse({
+        description: '아이디 중복 체크 성공',
+        type: CheckAccountIdResponseDto,
+      }),
+      ApiNotFoundResponse({
+        description: '아이디가 존재하지 않음',
       }),
     ),
   logout: () =>
