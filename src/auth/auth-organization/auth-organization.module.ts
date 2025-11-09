@@ -10,8 +10,11 @@ import { CreateAuthOrganizationUseCase } from './application/create/create.use-c
 import { CqrsModule } from '@nestjs/cqrs';
 import { PASSWORD_HASHER } from './domain/password-hasher';
 import { PasswordHasherImpl } from './infrastructure/password-hasher.impl';
+import { RenewTokenUseCase } from './application/renew-token/renew-token.use-case';
+import { LogoutUseCase } from './application/logout/logout.use-case';
+import { LoginUseCase } from './application/login/login.use-case';
 
-const usecases = [CreateAuthOrganizationUseCase];
+const usecases = [CreateAuthOrganizationUseCase, RenewTokenUseCase, LoginUseCase, LogoutUseCase];
 
 @Module({
   imports: [SharedModule, MikroOrmModule.forFeature([AuthOrganizationEntity]), AuthCoreModule, CqrsModule],
