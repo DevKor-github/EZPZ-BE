@@ -23,15 +23,15 @@ export class CreateAuthOrganizationUseCase {
   ) {}
 
   async execute(command: CreateAuthOrganizationCommand) {
-    const existingAuth = await this.authOrganizationStore.loadByAccountId(command.accountId);
+    const existingAuth = await this.authOrganizationStore.loadByAccountId(command.accountId.trim());
     if (existingAuth) throw new CustomException(CustomExceptionCode.AUTH_ORGANIZATION_ACCOUNT_ID_ALREADY_EXISTS);
 
-    const rawPassword = RawPassword.create(command.password);
+    const rawPassword = RawPassword.create(command.password.trim());
     const hashedPassword = await this.passwordHasher.hash(rawPassword.value);
 
     const authOrganization = AuthOrganization.create({
       id: Identifier.create(),
-      accountId: AccountId.create(command.accountId),
+      accountId: AccountId.create(command.accountId.trim()),
       passwordHash: PasswordHash.create(hashedPassword),
       refreshToken: null,
       organizationId: Identifier.create(),

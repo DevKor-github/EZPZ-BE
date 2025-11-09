@@ -24,7 +24,7 @@ export class LoginUseCase {
   async execute(command: LoginCommand): Promise<LoginResponseDto> {
     const { accountId, password } = command;
 
-    const authOrganization = await this.validateAccount(accountId, password);
+    const authOrganization = await this.validateAccount(accountId.trim(), password.trim());
     const { accessToken, refreshToken, jti } = await this.generateTokens(authOrganization.organizationId.value);
     await this.saveRefreshToken(authOrganization, jti);
 
