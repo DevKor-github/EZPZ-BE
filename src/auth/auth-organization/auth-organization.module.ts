@@ -13,8 +13,9 @@ import { PasswordHasherImpl } from './infrastructure/password-hasher.impl';
 import { RenewTokenUseCase } from './application/renew-token/renew-token.use-case';
 import { LogoutUseCase } from './application/logout/logout.use-case';
 import { LoginUseCase } from './application/login/login.use-case';
+import { CheckAccountIdUseCase } from './application/check-account-id/check-account-id.use-case';
 
-const usecases = [CreateAuthOrganizationUseCase, RenewTokenUseCase, LoginUseCase, LogoutUseCase];
+const usecases = [CreateAuthOrganizationUseCase, RenewTokenUseCase, LoginUseCase, LogoutUseCase, CheckAccountIdUseCase];
 
 @Module({
   imports: [SharedModule, MikroOrmModule.forFeature([AuthOrganizationEntity]), AuthCoreModule, CqrsModule],
