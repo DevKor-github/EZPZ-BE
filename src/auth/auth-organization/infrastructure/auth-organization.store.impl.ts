@@ -48,4 +48,9 @@ export class AuthOrganizationStoreImpl implements AuthOrganizationStore {
 
     return AuthOrganizationMapper.toDomain(authOrganizationEntity);
   }
+
+  async existsByAccountId(accountId: string): Promise<boolean> {
+    const count = await this.ormRepository.count({ accountId });
+    return count > 0;
+  }
 }

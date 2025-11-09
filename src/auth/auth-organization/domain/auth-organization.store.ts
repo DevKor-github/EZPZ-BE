@@ -6,6 +6,7 @@ export interface AuthOrganizationStore {
   loadByOrganizationId(organizationId: string): Promise<AuthOrganization | null>;
   loadByRefreshToken(refreshToken: string): Promise<AuthOrganization | null>;
   loadByAccountId(accountId: string): Promise<AuthOrganization | null>;
+  existsByAccountId(accountId: string): Promise<boolean>;
 }
 
 export const AUTH_ORGANIZATION_STORE = Symbol('AUTH_ORGANIZATION_STORE');
