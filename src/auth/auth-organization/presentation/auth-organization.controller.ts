@@ -11,6 +11,9 @@ import { LoginRequestDto } from './dto/request/login.request.dto';
 import { LoginUseCase } from '../application/login/login.use-case';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthOrganizationDocs } from './auth-organization.docs';
+import { CheckAccountIdRequestDto } from './dto/request/check-account-id.request.dto';
+import { CheckAccountIdUseCase } from '../application/check-account-id/check-account-id.use-case';
+import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
@@ -20,6 +23,7 @@ export class AuthOrganizationController {
     private readonly renewTokenUseCase: RenewTokenUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly logoutUseCase: LogoutUseCase,
+    private readonly checkAccountIdUseCase: CheckAccountIdUseCase,
   ) {}
 
   @Post('register')
@@ -31,6 +35,13 @@ export class AuthOrganizationController {
       name: dto.name,
       contact: dto.contact,
     });
+  }
+
+  @Post('check-account-id')
+  async checkAccountId(@Body() dto: CheckAccountIdRequestDto): Promise<CheckAccountIdResponseDto> {
+    const isDuplicated = await this.checkAccountIdUseCase.execute({ accountId: dto.accountId });
+
+    return { isDuplicated };
   }
 
   @Post('login')
