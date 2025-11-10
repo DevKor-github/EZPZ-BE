@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AUTH_USER_REPOSITORY, AuthUserRepository } from '../../domain/auth-user.repository';
-import { CommandHandler, EventBus } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { UnlinkOAuthCommand } from './unlink-oauth.command';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
@@ -13,7 +13,6 @@ export class UnlinkOAuthUseCase {
     @Inject(AUTH_USER_REPOSITORY)
     private readonly authUserRepository: AuthUserRepository,
     private readonly oAuthProviderFactory: OAuthProviderFactory,
-    private readonly eventBus: EventBus,
   ) {}
 
   async execute(command: UnlinkOAuthCommand) {
@@ -27,7 +26,5 @@ export class UnlinkOAuthUseCase {
 
     authUser.delete();
     await this.authUserRepository.deleteById(authUser.id.value);
-
-    this.eventBus.publishAll(authUser.pullDomainEvents());
   }
 }
