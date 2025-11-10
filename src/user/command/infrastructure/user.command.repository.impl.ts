@@ -19,8 +19,16 @@ export class UserCommandRepositoryImpl implements UserCommandRepository {
     await this.em.persistAndFlush(userEntity);
   }
 
+  async findById(userId: string): Promise<User | null> {
+    const userEntity = await this.ormRepository.findOne({ id: userId });
+    if (!userEntity) {
+      return null;
+    }
+    return UserMapper.toDomain(userEntity);
+  }
+
   async deleteById(userId: string): Promise<void> {
-    const userEntity = await this.ormRepository.findOne({ id: userId }, { populate: ['authUser', 'scraps'] });
+    const userEntity = await this.ormRepository.findOne({ id: userId }, { populate: ['scraps'] });
     if (!userEntity)
       throw new CustomException(
         CustomExceptionCode.USER_NOT_FOUND,
