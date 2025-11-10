@@ -52,8 +52,8 @@ export class AuthOrganizationController {
       password: dto.password,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('orgAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('orgRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
@@ -68,8 +68,8 @@ export class AuthOrganizationController {
       jti: jti,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('orgAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('orgRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
@@ -80,8 +80,8 @@ export class AuthOrganizationController {
   async logout(@User() user: UserPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ organizationId: user.userId });
 
-    res.clearCookie('accessToken', accessTokenCookieOptions);
-    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+    res.clearCookie('orgAccessToken', accessTokenCookieOptions);
+    res.clearCookie('orgRefreshToken', refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
