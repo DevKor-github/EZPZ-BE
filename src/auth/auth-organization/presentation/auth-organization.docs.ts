@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import {
   ApiBody,
+  ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -28,6 +29,9 @@ export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
       }),
       ApiCreatedResponse({
         description: '회원가입 성공',
+      }),
+      ApiConflictResponse({
+        description: '이미 존재하는 계정',
       }),
     ),
   login: () =>

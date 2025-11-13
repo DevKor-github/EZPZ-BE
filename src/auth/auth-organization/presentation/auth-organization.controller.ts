@@ -38,6 +38,7 @@ export class AuthOrganizationController {
   }
 
   @Post('check-account-id')
+  @AuthOrganizationDocs('checkAccountId')
   async checkAccountId(@Body() dto: CheckAccountIdRequestDto): Promise<CheckAccountIdResponseDto> {
     const isDuplicated = await this.checkAccountIdUseCase.execute({ accountId: dto.accountId });
 
