@@ -1,13 +1,15 @@
-import { BaseDomainEntity, BaseEntityProps } from 'src/shared/core/domain/base.entity';
+import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Role } from './value-object/role.enum';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
+import { UserDeletedEvent } from './event/user-deleted.event';
 
 export interface UserProps extends BaseEntityProps {
   email: string;
   role: Role;
 }
-export class User extends BaseDomainEntity<UserProps> {
+export class User extends AggregateRoot<UserProps> {
   protected constructor(props: UserProps) {
     super(props);
   }
@@ -17,6 +19,10 @@ export class User extends BaseDomainEntity<UserProps> {
     user.validate();
 
     return user;
+  }
+
+  delete(): void {
+    this.addDomainEvent(new UserDeletedEvent(this.id.value));
   }
 
   public validate(): void {

@@ -13,6 +13,7 @@ import { ScrapModule } from './scrap/scrap.module';
 import mikroOrmConfig from './shared/config/mikro-orm.config';
 import config from 'src/shared/config/configuration';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { OrganizationModule } from './organization/organization.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
     TagModule,
     MediaModule,
     ScrapModule,
+    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

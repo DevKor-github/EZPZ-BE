@@ -1,5 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { AuthCreatedEvent } from 'src/auth/domain/event/auth-created.event';
+import { AuthCreatedEvent } from 'src/auth/auth-user/domain/event/auth-created.event';
 import { CreateUserHandler } from './create-user.handler';
 import { CreateUserCommand } from './create.command';
 
