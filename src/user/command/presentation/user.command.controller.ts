@@ -7,13 +7,17 @@ import { CommandBus } from '@nestjs/cqrs';
 import { DeleteMyInfoCommand } from '../application/delete/delete.command';
 import { Response } from 'express';
 import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/config/cookie.config';
+import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
+import { Roles } from 'src/shared/core/presentation/role.decorator';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @ApiTags('user')
 @Controller('user')
 export class UserCommandController {
   constructor(private readonly commandBus: CommandBus) {}
   @Delete('me')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.USER)
   @UserCommandDocs('deleteMyInfo')
   async deleteMyInfo(@User() user: UserPayload, @Res() res: Response) {
     const command = new DeleteMyInfoCommand(user.userId);
