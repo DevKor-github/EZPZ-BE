@@ -8,6 +8,7 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { RenewTokenResponseDto } from './dto/renew-token.response.dto';
 import { AuthOrganization } from '../../domain/auth-organization';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @Injectable()
 @CommandHandler(RenewTokenCommand)
@@ -40,8 +41,12 @@ export class RenewTokenUseCase implements ICommandHandler<RenewTokenCommand> {
   private async generateTokens(
     organizationId: string,
   ): Promise<{ accessToken: string; refreshToken: string; jti: string }> {
-    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, organizationId);
-    const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, organizationId);
+    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, organizationId, [
+      Role.ORGANIZATION,
+    ]);
+    const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, organizationId, [
+      Role.ORGANIZATION,
+    ]);
 
     return { accessToken, refreshToken, jti };
   }

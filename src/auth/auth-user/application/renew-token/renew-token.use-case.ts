@@ -7,6 +7,7 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { EventBus } from '@nestjs/cqrs';
 import { AUTH_USER_REPOSITORY, AuthUserRepository } from '../../domain/auth-user.repository';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @Injectable()
 export class RenewTokenUseCase {
@@ -23,8 +24,10 @@ export class RenewTokenUseCase {
     if (!authUser || userId != authUser.userId.value)
       throw new CustomException(CustomExceptionCode.AUTH_INVALID_REFRESH_TOKEN);
 
-    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, userId);
-    const { token: refreshToken, jti: newJti } = await this.jwtProvider.generateToken(TokenType.REFRESH, userId);
+    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, userId, [Role.USER]);
+    const { token: refreshToken, jti: newJti } = await this.jwtProvider.generateToken(TokenType.REFRESH, userId, [
+      Role.USER,
+    ]);
 
     authUser.updateRefreshToken(newJti, new Date());
     await this.authUserRepository.update(authUser);
