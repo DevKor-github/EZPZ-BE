@@ -9,7 +9,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/core/presentation/base.docs';
-import { UpdateArticleRequestDto } from '../application/update-article/dto/update-article.request.dto';
+import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
 
 export type ArticleCommandEndpoint = 'create' | 'update' | 'delete';
 
