@@ -8,9 +8,9 @@ export class CreateUserListener implements IEventHandler<AuthCreatedEvent> {
   constructor(private readonly createUserHandler: CreateUserHandler) {}
 
   async handle(event: AuthCreatedEvent): Promise<void> {
-    const { userId, email, role } = event;
+    const { userId, email } = event;
 
-    const createUserCommand = new CreateUserCommand(userId, email, role);
+    const createUserCommand = new CreateUserCommand(userId, email);
 
     await this.createUserHandler.execute(createUserCommand);
   }
