@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { UpdateOrganizationUseCase } from '../application/update-organization/update-organization.use-case';
 import { UpdateOrganizationDto } from './dto/request/update-organization.request.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { OrganizationCommandDocs } from './organization.command.docs';
+import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
 
 @ApiTags('organization')
 @Controller('organization')
@@ -14,9 +14,9 @@ export class OrganizationCommandController {
   @Patch()
   @UseGuards(AuthGuard('jwt-access'))
   @OrganizationCommandDocs('update')
-  async update(@User() user: UserPayload, @Body() dto: UpdateOrganizationDto): Promise<void> {
+  async update(@Organization() organization: OrganizationPayload, @Body() dto: UpdateOrganizationDto): Promise<void> {
     await this.updateOrganizationUseCase.execute({
-      organizationId: user.userId,
+      organizationId: organization.organizationId,
       name: dto.name,
       contact: dto.contact,
     });

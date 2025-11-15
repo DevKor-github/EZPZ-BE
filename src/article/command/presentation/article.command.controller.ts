@@ -8,7 +8,7 @@ import { UpdateArticleUseCase } from '../application/update-article/update-artic
 import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
 import { ArticleCommandDocs } from './article.command.docs';
 import { AuthGuard } from '@nestjs/passport';
-import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
+import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
 
 @ApiTags('article')
 @Controller('article')
@@ -48,30 +48,30 @@ export class OrganizationArticleCommandController {
   ) {}
 
   @Post()
-  @ArticleCommandDocs('create')
   @UseGuards(AuthGuard('jwt-access'))
+  @ArticleCommandDocs('create')
   async createArticle(
-    @User() user: UserPayload,
+    @Organization() organization: OrganizationPayload,
     @Body() reqDto: CreateArticleRequestDto,
   ): Promise<CreateArticleResponseDto> {
-    return await this.createArticleUseCase.execute({ ...reqDto, organizationId: user.userId });
+    return await this.createArticleUseCase.execute({ ...reqDto, organizationId: organization.organizationId });
   }
 
   @Patch(':id')
-  @ArticleCommandDocs('update')
   @UseGuards(AuthGuard('jwt-access'))
+  @ArticleCommandDocs('update')
   async updateArticle(
-    @User() user: UserPayload,
+    @Organization() organization: OrganizationPayload,
     @Param('id') id: string,
     @Body() reqDto: UpdateArticleRequestDto,
   ): Promise<void> {
-    return await this.updateArticleUseCase.execute({ ...reqDto, id, organizationId: user.userId });
+    return await this.updateArticleUseCase.execute({ ...reqDto, id, organizationId: organization.organizationId });
   }
 
   @Delete(':id')
-  @ArticleCommandDocs('delete')
   @UseGuards(AuthGuard('jwt-access'))
-  async delete(@User() user: UserPayload, @Param('id') id: string): Promise<void> {
-    return await this.deleteArticleUseCase.execute({ id, organizationId: user.userId });
+  @ArticleCommandDocs('delete')
+  async delete(@Organization() organization: OrganizationPayload, @Param('id') id: string): Promise<void> {
+    return await this.deleteArticleUseCase.execute({ id, organizationId: organization.organizationId });
   }
 }
