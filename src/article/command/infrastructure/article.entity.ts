@@ -9,6 +9,9 @@ export class ArticleEntity extends BaseEntity {
   title: string;
 
   @Property({ type: 'varchar' })
+  organizationId: string;
+
+  @Property({ type: 'varchar' })
   organization: string;
 
   @Property({ type: 'varchar' })
@@ -17,8 +20,8 @@ export class ArticleEntity extends BaseEntity {
   @Property({ type: 'varchar', length: 2047 })
   description: string;
 
-  @Property({ type: 'varchar' })
-  registrationUrl: string;
+  @Property({ type: 'varchar', nullable: true })
+  registrationUrl?: string;
 
   @Property({ type: 'datetime' })
   startAt: Date;

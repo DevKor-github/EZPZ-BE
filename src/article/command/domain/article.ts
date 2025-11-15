@@ -9,15 +9,16 @@ export interface ArticleProps extends BaseEntityProps {
   organization: string;
   location: string;
   description: string;
-  registrationUrl: string;
   startAt: Date;
   endAt: Date;
+  registrationUrl?: string;
   registrationStartAt?: Date;
   registrationEndAt?: Date;
   scrapCount: number;
   viewCount: number;
   mediaIds: Identifier[];
   tags: Tag[];
+  organizationId: Identifier;
 }
 
 export class Article extends BaseDomainEntity<ArticleProps> {
@@ -101,7 +102,7 @@ export class Article extends BaseDomainEntity<ArticleProps> {
     return this.props.description;
   }
 
-  get registrationUrl(): string {
+  get registrationUrl(): string | undefined {
     return this.props.registrationUrl;
   }
 
@@ -135,6 +136,10 @@ export class Article extends BaseDomainEntity<ArticleProps> {
 
   get tags(): Tag[] {
     return this.props.tags;
+  }
+
+  get organizationId(): Identifier {
+    return this.props.organizationId;
   }
 
   public update(props: {
