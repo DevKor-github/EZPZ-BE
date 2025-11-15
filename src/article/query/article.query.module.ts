@@ -8,18 +8,32 @@ import { ArticleQueryController } from './presentation/article.query.controller'
 import { ARTICLE_QUERY_REPOSITORY } from './domain/repository/article.query.repository';
 import { ArticleQueryRepositoryImpl } from './infrastructure/article.query.repository.impl';
 import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
+import { ARTICLE_READER } from './organization/domain/article.reader';
+import { ArticleReaderImpl } from './organization/infrastructure/article.reader.impl';
+import { ArticleOrganizationViewController } from './organization/presentation/article.view.controller';
+import { GetOrganizationArticleListUseCase } from './organization/application/article-list/get-article-list.use-case';
+import { ArticleViewEntity } from './organization/infrastructure/article.view.entity';
 
-const usecases = [GetArticleDetailUseCase, GetArticleListUseCase, GetArticleSearchUseCase];
+const usecases = [
+  GetArticleDetailUseCase,
+  GetArticleListUseCase,
+  GetArticleSearchUseCase,
+  GetOrganizationArticleListUseCase,
+];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ArticleEntity, MediaEntity])],
+  imports: [MikroOrmModule.forFeature([ArticleEntity, ArticleViewEntity, MediaEntity])],
   providers: [
     ...usecases,
     {
       provide: ARTICLE_QUERY_REPOSITORY,
       useClass: ArticleQueryRepositoryImpl,
     },
+    {
+      provide: ARTICLE_READER,
+      useClass: ArticleReaderImpl,
+    },
   ],
-  controllers: [ArticleQueryController],
+  controllers: [ArticleQueryController, ArticleOrganizationViewController],
 })
 export class ArticleQueryModule {}
