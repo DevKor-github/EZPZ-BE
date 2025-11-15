@@ -9,6 +9,9 @@ import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
 import { ArticleCommandDocs } from './article.command.docs';
 import { AuthGuard } from '@nestjs/passport';
 import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
+import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
+import { Roles } from 'src/shared/core/presentation/role.decorator';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @ApiTags('article')
 @Controller('article')
@@ -48,7 +51,8 @@ export class OrganizationArticleCommandController {
   ) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('create')
   async createArticle(
     @Organization() organization: OrganizationPayload,
@@ -58,7 +62,8 @@ export class OrganizationArticleCommandController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('update')
   async updateArticle(
     @Organization() organization: OrganizationPayload,
@@ -69,7 +74,8 @@ export class OrganizationArticleCommandController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('delete')
   async delete(@Organization() organization: OrganizationPayload, @Param('id') id: string): Promise<void> {
     return await this.deleteArticleUseCase.execute({ id, organizationId: organization.organizationId });
