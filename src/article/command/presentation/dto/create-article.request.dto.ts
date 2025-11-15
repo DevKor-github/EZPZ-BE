@@ -27,7 +27,7 @@ export class CreateArticleRequestDto {
 
   @IsString()
   @IsOptional()
-  registrationUrl: string;
+  registrationUrl?: string;
 
   @IsString()
   @IsOptional()
