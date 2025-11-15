@@ -7,6 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { Role } from 'src/auth/core/domain/value-object/role';
+import { OrganizationArticleViewDocs } from './article.view.docs';
 
 @ApiTags('organization-article')
 @Controller('organization/article')
@@ -16,6 +17,7 @@ export class ArticleOrganizationViewController {
   @Get()
   @UseGuards(AuthGuard('jwt-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
+  @OrganizationArticleViewDocs('list')
   async getArticleList(@Organization() organization: OrganizationPayload): Promise<ArticleModel[]> {
     return await this.getOrganizationArticleListUseCase.execute({ organizationId: organization.organizationId });
   }
