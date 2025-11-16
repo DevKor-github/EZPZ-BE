@@ -16,6 +16,7 @@ export class ArticleViewMapper {
     model.endAt = entity.endAt.toISOString();
     model.registrationStartAt = entity.registrationStartAt ? entity.registrationStartAt.toISOString() : undefined;
     model.registrationEndAt = entity.registrationEndAt ? entity.registrationEndAt.toISOString() : undefined;
+    model.createdAt = entity.createdAt.toISOString();
 
     return model;
   }

@@ -74,4 +74,10 @@ export class ArticleModel {
     required: false,
   })
   registrationEndAt?: string;
+
+  @ApiProperty({
+    example: '2023-08-01T12:00:00Z',
+    description: '게시글 생성 시간',
+  })
+  createdAt: string;
 }

@@ -14,7 +14,8 @@ import { Entity, Property } from '@mikro-orm/core';
       a.end_at,
       tags.tags,
       a.registration_start_at,
-      a.registration_end_at
+      a.registration_end_at,
+      a.created_at
     FROM article a
     LEFT JOIN media m ON m.article_id = a.id AND m.order = 0
     LEFT JOIN (
@@ -33,9 +34,6 @@ export class ArticleViewEntity {
 
   @Property()
   organizationId: string;
-
-  @Property()
-  userId: string;
 
   @Property()
   title: string;
