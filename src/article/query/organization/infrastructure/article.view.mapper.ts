@@ -14,6 +14,8 @@ export class ArticleViewMapper {
     model.tags = entity.tags ? entity.tags.split(',').map((tag) => tag.trim()) : [];
     model.startAt = entity.startAt.toISOString();
     model.endAt = entity.endAt.toISOString();
+    model.registrationStartAt = entity.registrationStartAt ? entity.registrationStartAt.toISOString() : undefined;
+    model.registrationEndAt = entity.registrationEndAt ? entity.registrationEndAt.toISOString() : undefined;
 
     return model;
   }

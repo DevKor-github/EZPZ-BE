@@ -65,8 +65,8 @@ export class ArticleViewEntity {
   tags: string;
 
   @Property()
-  registrationStartAt: Date;
+  registrationStartAt?: Date;
 
   @Property()
-  registrationEndAt: Date;
+  registrationEndAt?: Date;
 }

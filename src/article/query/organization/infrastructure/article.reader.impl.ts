@@ -12,7 +12,7 @@ export class ArticleReaderImpl implements ArticleReader {
   ) {}
 
   async findAllByOrganizationId(organizationId: string): Promise<ArticleModel[]> {
-    const articles = await this.ormRepository.find({ organizationId });
+    const articles = await this.ormRepository.find({ organizationId }, { orderBy: { createdAt: 'DESC' } });
 
     return articles.map((article) => ArticleViewMapper.toModel(article));
   }
