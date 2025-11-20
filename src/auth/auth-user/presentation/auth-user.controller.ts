@@ -11,6 +11,9 @@ import { LogoutUseCase } from '../application/logout/logout.use-case';
 import { OAuthProviderType } from '../domain/value-object/oauth-provider.enum';
 import { AuthUserDocs } from './auth-user.docs';
 import { UnlinkOAuthUseCase } from '../application/unlink-oauth/unlink-oauth.use-case';
+import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
+import { Role } from 'src/auth/core/domain/value-object/role';
+import { Roles } from 'src/shared/core/presentation/role.decorator';
 
 @ApiTags('auth-user')
 @Controller('auth')
@@ -59,7 +62,8 @@ export class AuthUserController {
   }
 
   @Get('refresh')
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(AuthGuard('jwt-refresh'), RolesGuard)
+  @Roles(Role.USER)
   @AuthUserDocs('renewToken')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute({ userId: user.userId, jti: user.jti });
@@ -71,7 +75,8 @@ export class AuthUserController {
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.USER)
   @AuthUserDocs('logout')
   async logout(@User() user: UserPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ userId: user.userId });
@@ -83,7 +88,8 @@ export class AuthUserController {
   }
 
   @Post('withdraw')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.USER)
   @AuthUserDocs('withdraw')
   async withdraw(@User() user: UserPayload, @Res() res: Response) {
     await this.unlinkOAuthUseCase.execute({ userId: user.userId, oAuthProviderType: OAuthProviderType.KAKAO });

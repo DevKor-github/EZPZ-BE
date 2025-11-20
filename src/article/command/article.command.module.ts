@@ -1,7 +1,10 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ArticleEntity } from './infrastructure/article.entity';
-import { ArticleCommandController } from './presentation/article.command.controller';
+import {
+  ArticleCommandController,
+  OrganizationArticleCommandController,
+} from './presentation/article.command.controller';
 import { CreateArticleUseCase } from './application/create-article/create-article.use-case';
 import { UpdateArticleUseCase } from './application/update-article/update-article.use-case';
 import { DeleteArticleUseCase } from './application/delete-article/delete-article.use-case';
@@ -45,6 +48,6 @@ const listeners = [IncreaseScrapCountListener, DecreaseScrapCountListener];
       useClass: MediaCommandRepositoryImpl,
     },
   ],
-  controllers: [ArticleCommandController],
+  controllers: [ArticleCommandController, OrganizationArticleCommandController],
 })
 export class ArticleCommandModule {}

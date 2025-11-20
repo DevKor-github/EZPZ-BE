@@ -5,11 +5,7 @@ import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
-
-interface RefreshTokenPayload {
-  userId: string;
-  jti: string;
-}
+import { JwtPayload } from './jwt-payload';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
@@ -30,7 +26,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     });
   }
 
-  validate(payload: RefreshTokenPayload): RefreshTokenPayload {
+  validate(payload: JwtPayload): JwtPayload {
     return payload;
   }
 }

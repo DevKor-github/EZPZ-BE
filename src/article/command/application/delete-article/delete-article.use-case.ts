@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
+import { DeleteArticleCommand } from './delete-article.comand';
 
 @Injectable()
 export class DeleteArticleUseCase {
@@ -8,7 +9,7 @@ export class DeleteArticleUseCase {
     private readonly articleRepo: ArticleCommandRepository,
   ) {}
 
-  async execute(id: string): Promise<void> {
-    await this.articleRepo.deleteById(id);
+  async execute(command: DeleteArticleCommand): Promise<void> {
+    await this.articleRepo.deleteById(command.id);
   }
 }

@@ -12,6 +12,7 @@ export class ArticleMapper {
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       title: entity.title,
+      organizationId: Identifier.from(entity.organizationId),
       organization: entity.organization,
       location: entity.location,
       description: entity.description,
@@ -33,6 +34,7 @@ export class ArticleMapper {
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.title = domain.title;
+    entity.organizationId = domain.organizationId.value;
     entity.organization = domain.organization;
     entity.location = domain.location;
     entity.description = domain.description;

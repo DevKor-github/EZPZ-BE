@@ -9,6 +9,7 @@ import { JwtProvider } from 'src/auth/core/infrastructure/jwt/jwt.provider';
 import { TokenType } from 'src/auth/core/infrastructure/jwt/jwt.factory';
 import { LoginResponseDto } from './dto/login.response.dto';
 import { AuthOrganization } from '../../domain/auth-organization';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @Injectable()
 @CommandHandler(LoginCommand)
@@ -44,8 +45,12 @@ export class LoginUseCase {
   private async generateTokens(
     organizationId: string,
   ): Promise<{ accessToken: string; refreshToken: string; jti: string }> {
-    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, organizationId);
-    const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, organizationId);
+    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, organizationId, [
+      Role.ORGANIZATION,
+    ]);
+    const { token: refreshToken, jti } = await this.jwtProvider.generateToken(TokenType.REFRESH, organizationId, [
+      Role.ORGANIZATION,
+    ]);
 
     return { accessToken, refreshToken, jti };
   }

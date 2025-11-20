@@ -10,7 +10,6 @@ export class AuthCreatedEventHandler implements IEventHandler<AuthCreatedEvent> 
   handle(event: AuthCreatedEvent) {
     this.analyticsService.trackEvent(event.userId.value, 'Signed Up', {
       email: event.email,
-      role: event.role,
     });
   }
 }

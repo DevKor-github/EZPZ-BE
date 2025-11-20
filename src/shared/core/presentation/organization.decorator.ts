@@ -2,14 +2,14 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/core/infrastructure/jwt/jwt-payload';
 
-export interface UserPayload {
-  userId: string;
+export interface OrganizationPayload {
+  organizationId: string;
   jti: string;
 }
 
-export const User = createParamDecorator((data: unknown, ctx: ExecutionContext): UserPayload => {
+export const Organization = createParamDecorator((data: unknown, ctx: ExecutionContext): OrganizationPayload => {
   const request = ctx.switchToHttp().getRequest<Request>();
   const { sub, jti } = request.user as JwtPayload;
 
-  return { userId: sub, jti };
+  return { organizationId: sub, jti };
 });

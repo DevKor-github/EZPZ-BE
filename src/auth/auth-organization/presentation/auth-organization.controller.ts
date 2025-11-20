@@ -2,7 +2,6 @@ import { Body, Controller, HttpStatus, Post, Res, UseGuards } from '@nestjs/comm
 import { ApiTags } from '@nestjs/swagger';
 import { CreateAuthOrganizationUseCase } from '../application/create/create.use-case';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
-import { User, UserPayload } from 'src/shared/core/presentation/user.decorator';
 import { Response } from 'express';
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
 import { accessTokenCookieOptions, refreshTokenCookieOptions } from 'src/shared/config/cookie.config';
@@ -14,6 +13,10 @@ import { AuthOrganizationDocs } from './auth-organization.docs';
 import { CheckAccountIdRequestDto } from './dto/request/check-account-id.request.dto';
 import { CheckAccountIdUseCase } from '../application/check-account-id/check-account-id.use-case';
 import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
+import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
+import { Roles } from 'src/shared/core/presentation/role.decorator';
+import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
+import { Role } from 'src/auth/core/domain/value-object/role';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
@@ -53,36 +56,38 @@ export class AuthOrganizationController {
       password: dto.password,
     });
 
-    res.cookie('orgAccessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('orgRefreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('refresh')
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(AuthGuard('jwt-refresh'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('refresh')
-  async renewToken(@User() user: UserPayload, @Res() res: Response) {
-    const { userId, jti } = user;
+  async renewToken(@Organization() organization: OrganizationPayload, @Res() res: Response) {
+    const { organizationId, jti } = organization;
     const { accessToken, refreshToken } = await this.renewTokenUseCase.execute({
-      organizationId: userId,
+      organizationId: organizationId,
       jti: jti,
     });
 
-    res.cookie('orgAccessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('orgRefreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('logout')
-  async logout(@User() user: UserPayload, @Res() res: Response) {
-    await this.logoutUseCase.execute({ organizationId: user.userId });
+  async logout(@Organization() organization: OrganizationPayload, @Res() res: Response) {
+    await this.logoutUseCase.execute({ organizationId: organization.organizationId });
 
-    res.clearCookie('orgAccessToken', accessTokenCookieOptions);
-    res.clearCookie('orgRefreshToken', refreshTokenCookieOptions);
+    res.clearCookie('accessToken', accessTokenCookieOptions);
+    res.clearCookie('refreshToken', refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }

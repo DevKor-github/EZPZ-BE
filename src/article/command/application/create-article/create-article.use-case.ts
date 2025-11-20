@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { Article } from '../../domain/article';
-import { CreateArticleRequestDto } from './dto/create-article.request.dto';
 import { ARTICLE_COMMAND_REPOSITORY, ArticleCommandRepository } from '../../domain/article.command.repository';
 import { CreateArticleResponseDto } from './dto/create-article.response.dto';
 import { Tag } from 'src/tag/domain/entity/tag';
 import { TAG_REPOSITORY, TagRepository } from 'src/tag/domain/repository/tag.repository';
+import { CreateArticleCommand } from './create-article.command';
 
 @Injectable()
 export class CreateArticleUseCase {
@@ -16,11 +16,11 @@ export class CreateArticleUseCase {
     private readonly tagRepo: TagRepository,
   ) {}
 
-  async execute(reqDto: CreateArticleRequestDto): Promise<CreateArticleResponseDto> {
+  async execute(command: CreateArticleCommand): Promise<CreateArticleResponseDto> {
     const tags: Tag[] = [];
     const articleId = Identifier.create();
 
-    for (const tag of reqDto.tags) {
+    for (const tag of command.tags) {
       const existingTag = await this.tagRepo.findByName(tag);
 
       if (!existingTag) {
@@ -41,15 +41,16 @@ export class CreateArticleUseCase {
     // Article 도메인 엔티티 생성
     const article = Article.create({
       id: articleId,
-      title: reqDto.title,
-      organization: reqDto.organization,
-      description: reqDto.description,
-      location: reqDto.location,
-      startAt: new Date(reqDto.startAt),
-      endAt: new Date(reqDto.endAt),
-      registrationUrl: reqDto.registrationUrl,
-      registrationStartAt: reqDto.registrationStartAt ? new Date(reqDto.registrationStartAt) : undefined,
-      registrationEndAt: reqDto.registrationEndAt ? new Date(reqDto.registrationEndAt) : undefined,
+      title: command.title,
+      organizationId: Identifier.from(command.organizationId),
+      organization: command.organization,
+      description: command.description,
+      location: command.location,
+      startAt: new Date(command.startAt),
+      endAt: new Date(command.endAt),
+      registrationUrl: command.registrationUrl,
+      registrationStartAt: command.registrationStartAt ? new Date(command.registrationStartAt) : undefined,
+      registrationEndAt: command.registrationEndAt ? new Date(command.registrationEndAt) : undefined,
       scrapCount: 0,
       viewCount: 0,
       mediaIds: [],

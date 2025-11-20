@@ -5,10 +5,7 @@ import { Request } from 'express';
 import { ExtractJwt, JwtFromRequestFunction, Strategy } from 'passport-jwt';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
-
-interface JwtPayload {
-  userId: number;
-}
+import { JwtPayload } from './jwt-payload';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
@@ -29,7 +26,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') 
     });
   }
 
-  validate(payload: JwtPayload) {
+  validate(payload: JwtPayload): JwtPayload {
     return payload;
   }
 }
