@@ -9,7 +9,6 @@ export class UserMapper {
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       email: entity.email,
-      role: entity.role,
     });
   }
 
@@ -19,7 +18,6 @@ export class UserMapper {
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
     entity.email = domain.email;
-    entity.role = domain.role;
 
     return entity;
   }

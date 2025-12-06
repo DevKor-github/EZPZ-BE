@@ -1,19 +1,19 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserQueryRepository } from '../domain/user.query.repository';
-import { UserEntity } from 'src/user/command/infrastructure/user.entity';
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
-import { UserModel } from '../domain/user.model';
+import { UserView } from '../domain/user.view';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { UserReader } from '../domain/user.reader';
+import { UserEntity } from './user.entity';
 
-export class UserQueryRepositoryImpl implements UserQueryRepository {
+export class UserReaderImpl implements UserReader {
   constructor(
     @InjectRepository(UserEntity)
     private readonly ormRepository: EntityRepository<UserEntity>,
     private readonly em: EntityManager,
   ) {}
 
-  async findById(userId: string): Promise<UserModel> {
+  async findById(userId: string): Promise<UserView> {
     const userEntity = await this.ormRepository
       .createQueryBuilder('u')
       .select(['id', 'email'])

@@ -3,11 +3,11 @@ import { UserEntity } from './user.entity';
 import { EntityManager, EntityRepository } from '@mikro-orm/mysql';
 import { User } from '../domain/user';
 import { UserMapper } from './user.mapper';
-import { UserCommandRepository } from '../domain/user.command.repository';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { UserStore } from '../domain/user.store';
 
-export class UserCommandRepositoryImpl implements UserCommandRepository {
+export class UserStoreImpl implements UserStore {
   constructor(
     @InjectRepository(UserEntity)
     private readonly ormRepository: EntityRepository<UserEntity>,

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class UserModel {
+export class UserView {
   @IsString()
   @ApiProperty({
     description: '사용자 이메일',
