@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateOrganizationDto {
+export class UpdateOrganizationReqDto {
   @ApiProperty({
     description: '기관/단체 이름',
     example: '한국스타트업협회',

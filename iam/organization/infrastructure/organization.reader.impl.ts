@@ -1,10 +1,10 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { OrganizationModel } from '../domain/organization.model';
 import { OrganizationViewEntity } from './organization.view.entity';
 import { EntityRepository } from '@mikro-orm/mysql';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { OrganizationReader } from '../domain/organization.reader';
+import { OrganizationView } from '../domain/organization.view';
 
 export class OrganizationReaderImpl implements OrganizationReader {
   constructor(
@@ -12,7 +12,7 @@ export class OrganizationReaderImpl implements OrganizationReader {
     private readonly organizationOrmRepository: EntityRepository<OrganizationViewEntity>,
   ) {}
 
-  async findById(organizationId: string): Promise<OrganizationModel> {
+  async findById(organizationId: string): Promise<OrganizationView> {
     const qb = this.organizationOrmRepository.createQueryBuilder('o');
 
     qb.where({ id: organizationId });

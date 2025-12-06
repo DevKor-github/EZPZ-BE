@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
-import { CreateOrganizationCommand } from './create-organization.command';
-import { Organization } from '../../domain/organization';
+import { CreateOrganizationCommand } from './create.command';
 import { ORGANIZATION_STORE, OrganizationStore } from '../../domain/organization.store';
+import { Organization } from '../../domain/organization';
 
 @Injectable()
 @CommandHandler(CreateOrganizationCommand)

@@ -1,11 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { createDocs } from 'src/shared/core/presentation/base.docs';
-import { UpdateOrganizationDto } from './dto/request/update-organization.request.dto';
+import { UpdateOrganizationReqDto } from './dto/request/update-organization.request.dto';
 
-export type OrganizationCommandEndpoint = 'update';
+export type OrganizationEndpoint = 'update';
 
-export const OrganizationCommandDocs = createDocs<OrganizationCommandEndpoint>({
+export const OrganizationDocs = createDocs<OrganizationEndpoint>({
   update: () =>
     applyDecorators(
       ApiOperation({
@@ -14,7 +14,7 @@ export const OrganizationCommandDocs = createDocs<OrganizationCommandEndpoint>({
       }),
       ApiBody({
         description: 'organization 정보 수정 요청 DTO',
-        type: UpdateOrganizationDto,
+        type: UpdateOrganizationReqDto,
       }),
       ApiOkResponse({
         description: 'organization 정보 수정 성공',

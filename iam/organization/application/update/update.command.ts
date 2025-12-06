@@ -1,6 +1,4 @@
-import { ICommand } from '@nestjs/cqrs';
-
-export class UpdateOrganizationCommand implements ICommand {
+export class UpdateOrganizationCommand {
   constructor(
     public readonly organizationId: string,
     public readonly name?: string,
