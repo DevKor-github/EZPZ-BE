@@ -4,14 +4,15 @@ import { JwtAccessStrategy } from './infrastructure/jwt/jwt-access.strategy';
 import { JwtProvider } from './infrastructure/jwt/jwt.provider';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { OAuthProviderFactory } from 'src/auth/core/infrastructure/oauth/oauth-provider.factory';
 import { KakaoOAuthProvider } from './infrastructure/oauth/kakao.provider';
+import { OAuthProviderFactory } from './infrastructure/oauth/oauth-provider.factory';
 
 const jwt = [JwtProvider, JwtAccessStrategy, JwtRefreshStrategy];
+const oAuth = [OAuthProviderFactory, KakaoOAuthProvider];
 
 @Module({
   imports: [PassportModule, JwtModule.register({})],
-  providers: [...jwt, OAuthProviderFactory, KakaoOAuthProvider],
+  providers: [...jwt, ...oAuth],
   controllers: [],
   exports: [OAuthProviderFactory, ...jwt],
 })

@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { BaseOAuthProvider, OAuthUser } from './base-oauth.provider';
-import { OAuthProviderType } from 'src/auth/auth-user/domain/value-object/oauth-provider.enum';
+import { OAuthProviderType } from 'iam/auth/auth-user/domain/value-object/oauth-provider.enum';
 
 interface KakaoTokenResponse {
   access_token: string;

@@ -7,7 +7,7 @@ export const accessTokenCookieOptions: CookieOptions = {
   sameSite: 'none',
   maxAge: 60 * 60 * 1000, // 1 hour
   path: '/',
-  domain: process.env.FRONTEND_DOMAIN,
+  //domain: process.env.FRONTEND_DOMAIN,
 };
 
 export const refreshTokenCookieOptions: CookieOptions = {
@@ -16,5 +16,5 @@ export const refreshTokenCookieOptions: CookieOptions = {
   sameSite: 'none',
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   path: '/',
-  domain: process.env.FRONTEND_DOMAIN,
+  //domain: process.env.FRONTEND_DOMAIN,
 };
