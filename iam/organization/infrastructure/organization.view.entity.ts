@@ -7,7 +7,7 @@ import { Entity, Property } from '@mikro-orm/core';
       o.name,
       o.contact
     FROM
-      organizations o
+      organization o
   `,
 })
 export class OrganizationViewEntity {

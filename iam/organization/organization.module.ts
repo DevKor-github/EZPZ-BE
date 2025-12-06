@@ -10,8 +10,14 @@ import { OrganizationController } from './presentation/organization.controller';
 import { ORGANIZATION_READER } from './domain/organization.reader';
 import { OrganizationReaderImpl } from './infrastructure/organization.reader.impl';
 import { OrganizationViewEntity } from './infrastructure/organization.view.entity';
+import { GetOrganizationUseCase } from './application/get/get-organization.use-case';
 
-const usecases = [CreateOrganizationUseCase, UpdateOrganizationUseCase, DeleteOrganizationUseCase];
+const usecases = [
+  CreateOrganizationUseCase,
+  UpdateOrganizationUseCase,
+  DeleteOrganizationUseCase,
+  GetOrganizationUseCase,
+];
 
 @Module({
   imports: [MikroOrmModule.forFeature([OrganizationEntity, OrganizationViewEntity])],
