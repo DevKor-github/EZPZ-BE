@@ -1,18 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CommandHandler } from '@nestjs/cqrs';
 import { LoginCommand } from './login.command';
 import { AUTH_ORGANIZATION_STORE, AuthOrganizationStore } from '../../domain/auth-organization.store';
 import { PASSWORD_HASHER, PasswordHasher } from '../../domain/password-hasher';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
-import { JwtProvider } from 'src/auth/core/infrastructure/jwt/jwt.provider';
-import { TokenType } from 'src/auth/core/infrastructure/jwt/jwt.factory';
-import { LoginResponseDto } from './dto/login.response.dto';
 import { AuthOrganization } from '../../domain/auth-organization';
-import { Role } from 'src/auth/core/domain/value-object/role';
+import { LoginResult } from './login.result';
+import { JwtProvider } from 'iam/auth/auth-core/infrastructure/jwt/jwt.provider';
+import { Role } from 'iam/auth/auth-core/domain/value-object/role';
+import { TokenType } from 'iam/auth/auth-core/infrastructure/jwt/jwt.factory';
 
 @Injectable()
-@CommandHandler(LoginCommand)
 export class LoginUseCase {
   constructor(
     @Inject(AUTH_ORGANIZATION_STORE)
@@ -22,7 +20,7 @@ export class LoginUseCase {
     private readonly jwtProvider: JwtProvider,
   ) {}
 
-  async execute(command: LoginCommand): Promise<LoginResponseDto> {
+  async execute(command: LoginCommand): Promise<LoginResult> {
     const { accountId, password } = command;
 
     const authOrganization = await this.validateAccount(accountId.trim(), password.trim());

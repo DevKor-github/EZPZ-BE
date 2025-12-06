@@ -15,8 +15,8 @@ import { CheckAccountIdUseCase } from '../application/check-account-id/check-acc
 import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
 import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
-import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
-import { Role } from 'src/auth/core/domain/value-object/role';
+import { Role } from 'iam/auth/auth-core/domain/value-object/role';
+import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')

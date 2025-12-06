@@ -1,25 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { JwtProvider } from 'src/auth/core/infrastructure/jwt/jwt.provider';
 import { AUTH_ORGANIZATION_STORE, AuthOrganizationStore } from '../../domain/auth-organization.store';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RenewTokenCommand } from './renew-token.command';
-import { TokenType } from 'src/auth/core/infrastructure/jwt/jwt.factory';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
-import { RenewTokenResponseDto } from './dto/renew-token.response.dto';
 import { AuthOrganization } from '../../domain/auth-organization';
-import { Role } from 'src/auth/core/domain/value-object/role';
+import { RenewTokenResult } from './renew-token.response.dto';
+import { JwtProvider } from 'iam/auth/auth-core/infrastructure/jwt/jwt.provider';
+import { TokenType } from 'iam/auth/auth-core/infrastructure/jwt/jwt.factory';
+import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 
 @Injectable()
-@CommandHandler(RenewTokenCommand)
-export class RenewTokenUseCase implements ICommandHandler<RenewTokenCommand> {
+export class RenewTokenUseCase {
   constructor(
     @Inject(AUTH_ORGANIZATION_STORE)
     private readonly authOrganizationStore: AuthOrganizationStore,
     private readonly jwtProvider: JwtProvider,
   ) {}
 
-  async execute(command: RenewTokenCommand): Promise<RenewTokenResponseDto> {
+  async execute(command: RenewTokenCommand): Promise<RenewTokenResult> {
     const { organizationId, jti } = command;
 
     const authOrganization = await this.validateRefreshToken(organizationId, jti);

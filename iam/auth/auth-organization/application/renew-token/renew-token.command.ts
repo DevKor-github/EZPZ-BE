@@ -1,6 +1,4 @@
-import { ICommand } from '@nestjs/cqrs';
-
-export class RenewTokenCommand implements ICommand {
+export class RenewTokenCommand {
   constructor(
     public readonly organizationId: string,
     public readonly jti: string,

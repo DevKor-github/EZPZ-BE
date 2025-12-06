@@ -3,9 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { AppController } from 'src/app.controller';
 import { AppService } from 'src/app.service';
-import { AuthModule } from 'src/auth/auth.module';
 import { ArticleModule } from 'src/article/article.module';
-import { UserModule } from 'src/user/user.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { TagModule } from './tag/tag.module';
 import { MediaModule } from './media/media.module';
@@ -13,7 +11,7 @@ import { ScrapModule } from './scrap/scrap.module';
 import mikroOrmConfig from './shared/config/mikro-orm.config';
 import config from 'src/shared/config/configuration';
 import { AnalyticsModule } from './analytics/analytics.module';
-import { OrganizationModule } from './organization/organization.module';
+import { IamModule } from 'iam/iam.module';
 
 @Module({
   imports: [
@@ -22,15 +20,13 @@ import { OrganizationModule } from './organization/organization.module';
       isGlobal: true,
       load: [config],
     }),
+    IamModule,
     AnalyticsModule,
-    AuthModule,
     ArticleModule,
-    UserModule,
     SharedModule,
     TagModule,
     MediaModule,
     ScrapModule,
-    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

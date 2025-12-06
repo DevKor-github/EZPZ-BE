@@ -1,6 +1,4 @@
-import { ICommand } from '@nestjs/cqrs';
-
-export class CreateAuthOrganizationCommand implements ICommand {
+export class CreateAuthOrganizationCommand {
   constructor(
     public readonly accountId: string,
     public readonly password: string,
