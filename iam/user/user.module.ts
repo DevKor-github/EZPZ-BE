@@ -27,7 +27,7 @@ const useCases = [DeleteUserUseCase, CreateUserUseCase, GetUserUseCase];
       useClass: UserReaderImpl,
     },
   ],
-  exports: [],
+  exports: [...useCases],
   controllers: [UserController],
 })
 export class UserModule {}
