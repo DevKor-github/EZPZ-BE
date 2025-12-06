@@ -3,13 +3,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AnalyticsService } from './infrastructure/analytics.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AuthCreatedEventHandler, LoginSucceededEventHandler } from './application/auth-event.handler';
+import { LoginSucceededEventHandler, UserSignedUpEventHandler } from './application/auth-event.handler';
 import { ScrapAddedEventHandler, ScrapDeletedEventHandler } from './application/scrap-event.handler';
 
 export const AMPLITUDE_CLIENT = Symbol('AMPLITUDE_CLIENT');
 
 const eventHandlers = [
-  AuthCreatedEventHandler,
+  UserSignedUpEventHandler,
   LoginSucceededEventHandler,
   ScrapAddedEventHandler,
   ScrapDeletedEventHandler,

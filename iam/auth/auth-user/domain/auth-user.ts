@@ -6,7 +6,7 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { LoginSucceededEvent } from './event/login-succeeded.event';
 import { AuthDeletedEvent } from './event/auth-deleted.event';
-import { AuthCreatedEvent } from './event/auth-created.event';
+import { UserSignedUpEvent } from './event/user-signed-up.event';
 
 export interface AuthUserProps extends BaseEntityProps {
   oauthId: string;
@@ -24,7 +24,7 @@ export class AuthUser extends AggregateRoot<AuthUserProps> {
   public static create(props: AuthUserProps): AuthUser {
     const authUser = new AuthUser(props);
     authUser.validate();
-    authUser.addDomainEvent(new AuthCreatedEvent(props.userId, props.oauthId, props.provider));
+    authUser.addDomainEvent(new UserSignedUpEvent(props.userId, props.oauthId, props.provider));
     authUser.addDomainEvent(new LoginSucceededEvent(authUser.userId, authUser.provider));
 
     return authUser;
