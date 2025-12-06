@@ -16,7 +16,7 @@ import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 
 @ApiTags('auth-user')
-@Controller('auth-temp')
+@Controller('auth')
 export class AuthUserController {
   constructor(
     private readonly oAuthLoginUseCase: OAuthLoginUseCase,

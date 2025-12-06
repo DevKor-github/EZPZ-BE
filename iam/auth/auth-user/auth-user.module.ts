@@ -13,12 +13,13 @@ import { AuthUserStoreImpl } from './infrastructure/auth-user.store.impl';
 import { AuthUserEntity } from './infrastructure/auth-user.entity';
 import { AuthCoreModule } from '../auth-core/auth-core.module';
 import { AuthUserController } from './presentation/auth-user.controller';
+import { UserModule } from 'iam/user/user.module';
 
 const usecases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase, UnlinkOAuthUseCase];
 const listeners = [UnlinkOAuthListener];
 
 @Module({
-  imports: [MikroOrmModule.forFeature([AuthUserEntity]), AuthCoreModule, SharedModule, CqrsModule],
+  imports: [MikroOrmModule.forFeature([AuthUserEntity]), AuthCoreModule, SharedModule, CqrsModule, UserModule],
   providers: [
     {
       provide: AUTH_USER_STORE,

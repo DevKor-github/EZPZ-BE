@@ -9,14 +9,15 @@ import { OAuthProviderFactory } from 'iam/auth/auth-core/infrastructure/oauth/oa
 import { JwtProvider } from 'iam/auth/auth-core/infrastructure/jwt/jwt.provider';
 import { OAuthProviderType } from '../../domain/value-object/oauth-provider.enum';
 import { AuthUser } from '../../domain/auth-user';
-import { AuthCreatedEvent } from '../../domain/event/auth-created.event';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { TokenType } from 'iam/auth/auth-core/infrastructure/jwt/jwt.factory';
+import { CreateUserUseCase } from 'iam/user/application/create/create.use-case';
 
 @Injectable()
 export class OAuthLoginUseCase {
   private readonly now: Date;
   constructor(
+    private readonly createUserUseCase: CreateUserUseCase,
     private readonly oAuthProviderFactory: OAuthProviderFactory,
     private readonly jwtProvider: JwtProvider,
     @Inject(AUTH_USER_STORE)
@@ -37,7 +38,7 @@ export class OAuthLoginUseCase {
     return { accessToken, refreshToken, userId: authUser.userId.value, redirectUrl };
   }
 
-  // 소셜로그인 유저저 정보 가져오기
+  // 소셜로그인 유저 정보 가져오기
   private async getOAuthUserInfo(oAuthProviderType: OAuthProviderType, code: string) {
     const oAuthprovider = this.oAuthProviderFactory.getProvider(oAuthProviderType);
     const token = await oAuthprovider.getToken(code);
@@ -53,10 +54,14 @@ export class OAuthLoginUseCase {
       return existingAuth;
     }
 
-    const userId = Identifier.create();
+    const userId = await this.createNewUser(email);
+    const authUser = await this.createNewAuthUser(oauthId, provider, userId);
 
-    await this.eventBus.publish(new AuthCreatedEvent(userId, email, provider));
+    return authUser;
+  }
 
+  // 새로운 유저 인증 객체 생성
+  private async createNewAuthUser(oauthId: string, provider: OAuthProviderType, userId: Identifier): Promise<AuthUser> {
     const authUser = AuthUser.create({
       id: Identifier.create(),
       createdAt: this.now,
@@ -73,6 +78,13 @@ export class OAuthLoginUseCase {
     await this.eventBus.publishAll(authUser.pullDomainEvents());
 
     return authUser;
+  }
+
+  // 새로운 유저 생성
+  private async createNewUser(email: string): Promise<Identifier> {
+    const { userId } = await this.createUserUseCase.execute({ email });
+
+    return Identifier.from(userId);
   }
 
   // 토큰 생성 및 저장
