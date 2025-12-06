@@ -9,9 +9,9 @@ import { UpdateArticleRequestDto } from './dto/update-article.request.dto';
 import { ArticleCommandDocs } from './article.command.docs';
 import { AuthGuard } from '@nestjs/passport';
 import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
-import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
-import { Role } from 'src/auth/core/domain/value-object/role';
+import { Role } from 'iam/auth/auth-core/domain/value-object/role';
+import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 
 @ApiTags('article')
 @Controller('article')

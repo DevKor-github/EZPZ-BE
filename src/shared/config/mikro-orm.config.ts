@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 export default defineConfig({
   entities: ['dist/**/infrastructure/orm-entity/*.entity.js', 'dist/**/infrastructure/*.entity.js'],
-  entitiesTs: ['src/**/infrastructure/orm-entity/*.entity.ts', 'src/**/infrastructure/*.entity.ts'],
+  entitiesTs: ['src/**/infrastructure/orm-entity/*.entity.ts', '**/infrastructure/*.entity.ts'],
   dbName: 'univent_db',
   driver: MySqlDriver,
   user: process.env.DB_USER,

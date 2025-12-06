@@ -1,3 +1,3 @@
 export interface BaseDomainEvent {
-  readonly timesstamp: Date;
+  readonly timestamp: Date;
 }

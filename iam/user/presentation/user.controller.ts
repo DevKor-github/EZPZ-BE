@@ -14,7 +14,7 @@ import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 
 @ApiTags('user')
-@Controller('user-temp')
+@Controller('user')
 export class UserController {
   constructor(
     private readonly deleteUserUseCase: DeleteUserUseCase,

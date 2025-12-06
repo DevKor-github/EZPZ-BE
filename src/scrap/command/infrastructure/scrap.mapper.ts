@@ -2,7 +2,7 @@ import { Identifier } from 'src/shared/core/domain/identifier';
 import { Scrap } from '../domain/scrap';
 import { ScrapEntity } from './scrap.entity';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
-import { UserEntity } from 'src/user/command/infrastructure/user.entity';
+import { UserEntity } from 'iam/user/infrastructure/user.entity';
 
 export class ScrapMapper {
   static toDomain(entity: ScrapEntity): Scrap {

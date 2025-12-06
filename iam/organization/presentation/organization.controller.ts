@@ -7,7 +7,7 @@ import { UpdateOrganizationUseCase } from '../application/update/update.use-case
 import { UpdateOrganizationReqDto } from './dto/request/update-organization.request.dto';
 
 @ApiTags('organization')
-@Controller('organization-temp')
+@Controller('organization')
 export class OrganizationController {
   constructor(private readonly updateOrganizationUseCase: UpdateOrganizationUseCase) {}
 
