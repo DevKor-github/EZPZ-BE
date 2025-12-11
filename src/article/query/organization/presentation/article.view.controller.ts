@@ -4,10 +4,10 @@ import { Organization, OrganizationPayload } from 'src/shared/core/presentation/
 import { ArticleModel } from '../domain/article.model';
 import { GetOrganizationArticleListUseCase } from '../application/article-list/get-article-list.use-case';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/auth/core/infrastructure/guard/role.guard';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
-import { Role } from 'src/auth/core/domain/value-object/role';
 import { OrganizationArticleViewDocs } from './article.view.docs';
+import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
+import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 
 @ApiTags('organization-article')
 @Controller('organization/article')
