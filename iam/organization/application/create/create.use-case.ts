@@ -3,6 +3,8 @@ import { CommandHandler } from '@nestjs/cqrs';
 import { CreateOrganizationCommand } from './create.command';
 import { ORGANIZATION_STORE, OrganizationStore } from '../../domain/organization.store';
 import { Organization } from '../../domain/organization';
+import { CreateOrganizationResult } from './create.result';
+import { Identifier } from 'src/shared/core/domain/identifier';
 
 @Injectable()
 @CommandHandler(CreateOrganizationCommand)
@@ -12,11 +14,11 @@ export class CreateOrganizationUseCase {
     private readonly organizationStore: OrganizationStore,
   ) {}
 
-  async execute(command: CreateOrganizationCommand): Promise<void> {
-    const { organizationId, name, contact } = command;
+  async execute(command: CreateOrganizationCommand): Promise<CreateOrganizationResult> {
+    const { name, contact } = command;
 
     const organization = Organization.create({
-      id: organizationId,
+      id: Identifier.create(),
       name: name,
       contact: contact,
       createdAt: new Date(),
@@ -24,5 +26,7 @@ export class CreateOrganizationUseCase {
     });
 
     await this.organizationStore.save(organization);
+
+    return { organizationId: organization.id.value };
   }
 }

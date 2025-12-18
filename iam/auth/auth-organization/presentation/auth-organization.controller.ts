@@ -1,6 +1,5 @@
 import { Body, Controller, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateAuthOrganizationUseCase } from '../application/create/create.use-case';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
 import { Response } from 'express';
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
@@ -17,12 +16,13 @@ import { Organization, OrganizationPayload } from 'src/shared/core/presentation/
 import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
+import { RegisterOrganizationUseCase } from '../application/register-organization/register-organization.use-case';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
 export class AuthOrganizationController {
   constructor(
-    private readonly createAuthOrganizationUseCase: CreateAuthOrganizationUseCase,
+    private readonly registerOrganizationUseCase: RegisterOrganizationUseCase,
     private readonly renewTokenUseCase: RenewTokenUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly logoutUseCase: LogoutUseCase,
@@ -32,7 +32,7 @@ export class AuthOrganizationController {
   @Post('register')
   @AuthOrganizationDocs('register')
   async registerOrganization(@Body() dto: RegisterOrganizationRequestDto) {
-    await this.createAuthOrganizationUseCase.execute({
+    await this.registerOrganizationUseCase.execute({
       accountId: dto.accountId,
       password: dto.password,
       name: dto.name,
