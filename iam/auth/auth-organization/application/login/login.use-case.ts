@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { LoginCommand } from './login.command';
 import { AUTH_ORGANIZATION_STORE, AuthOrganizationStore } from '../../domain/auth-organization.store';
-import { PASSWORD_HASHER, PasswordHasher } from '../../domain/password-hasher';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { AuthOrganization } from '../../domain/auth-organization';
@@ -9,6 +8,7 @@ import { LoginResult } from './login.result';
 import { JwtProvider } from 'iam/auth/auth-core/infrastructure/jwt/jwt.provider';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { TokenType } from 'iam/auth/auth-core/infrastructure/jwt/jwt.factory';
+import { PASSWORD_HASHER, PasswordHasher } from 'iam/auth/auth-core/domain/password-hasher';
 
 @Injectable()
 export class LoginUseCase {

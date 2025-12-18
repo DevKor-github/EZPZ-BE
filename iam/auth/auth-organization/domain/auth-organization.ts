@@ -2,7 +2,7 @@ import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { AccountId } from './vo/account-id';
-import { PasswordHash } from './vo/password-hash';
+import { PasswordHash } from 'iam/auth/auth-core/domain/value-object/password-hash';
 
 export interface AuthOrganizationProps extends BaseEntityProps {
   accountId: AccountId;
