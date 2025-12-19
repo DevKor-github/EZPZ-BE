@@ -52,12 +52,20 @@ export enum CustomExceptionCode {
   AUTH_ORGANIZATION_INVALID_REFRESH_TOKEN = 'AUTH_ORGANIZATION_INVALID_REFRESH_TOKEN',
   AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN = 'AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN',
   AUTH_ORGANIZATION_NOT_FOUND = 'AUTH_ORGANIZATION_NOT_FOUND',
-  AUTH_ORGANIZATION_INVALID_PASSWORD = 'AUTH_ORGANIZATION_INVALID_PASSWORD',
+  AUTH_INVALID_PASSWORD = 'AUTH_INVALID_PASSWORD',
 
   // Organization
   ORGANIZATION_INVALID_NAME_LENGTH = 'ORGANIZATION_INVALID_NAME_LENGTH',
   ORGANIZATION_INVALID_CONTACT_FORMAT = 'ORGANIZATION_INVALID_CONTACT_FORMAT',
   ORGANIZATION_NOT_FOUND = 'ORGANIZATION_NOT_FOUND',
+
+  // Admin
+  ADMIN_INVALID_NAME_LENGTH = 'ADMIN_INVALID_NAME_LENGTH',
+  ADMIN_NOT_FOUND = 'ADMIN_NOT_FOUND',
+
+  // Auth Admin
+  AUTH_ADMIN_NOT_FOUND = 'AUTH_ADMIN_NOT_FOUND',
+  AUTH_ADMIN_ALREADY_EXISTS = 'AUTH_ADMIN_ALREADY_EXISTS',
 }
 
 export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; message: string }> = {
@@ -240,9 +248,9 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
     message: '[AuthOrganization] 해당 계정 정보가 존재하지 않습니다.',
     //message: '[AuthOrganization] 해당 기관 인증 정보가 존재하지 않습니다.',
   },
-  [CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD]: {
+  [CustomExceptionCode.AUTH_INVALID_PASSWORD]: {
     status: HttpStatus.UNAUTHORIZED,
-    message: '[AuthOrganization] 해당 계정 정보가 존재하지 않습니다.',
+    message: '[Auth] 해당 계정 정보가 존재하지 않습니다.',
     //message: '[AuthOrganization] 비밀번호가 올바르지 않습니다.',
   },
 
@@ -261,5 +269,27 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
   [CustomExceptionCode.ORGANIZATION_NOT_FOUND]: {
     status: HttpStatus.NOT_FOUND,
     message: '[OrganizationRepository] 해당 기관이 존재하지 않습니다.',
+  },
+
+  // Admin
+  // Domain
+  [CustomExceptionCode.ADMIN_INVALID_NAME_LENGTH]: {
+    status: HttpStatus.BAD_REQUEST,
+    message: '[Admin] 이름은 1자 이상 20자 이하여야 합니다.',
+  },
+  // Infrastructure
+  [CustomExceptionCode.ADMIN_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[AdminRepository] 해당 관리자가 존재하지 않습니다.',
+  },
+
+  // Auth Admin
+  [CustomExceptionCode.AUTH_ADMIN_NOT_FOUND]: {
+    status: HttpStatus.NOT_FOUND,
+    message: '[AuthAdminRepository] 해당 관리자 인증 정보가 존재하지 않습니다.',
+  },
+  [CustomExceptionCode.AUTH_ADMIN_ALREADY_EXISTS]: {
+    status: HttpStatus.CONFLICT,
+    message: '[AuthAdminRepository] 이미 존재하는 관리자 계정입니다.',
   },
 };

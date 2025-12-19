@@ -35,7 +35,7 @@ export class LoginUseCase {
     if (!authOrganization) throw new CustomException(CustomExceptionCode.AUTH_ORGANIZATION_NOT_FOUND);
 
     const isPasswordValid = await this.passwordHasher.compare(password, authOrganization.passwordHash.value);
-    if (!isPasswordValid) throw new CustomException(CustomExceptionCode.AUTH_ORGANIZATION_INVALID_PASSWORD);
+    if (!isPasswordValid) throw new CustomException(CustomExceptionCode.AUTH_INVALID_PASSWORD);
 
     return authOrganization;
   }
