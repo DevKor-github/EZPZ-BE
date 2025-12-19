@@ -6,8 +6,9 @@ import { AdminEntity } from './infrastructure/admin.entity';
 import { SharedModule } from 'src/shared/shared.module';
 import { AdminController } from './presentation/admin.controller';
 import { GetAdminUseCase } from './application/get/get-admin.use-case';
+import { CreateAdminUseCase } from './application/create/create.use-case';
 
-const usecases = [GetAdminUseCase];
+const usecases = [GetAdminUseCase, CreateAdminUseCase];
 
 @Module({
   imports: [MikroOrmModule.forFeature([AdminEntity]), SharedModule],
