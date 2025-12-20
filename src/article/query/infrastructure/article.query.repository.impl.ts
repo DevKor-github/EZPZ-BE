@@ -139,13 +139,30 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
 
     // 정렬
     if (!safeSortBy || safeSortBy === 'registrationStartAt') {
-      // 현재 시간에 가장 가까운 순서 (미래 우선), 값 없으면 startAt 사용
+      // 임박한 순서로 정렬:
+      // 1. 진행 중인 행사 우선 (종료일이 가까운 순)
+      // 2. 곧 시작하는 행사 (시작일이 가까운 순)
+      // 3. 과거 행사 (시작일이 가까운 순)
+      // registrationStartAt이 null이면 startAt 사용
       query.orderBy([
         {
-          [sql`CASE WHEN COALESCE(a.registration_start_at, a.start_at) >= NOW() THEN 0 ELSE 1 END` as unknown as string]:
-            'asc',
+          // 진행 중인 행사: 0, 곧 시작: 1, 과거: 2
+          [sql`CASE 
+            WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() AND a.end_at >= NOW() THEN 0
+            WHEN COALESCE(a.registration_start_at, a.start_at) > NOW() THEN 1
+            ELSE 2
+          END` as unknown as string]: 'asc',
         },
         {
+          // 진행 중인 행사: 종료일이 가까운 순
+          [sql`CASE 
+            WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() AND a.end_at >= NOW() 
+            THEN TIMESTAMPDIFF(SECOND, NOW(), a.end_at)
+            ELSE 0
+          END` as unknown as string]: 'asc',
+        },
+        {
+          // 곧 시작하거나 과거 행사: 시작일과의 절대 차이 (가까운 순)
           [sql`ABS(TIMESTAMPDIFF(SECOND, COALESCE(a.registration_start_at, a.start_at), NOW()))` as unknown as string]:
             'asc',
         },

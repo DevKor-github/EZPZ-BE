@@ -18,7 +18,7 @@ export class ScrapQueryController {
     private readonly getScrapSearchUseCase: GetScrapSearchUseCase,
   ) {}
 
-  @Get('searchScrap')
+  @Get('search')
   @UseGuards(AuthGuard('jwt-access'))
   @ScrapQueryDocs('searchScrap')
   async getScrapSearch(@User() user: UserPayload, @Query() reqDto: GetScrapSearchRequestDto) {
