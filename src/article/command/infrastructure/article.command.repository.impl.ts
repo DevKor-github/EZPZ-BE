@@ -19,11 +19,9 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
     const articleEntity = ArticleMapper.toEntity(article);
 
     // Get references to existing tags
-    const tagRefs = await Promise.all(
-      article.tags.map((tag) => {
-        return this.em.getReference(TagEntity, tag.id.value);
-      }),
-    );
+    const tagRefs = article.tags.map((tag) => {
+      return this.em.getReference(TagEntity, tag.id.value);
+    });
     articleEntity.tags.set(tagRefs);
 
     await this.em.persistAndFlush(articleEntity);
@@ -56,11 +54,9 @@ export class ArticleCommandRepositoryImpl implements ArticleCommandRepository {
       articleEntity.tags.removeAll();
 
       // 새로운 태그 관계 설정
-      const tagRefs = await Promise.all(
-        article.tags.map((tag) => {
-          return this.em.getReference(TagEntity, tag.id.value);
-        }),
-      );
+      const tagRefs = article.tags.map((tag) => {
+        return this.em.getReference(TagEntity, tag.id.value);
+      });
       articleEntity.tags.set(tagRefs);
 
       await this.em.flush();
