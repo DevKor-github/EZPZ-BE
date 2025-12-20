@@ -4,7 +4,7 @@ import { createDocs } from 'src/shared/core/presentation/base.docs';
 import { CheckScrapResponseDto } from '../application/check-scrap/dto/check-scrap.response.dto';
 import { ScrapModel } from '../domain/scrap.model';
 
-export type ScrapQueryEndpoint = 'getMyScrap' | 'checkScrap';
+export type ScrapQueryEndpoint = 'getMyScrap' | 'checkScrap' | 'searchScrap';
 
 export const ScrapQueryDocs = createDocs<ScrapQueryEndpoint>({
   getMyScrap: () =>
@@ -44,6 +44,21 @@ export const ScrapQueryDocs = createDocs<ScrapQueryEndpoint>({
       }),
       ApiNotFoundResponse({
         description: '해당 게시글이 존재하지 않습니다.',
+      }),
+    ),
+  searchScrap: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '스크랩한 게시글 검색',
+        description: '사용자가 스크랩한 게시글 중에서 제목으로 검색.',
+      }),
+      ApiOkResponse({
+        description: '검색 성공',
+        type: ScrapModel,
+        isArray: true,
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 access token',
       }),
     ),
 });
