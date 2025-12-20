@@ -140,24 +140,49 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     // 정렬
     if (!safeSortBy || safeSortBy === 'registrationStartAt') {
       // 임박한 순서로 정렬:
-      // 1. 진행 중인 행사 우선 (종료일이 가까운 순)
-      // 2. 곧 시작하는 행사 (시작일이 가까운 순)
-      // 3. 과거 행사 (시작일이 가까운 순)
+      // 1. 현재 활성화된 행사들 (신청 진행 중 OR 행사 진행 중) - 가장 임박한 종료일 기준
+      // 2. 곧 시작할 행사들 (registrationStartAt/startAt > NOW()) - 시작일이 가까운 순
+      // 3. 과거 행사들 - 시작일이 가까운 순
       // registrationStartAt이 null이면 startAt 사용
       query.orderBy([
         {
-          // 진행 중인 행사: 0, 곧 시작: 1, 과거: 2
+          // 현재 활성화: 0, 곧 시작: 1, 과거: 2
           [sql`CASE 
-            WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() AND a.end_at >= NOW() THEN 0
+            WHEN (a.registration_start_at IS NOT NULL 
+              AND a.registration_start_at <= NOW() 
+              AND a.registration_end_at >= NOW())
+              OR (COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+              AND a.end_at >= NOW()) THEN 0
             WHEN COALESCE(a.registration_start_at, a.start_at) > NOW() THEN 1
             ELSE 2
           END` as unknown as string]: 'asc',
         },
         {
-          // 진행 중인 행사: 종료일이 가까운 순
+          // 현재 활성화된 행사들: 가장 임박한 종료일 기준
+          // 신청 진행 중이면 신청 종료일, 행사 진행 중이면 행사 종료일, 둘 다면 더 가까운 것
           [sql`CASE 
-            WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() AND a.end_at >= NOW() 
-            THEN TIMESTAMPDIFF(SECOND, NOW(), a.end_at)
+            WHEN (a.registration_start_at IS NOT NULL 
+              AND a.registration_start_at <= NOW() 
+              AND a.registration_end_at >= NOW())
+              OR (COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+              AND a.end_at >= NOW())
+            THEN LEAST(
+              COALESCE(
+                CASE WHEN a.registration_start_at IS NOT NULL 
+                  AND a.registration_start_at <= NOW() 
+                  AND a.registration_end_at >= NOW()
+                THEN TIMESTAMPDIFF(SECOND, NOW(), a.registration_end_at)
+                ELSE NULL END,
+                999999999
+              ),
+              COALESCE(
+                CASE WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+                  AND a.end_at >= NOW()
+                THEN TIMESTAMPDIFF(SECOND, NOW(), a.end_at)
+                ELSE NULL END,
+                999999999
+              )
+            )
             ELSE 0
           END` as unknown as string]: 'asc',
         },
