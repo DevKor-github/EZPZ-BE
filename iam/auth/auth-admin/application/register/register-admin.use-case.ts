@@ -14,12 +14,15 @@ import { PasswordHash } from 'iam/auth/auth-core/domain/value-object/password-ha
 import { CreateAdminUseCase } from 'iam/admin/application/create/create.use-case';
 import { CreateAdminCommand } from 'iam/admin/application/create/create.command';
 import { Transactional } from '@mikro-orm/core';
+import { PASSWORD_HASHER, PasswordHasher } from 'iam/auth/auth-core/domain/password-hasher';
 
 @Injectable()
 export class RegisterAdminUseCase {
   constructor(
     @Inject(AUTH_ADMIN_REPOSITORY)
     private readonly authAdminRepository: AuthAdminRepository,
+    @Inject(PASSWORD_HASHER)
+    private readonly passwordHasher: PasswordHasher,
     private readonly jwtProvider: JwtProvider,
     private readonly createAdminUseCase: CreateAdminUseCase,
   ) {}
@@ -43,10 +46,12 @@ export class RegisterAdminUseCase {
   }
 
   private async createAuthAdmin(accountId: string, password: string, adminId: string): Promise<AuthAdmin> {
+    const passwordHash = await this.passwordHasher.hash(password);
+
     const authAdmin = AuthAdmin.create({
       id: Identifier.create(),
       accountId: AccountId.create(accountId),
-      passwordHash: PasswordHash.create(password),
+      passwordHash: PasswordHash.create(passwordHash),
       adminId: Identifier.from(adminId),
       createdAt: new Date(),
       updatedAt: new Date(),
