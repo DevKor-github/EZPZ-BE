@@ -50,7 +50,7 @@ export class AuthAdminController {
   @UseGuards(AuthGuard('jwt-access'), RolesGuard)
   @Roles(Role.ADMIN)
   logout(@Res() res: Response) {
-    res.clearCookie('accessToken');
+    res.clearCookie('accessToken', accessTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }

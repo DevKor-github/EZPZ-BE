@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { Admin, AdminPayload } from 'src/shared/core/presentation/admin.decorator';
+import { AdminView } from '../domain/admin.view';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -15,7 +16,7 @@ export class AdminController {
   @Get()
   @UseGuards(AuthGuard('jwt-access'), RolesGuard)
   @Roles(Role.ADMIN)
-  async getAdminInfo(@Admin() admin: AdminPayload): Promise<void> {
-    await this.getAdminUseCase.execute({ adminId: admin.adminId });
+  async getAdminInfo(@Admin() admin: AdminPayload): Promise<AdminView> {
+    return await this.getAdminUseCase.execute({ adminId: admin.adminId });
   }
 }
