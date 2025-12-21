@@ -5,6 +5,8 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { UserReader } from '../domain/user.reader';
 import { UserEntity } from './user.entity';
+import { UserAdminView } from '../domain/user.admin.view';
+import { UserMapper } from './user.mapper';
 
 export class UserReaderImpl implements UserReader {
   constructor(
@@ -27,5 +29,26 @@ export class UserReaderImpl implements UserReader {
       );
 
     return { email: userEntity.email };
+  }
+
+  async findAllByCursor(pageSize: number, cursorId?: string, cursorDate?: Date): Promise<UserAdminView[]> {
+    const qb = this.ormRepository.createQueryBuilder('u');
+
+    if (cursorDate && cursorId) {
+      qb.where({
+        $or: [
+          { createdAt: { $lt: cursorDate } },
+          {
+            $and: [{ createdAt: cursorDate }, { id: { $lt: cursorId } }],
+          },
+        ],
+      });
+    }
+
+    qb.orderBy({ createdAt: 'DESC', id: 'DESC' }).limit(pageSize + 1);
+
+    const result = await qb.getResultList();
+
+    return result.map((user) => UserMapper.toUserAdminModel(user));
   }
 }
