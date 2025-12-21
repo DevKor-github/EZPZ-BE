@@ -7,6 +7,7 @@ export interface ScrapQueryRepository {
     isFinished?: boolean,
     sortBy?: 'createdAt' | 'scrapCount' | 'viewCount',
   ): Promise<ScrapModel[]>;
+  searchByKeyword(userId: string, keyword: string): Promise<ScrapModel[]>;
   existsByArticleIdAndUserId(articleId: string, userId: string): Promise<boolean>;
 }
 

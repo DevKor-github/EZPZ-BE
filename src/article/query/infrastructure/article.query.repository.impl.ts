@@ -139,13 +139,55 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
 
     // 정렬
     if (!safeSortBy || safeSortBy === 'registrationStartAt') {
-      // 현재 시간에 가장 가까운 순서 (미래 우선), 값 없으면 startAt 사용
+      // 임박한 순서로 정렬:
+      // 1. 현재 활성화된 행사들 (신청 진행 중 OR 행사 진행 중) - 가장 임박한 종료일 기준
+      // 2. 곧 시작할 행사들 (registrationStartAt/startAt > NOW()) - 시작일이 가까운 순
+      // 3. 과거 행사들 - 시작일이 가까운 순
+      // registrationStartAt이 null이면 startAt 사용
       query.orderBy([
         {
-          [sql`CASE WHEN COALESCE(a.registration_start_at, a.start_at) >= NOW() THEN 0 ELSE 1 END` as unknown as string]:
-            'asc',
+          // 현재 활성화: 0, 곧 시작: 1, 과거: 2
+          [sql`CASE 
+            WHEN (a.registration_start_at IS NOT NULL 
+              AND a.registration_start_at <= NOW() 
+              AND a.registration_end_at >= NOW())
+              OR (COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+              AND a.end_at >= NOW()) THEN 0
+            WHEN COALESCE(a.registration_start_at, a.start_at) > NOW() THEN 1
+            ELSE 2
+          END` as unknown as string]: 'asc',
         },
         {
+          // 현재 활성화된 행사들: 가장 임박한 종료일 기준
+          // 신청 진행 중이면 신청 종료일, 행사 진행 중이면 행사 종료일, 둘 다면 더 가까운 것
+          [sql`CASE 
+            WHEN (a.registration_start_at IS NOT NULL 
+              AND a.registration_start_at <= NOW() 
+              AND a.registration_end_at >= NOW())
+              OR (COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+              AND a.end_at >= NOW())
+            THEN LEAST(
+              COALESCE(
+                CASE WHEN a.registration_start_at IS NOT NULL 
+                  AND a.registration_start_at <= NOW() 
+                  AND a.registration_end_at >= NOW()
+                THEN TIMESTAMPDIFF(SECOND, NOW(), a.registration_end_at)
+                ELSE NULL END,
+                999999999
+              ),
+              COALESCE(
+                CASE WHEN COALESCE(a.registration_start_at, a.start_at) <= NOW() 
+                  AND a.end_at >= NOW()
+                THEN TIMESTAMPDIFF(SECOND, NOW(), a.end_at)
+                ELSE NULL END,
+                999999999
+              )
+            )
+            ELSE 0
+          END` as unknown as string]: 'asc',
+        },
+        {
+          // 곧 시작하거나 과거 행사: 시작일과의 절대 차이 (가까운 순)
           [sql`ABS(TIMESTAMPDIFF(SECOND, COALESCE(a.registration_start_at, a.start_at), NOW()))` as unknown as string]:
             'asc',
         },
