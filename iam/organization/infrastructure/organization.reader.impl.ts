@@ -5,6 +5,7 @@ import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
 import { OrganizationReader } from '../domain/organization.reader';
 import { OrganizationView } from '../domain/organization.view';
+import { OrganizationAdminView } from '../domain/organization.admin.view';
 
 export class OrganizationReaderImpl implements OrganizationReader {
   constructor(
@@ -29,5 +30,16 @@ export class OrganizationReaderImpl implements OrganizationReader {
       name: organizationEntity.name,
       contact: organizationEntity.contact,
     };
+  }
+
+  async findAll(): Promise<OrganizationAdminView[]> {
+    const entities = await this.organizationOrmRepository.findAll();
+
+    return entities.map((entity) => ({
+      id: entity.id,
+      name: entity.name,
+      contact: entity.contact,
+      createdAt: entity.createdAt,
+    }));
   }
 }
