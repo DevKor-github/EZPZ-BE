@@ -23,5 +23,5 @@ export class OrganizationAdminView {
     example: '2023-01-01T00:00:00.000Z',
     description: '생성 일자',
   })
-  createdAt: Date;
+  createdAt: string;
 }

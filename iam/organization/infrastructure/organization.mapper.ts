@@ -1,6 +1,8 @@
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { Organization } from '../domain/organization';
 import { OrganizationEntity } from './organization.entity';
+import { OrganizationViewEntity } from './organization.view.entity';
+import { OrganizationAdminView } from '../domain/organization.admin.view';
 
 export class OrganizationMapper {
   static toDomain(entity: OrganizationEntity): Organization {
@@ -22,5 +24,14 @@ export class OrganizationMapper {
     entity.updatedAt = domain.updatedAt;
 
     return entity;
+  }
+
+  static toOrganizationAdminModel(entity: OrganizationViewEntity): OrganizationAdminView {
+    return {
+      id: entity.id,
+      name: entity.name,
+      contact: entity.contact,
+      createdAt: entity.createdAt.toISOString(),
+    };
   }
 }

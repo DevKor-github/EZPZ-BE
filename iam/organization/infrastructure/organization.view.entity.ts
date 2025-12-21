@@ -6,7 +6,7 @@ import { Entity, Property } from '@mikro-orm/core';
       o.id,
       o.name,
       o.contact,
-      o.created_at AS createdAt
+      o.created_at
     FROM
       organization o
   `,
