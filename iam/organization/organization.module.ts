@@ -11,12 +11,15 @@ import { ORGANIZATION_READER } from './domain/organization.reader';
 import { OrganizationReaderImpl } from './infrastructure/organization.reader.impl';
 import { OrganizationViewEntity } from './infrastructure/organization.view.entity';
 import { GetOrganizationUseCase } from './application/get/get-organization.use-case';
+import { GetAllOrganizationsUseCase } from './application/get-all/get-all-organizations.use-case';
+import { OrganizationAdminController } from './presentation/organization.admin.controller';
 
 const usecases = [
   CreateOrganizationUseCase,
   UpdateOrganizationUseCase,
   DeleteOrganizationUseCase,
   GetOrganizationUseCase,
+  GetAllOrganizationsUseCase,
 ];
 
 @Module({
@@ -32,7 +35,7 @@ const usecases = [
     },
     ...usecases,
   ],
-  controllers: [OrganizationController],
+  controllers: [OrganizationController, OrganizationAdminController],
   exports: [...usecases],
 })
 export class OrganizationModule {}
