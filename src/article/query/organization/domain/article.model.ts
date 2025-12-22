@@ -26,6 +26,18 @@ export class ArticleModel {
   organization: string;
 
   @ApiProperty({
+    example: '게시글 설명입니다.',
+    description: '게시글 설명',
+  })
+  description: string;
+
+  @ApiProperty({
+    example: '고려대학교',
+    description: '위치',
+  })
+  location: string;
+
+  @ApiProperty({
     example: 'https://example.com/thumbnail.jpg',
     description: '썸네일 이미지 경로',
   })
@@ -74,6 +86,12 @@ export class ArticleModel {
     required: false,
   })
   registrationEndAt?: string;
+
+  @ApiProperty({
+    example: 'https://example.com/register',
+    description: '등록 URL',
+  })
+  registrationUrl?: string;
 
   @ApiProperty({
     example: '2023-08-01T12:00:00Z',

@@ -7,6 +7,8 @@ import { Entity, Property } from '@mikro-orm/core';
       a.organization_id,
       a.title,
       a.organization,
+      a.description,
+      a.location,
       m.media_path AS thumbnail_path,
       a.scrap_count,
       a.view_count,
@@ -40,6 +42,12 @@ export class ArticleViewEntity {
 
   @Property()
   organization: string;
+
+  @Property()
+  description: string;
+
+  @Property()
+  location: string;
 
   @Property()
   scrapCount: number;
