@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
 import { Response } from 'express';
@@ -17,6 +17,7 @@ import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 import { RegisterOrganizationUseCase } from '../application/register-organization/register-organization.use-case';
+import { WithdrawOrganizationUseCase } from '../application/withdraw/withdraw.use-case';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
@@ -27,6 +28,7 @@ export class AuthOrganizationController {
     private readonly loginUseCase: LoginUseCase,
     private readonly logoutUseCase: LogoutUseCase,
     private readonly checkAccountIdUseCase: CheckAccountIdUseCase,
+    private readonly withdrawOrganizationUseCase: WithdrawOrganizationUseCase,
   ) {}
 
   @Post('register')
@@ -85,6 +87,19 @@ export class AuthOrganizationController {
   @AuthOrganizationDocs('logout')
   async logout(@Organization() organization: OrganizationPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ organizationId: organization.organizationId });
+
+    res.clearCookie('accessToken', accessTokenCookieOptions);
+    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+    res.status(HttpStatus.OK).send();
+  }
+
+  @Delete('withdraw')
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
+  @AuthOrganizationDocs('withdraw')
+  async withdraw(@Organization() organization: OrganizationPayload, @Res() res: Response) {
+    await this.withdrawOrganizationUseCase.execute({ organizationId: organization.organizationId });
 
     res.clearCookie('accessToken', accessTokenCookieOptions);
     res.clearCookie('refreshToken', refreshTokenCookieOptions);

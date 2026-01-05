@@ -12,10 +12,11 @@ export class DeleteOrganizationUseCase {
   ) {}
 
   async execute(command: DeleteOrganizationCommand): Promise<void> {
-    const organization = await this.organizationStore.loadById(command.organizationId);
+    const { organizationId } = command;
+    const organization = await this.organizationStore.loadById(organizationId);
     if (!organization) throw new CustomException(CustomExceptionCode.ORGANIZATION_NOT_FOUND);
 
-    const { organizationId } = command;
+    organization.delete();
     await this.organizationStore.deleteById(organizationId);
   }
 }

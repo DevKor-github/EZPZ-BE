@@ -13,8 +13,16 @@ import { LogoutUseCase } from './application/logout/logout.use-case';
 import { AuthOrganizationController } from './presentation/auth-organization.controller';
 import { RegisterOrganizationUseCase } from './application/register-organization/register-organization.use-case';
 import { OrganizationModule } from 'iam/organization/organization.module';
+import { WithdrawOrganizationUseCase } from './application/withdraw/withdraw.use-case';
 
-const usecases = [RegisterOrganizationUseCase, RenewTokenUseCase, LoginUseCase, LogoutUseCase, CheckAccountIdUseCase];
+const usecases = [
+  RegisterOrganizationUseCase,
+  RenewTokenUseCase,
+  LoginUseCase,
+  LogoutUseCase,
+  CheckAccountIdUseCase,
+  WithdrawOrganizationUseCase,
+];
 
 @Module({
   imports: [
