@@ -21,8 +21,8 @@ export class GetArticleSummariesUseCase {
 
     // 다음 커서 정보 추출
     const lastItem = articles[articles.length - 1];
-    const nextCursorId = hasNext ? lastItem.id : null;
-    const nextCursorDate = hasNext ? lastItem.createdAt : null;
+    const nextCursorId = hasNext && lastItem ? lastItem.id : null;
+    const nextCursorDate = hasNext && lastItem ? lastItem.createdAt : null;
 
     return {
       articles,

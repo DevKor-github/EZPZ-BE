@@ -1,3 +1,3 @@
 export class AdminLoginResult {
-  constructor(public readonly accessToken: string) {}
+  accessToken: string;
 }

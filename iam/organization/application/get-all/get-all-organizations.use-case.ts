@@ -19,8 +19,8 @@ export class GetAllOrganizationsUseCase {
 
     const organizations = hasNext ? organizationAdminViews.slice(0, pageSize) : organizationAdminViews;
     const lastItem = organizations[organizations.length - 1];
-    const nextCursorId = hasNext ? lastItem.id : null;
-    const nextCursorDate = hasNext ? lastItem.createdAt : null;
+    const nextCursorId = hasNext && lastItem ? lastItem.id : null;
+    const nextCursorDate = hasNext && lastItem ? lastItem.createdAt : null;
 
     return {
       organizations,
