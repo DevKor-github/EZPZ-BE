@@ -14,7 +14,7 @@ import { LoginRequestDto } from './dto/request/login.request.dto';
 import { CheckAccountIdRequestDto } from './dto/request/check-account-id.request.dto';
 import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
 
-export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh' | 'checkAccountId';
+export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh' | 'checkAccountId' | 'withdraw';
 
 export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
   register: () =>
@@ -93,6 +93,19 @@ export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
       }),
       ApiUnauthorizedResponse({
         description: '유효하지 않은 refresh token',
+      }),
+    ),
+  withdraw: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'organization 삭제',
+        description: '조직을 삭제합니다.',
+      }),
+      ApiOkResponse({
+        description: 'organization 삭제 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 access token',
       }),
     ),
 });

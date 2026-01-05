@@ -53,4 +53,8 @@ export class AuthOrganizationStoreImpl implements AuthOrganizationStore {
     const count = await this.ormRepository.count({ accountId });
     return count > 0;
   }
+
+  async deleteById(organizationId: string): Promise<void> {
+    await this.em.nativeDelete(AuthOrganizationEntity, { organizationId });
+  }
 }
