@@ -5,7 +5,7 @@ import { AdminLoginRequestDto } from './dto/request/login.request.dto';
 import { Response } from 'express';
 import { accessTokenCookieOptions } from 'src/shared/config/cookie.config';
 import { RegisterAdminUseCase } from '../application/register/register-admin.use-case';
-import { RegisterAdminRequestDto } from './dto/request/register.-admin.request.dto';
+import { RegisterAdminRequestDto } from './dto/request/register-admin.request.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 import { Roles } from 'src/shared/core/presentation/role.decorator';

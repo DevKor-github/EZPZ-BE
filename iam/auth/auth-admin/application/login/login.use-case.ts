@@ -39,8 +39,8 @@ export class AdminLoginUseCase {
     return authAdmin;
   }
 
-  private async generateToken(organizationId: string): Promise<{ accessToken: string }> {
-    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, organizationId, [Role.ADMIN]);
+  private async generateToken(adminId: string): Promise<{ accessToken: string }> {
+    const { token: accessToken } = await this.jwtProvider.generateToken(TokenType.ACCESS, adminId, [Role.ADMIN]);
 
     return { accessToken };
   }

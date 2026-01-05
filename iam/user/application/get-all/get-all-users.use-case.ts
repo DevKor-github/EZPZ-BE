@@ -19,8 +19,8 @@ export class GetAllUsersUseCase {
     const users = hasNext ? userAdminViews.slice(0, pageSize) : userAdminViews;
 
     const lastItem = users[users.length - 1];
-    const nextCursorId = hasNext ? lastItem.id : null;
-    const nextCursorDate = hasNext ? lastItem.createdAt : null;
+    const nextCursorId = hasNext && lastItem ? lastItem.id : null;
+    const nextCursorDate = hasNext && lastItem ? lastItem.createdAt : null;
 
     return {
       users,
