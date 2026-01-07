@@ -14,6 +14,7 @@ import { AuthOrganizationController } from './presentation/auth-organization.con
 import { RegisterOrganizationUseCase } from './application/register-organization/register-organization.use-case';
 import { OrganizationModule } from 'iam/organization/organization.module';
 import { WithdrawOrganizationUseCase } from './application/withdraw/withdraw.use-case';
+import { ChangeOrganizationPasswordUseCase } from './application/change-password/change-password.use-case';
 
 const usecases = [
   RegisterOrganizationUseCase,
@@ -22,6 +23,7 @@ const usecases = [
   LogoutUseCase,
   CheckAccountIdUseCase,
   WithdrawOrganizationUseCase,
+  ChangeOrganizationPasswordUseCase,
 ];
 
 @Module({

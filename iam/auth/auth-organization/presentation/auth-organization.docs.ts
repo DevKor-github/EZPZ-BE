@@ -14,7 +14,14 @@ import { LoginRequestDto } from './dto/request/login.request.dto';
 import { CheckAccountIdRequestDto } from './dto/request/check-account-id.request.dto';
 import { CheckAccountIdResponseDto } from './dto/response/check-account-id.response.dto';
 
-export type AuthOrganizationEndpoint = 'register' | 'login' | 'logout' | 'refresh' | 'checkAccountId' | 'withdraw';
+export type AuthOrganizationEndpoint =
+  | 'register'
+  | 'login'
+  | 'logout'
+  | 'refresh'
+  | 'checkAccountId'
+  | 'withdraw'
+  | 'changePassword';
 
 export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
   register: () =>
@@ -106,6 +113,19 @@ export const AuthOrganizationDocs = createDocs<AuthOrganizationEndpoint>({
       }),
       ApiUnauthorizedResponse({
         description: '유효하지 않은 access token',
+      }),
+    ),
+  changePassword: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: '비밀번호 변경',
+        description: '현재 비밀번호와 새 비밀번호를 받아 비밀번호 변경 처리',
+      }),
+      ApiOkResponse({
+        description: '비밀번호 변경 성공',
+      }),
+      ApiUnauthorizedResponse({
+        description: '유효하지 않은 access token 또는 현재 비밀번호 불일치',
       }),
     ),
 });

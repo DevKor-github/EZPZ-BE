@@ -22,6 +22,7 @@ export class AuthOrganizationStoreImpl implements AuthOrganizationStore {
       AuthOrganizationEntity,
       { id: authOrganization.id.value },
       {
+        passwordHash: authOrganization.passwordHash.value,
         refreshToken: authOrganization.refreshToken,
         updatedAt: authOrganization.updatedAt,
       },
