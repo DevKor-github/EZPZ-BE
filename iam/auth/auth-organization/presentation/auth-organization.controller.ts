@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, HttpStatus, Patch, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
 import { Response } from 'express';
@@ -18,6 +18,8 @@ import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
 import { RegisterOrganizationUseCase } from '../application/register-organization/register-organization.use-case';
 import { WithdrawOrganizationUseCase } from '../application/withdraw/withdraw.use-case';
+import { ChangeOrganizationPasswordUseCase } from '../application/change-password/change-password.use-case';
+import { ChangeOrganizationPasswordRequestDto } from './dto/request/change-password.request.dto';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
@@ -29,6 +31,7 @@ export class AuthOrganizationController {
     private readonly logoutUseCase: LogoutUseCase,
     private readonly checkAccountIdUseCase: CheckAccountIdUseCase,
     private readonly withdrawOrganizationUseCase: WithdrawOrganizationUseCase,
+    private readonly changeOrganizationPasswordUseCase: ChangeOrganizationPasswordUseCase,
   ) {}
 
   @Post('register')
@@ -103,6 +106,24 @@ export class AuthOrganizationController {
 
     res.clearCookie('accessToken', accessTokenCookieOptions);
     res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+    res.status(HttpStatus.OK).send();
+  }
+
+  @Patch('change-password')
+  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
+  @AuthOrganizationDocs('changePassword')
+  async changePassword(
+    @Organization() organization: OrganizationPayload,
+    @Body() dto: ChangeOrganizationPasswordRequestDto,
+    @Res() res: Response,
+  ) {
+    await this.changeOrganizationPasswordUseCase.execute({
+      organizationId: organization.organizationId,
+      currentPassword: dto.currentPassword,
+      newPassword: dto.newPassword,
+    });
 
     res.status(HttpStatus.OK).send();
   }

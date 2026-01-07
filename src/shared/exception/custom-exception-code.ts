@@ -53,6 +53,7 @@ export enum CustomExceptionCode {
   AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN = 'AUTH_ORGANIZATION_INVALID_ACCESS_TOKEN',
   AUTH_ORGANIZATION_NOT_FOUND = 'AUTH_ORGANIZATION_NOT_FOUND',
   AUTH_INVALID_PASSWORD = 'AUTH_INVALID_PASSWORD',
+  AUTH_INVALID_CURRENT_PASSWORD = 'AUTH_INVALID_CURRENT_PASSWORD',
 
   // Organization
   ORGANIZATION_INVALID_NAME_LENGTH = 'ORGANIZATION_INVALID_NAME_LENGTH',
@@ -252,6 +253,10 @@ export const ExceptionInfo: Record<CustomExceptionCode, { status: HttpStatus; me
     status: HttpStatus.UNAUTHORIZED,
     message: '[Auth] 해당 계정 정보가 존재하지 않습니다.',
     //message: '[AuthOrganization] 비밀번호가 올바르지 않습니다.',
+  },
+  [CustomExceptionCode.AUTH_INVALID_CURRENT_PASSWORD]: {
+    status: HttpStatus.UNAUTHORIZED,
+    message: '[Auth] 현재 비밀번호가 올바르지 않습니다.',
   },
 
   // Organization

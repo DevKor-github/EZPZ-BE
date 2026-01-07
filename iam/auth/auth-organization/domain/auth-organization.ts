@@ -51,6 +51,11 @@ export class AuthOrganization extends AggregateRoot<AuthOrganizationProps> {
     this.props.updatedAt = new Date();
   }
 
+  updatePassword(passwordHash: PasswordHash) {
+    this.props.passwordHash = passwordHash;
+    this.props.updatedAt = new Date();
+  }
+
   delete() {
     this.props.isDeleted = true;
     this.props.deletedAt = new Date();
