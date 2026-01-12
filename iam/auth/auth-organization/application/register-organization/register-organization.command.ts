@@ -1,4 +1,4 @@
-export class CreateAuthOrganizationCommand {
+export class RegisterOrganizationCommand {
   constructor(
     public readonly accountId: string,
     public readonly password: string,

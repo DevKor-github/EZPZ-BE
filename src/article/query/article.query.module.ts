@@ -10,15 +10,22 @@ import { ArticleQueryRepositoryImpl } from './infrastructure/article.query.repos
 import { MediaEntity } from 'src/media/command/infrastructure/media.entity';
 import { ARTICLE_READER } from './organization/domain/article.reader';
 import { ArticleReaderImpl } from './organization/infrastructure/article.reader.impl';
-import { ArticleOrganizationViewController } from './organization/presentation/article.view.controller';
+import {
+  ArticleAdminViewController,
+  ArticleOrganizationViewController,
+} from './organization/presentation/article.view.controller';
 import { GetOrganizationArticleListUseCase } from './organization/application/article-list/get-article-list.use-case';
 import { ArticleViewEntity } from './organization/infrastructure/article.view.entity';
+import { GetArticleSummariesUseCase } from './organization/application/article-summary/get-article-summaries.use-case';
+import { GetArticleAdminUseCase } from './organization/application/article/get-article.use-case';
 
 const usecases = [
   GetArticleDetailUseCase,
   GetArticleListUseCase,
   GetArticleSearchUseCase,
   GetOrganizationArticleListUseCase,
+  GetArticleSummariesUseCase,
+  GetArticleAdminUseCase,
 ];
 
 @Module({
@@ -34,6 +41,6 @@ const usecases = [
       useClass: ArticleReaderImpl,
     },
   ],
-  controllers: [ArticleQueryController, ArticleOrganizationViewController],
+  controllers: [ArticleQueryController, ArticleOrganizationViewController, ArticleAdminViewController],
 })
 export class ArticleQueryModule {}

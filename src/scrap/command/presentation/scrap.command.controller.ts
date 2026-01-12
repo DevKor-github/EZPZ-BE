@@ -15,14 +15,14 @@ export class ScrapCommandController {
   ) {}
 
   @Post(':id')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-user-access'))
   @ScrapCommandDocs('addScrap')
   async addScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     await this.addScrapHandler.execute({ articleId, userId: user.userId });
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-user-access'))
   @ScrapCommandDocs('deleteScrap')
   async deleteScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     await this.deleteScrapHandler.execute({ articleId, userId: user.userId });

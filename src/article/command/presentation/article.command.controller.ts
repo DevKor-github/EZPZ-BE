@@ -51,7 +51,7 @@ export class OrganizationArticleCommandController {
   ) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('create')
   async createArticle(
@@ -62,7 +62,7 @@ export class OrganizationArticleCommandController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('update')
   async updateArticle(
@@ -74,7 +74,7 @@ export class OrganizationArticleCommandController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @ArticleCommandDocs('delete')
   async delete(@Organization() organization: OrganizationPayload, @Param('id') id: string): Promise<void> {

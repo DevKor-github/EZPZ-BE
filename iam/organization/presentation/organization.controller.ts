@@ -20,7 +20,7 @@ export class OrganizationController {
   ) {}
 
   @Patch()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @OrganizationDocs('update')
   async updateOrganization(
@@ -35,7 +35,7 @@ export class OrganizationController {
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @OrganizationDocs('get')
   async getOrganization(@Organization() organization: OrganizationPayload): Promise<OrganizationView> {

@@ -1,6 +1,5 @@
-import { Body, Controller, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, HttpStatus, Patch, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateAuthOrganizationUseCase } from '../application/create/create.use-case';
 import { RegisterOrganizationRequestDto } from './dto/request/register-organization.request.dto';
 import { Response } from 'express';
 import { RenewTokenUseCase } from '../application/renew-token/renew-token.use-case';
@@ -17,22 +16,28 @@ import { Organization, OrganizationPayload } from 'src/shared/core/presentation/
 import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { Role } from 'iam/auth/auth-core/domain/value-object/role';
 import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
+import { RegisterOrganizationUseCase } from '../application/register-organization/register-organization.use-case';
+import { WithdrawOrganizationUseCase } from '../application/withdraw/withdraw.use-case';
+import { ChangeOrganizationPasswordUseCase } from '../application/change-password/change-password.use-case';
+import { ChangeOrganizationPasswordRequestDto } from './dto/request/change-password.request.dto';
 
 @ApiTags('auth-organization')
 @Controller('auth/organization')
 export class AuthOrganizationController {
   constructor(
-    private readonly createAuthOrganizationUseCase: CreateAuthOrganizationUseCase,
+    private readonly registerOrganizationUseCase: RegisterOrganizationUseCase,
     private readonly renewTokenUseCase: RenewTokenUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly logoutUseCase: LogoutUseCase,
     private readonly checkAccountIdUseCase: CheckAccountIdUseCase,
+    private readonly withdrawOrganizationUseCase: WithdrawOrganizationUseCase,
+    private readonly changeOrganizationPasswordUseCase: ChangeOrganizationPasswordUseCase,
   ) {}
 
   @Post('register')
   @AuthOrganizationDocs('register')
   async registerOrganization(@Body() dto: RegisterOrganizationRequestDto) {
-    await this.createAuthOrganizationUseCase.execute({
+    await this.registerOrganizationUseCase.execute({
       accountId: dto.accountId,
       password: dto.password,
       name: dto.name,
@@ -56,14 +61,14 @@ export class AuthOrganizationController {
       password: dto.password,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('organizationAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('organizationRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('refresh')
-  @UseGuards(AuthGuard('jwt-refresh'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-refresh'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('refresh')
   async renewToken(@Organization() organization: OrganizationPayload, @Res() res: Response) {
@@ -73,21 +78,52 @@ export class AuthOrganizationController {
       jti: jti,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('organizationAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('organizationRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('logout')
   async logout(@Organization() organization: OrganizationPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ organizationId: organization.organizationId });
 
-    res.clearCookie('accessToken', accessTokenCookieOptions);
-    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+    res.clearCookie('organizationAccessToken', accessTokenCookieOptions);
+    res.clearCookie('organizationRefreshToken', refreshTokenCookieOptions);
+
+    res.status(HttpStatus.OK).send();
+  }
+
+  @Delete('withdraw')
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
+  @AuthOrganizationDocs('withdraw')
+  async withdraw(@Organization() organization: OrganizationPayload, @Res() res: Response) {
+    await this.withdrawOrganizationUseCase.execute({ organizationId: organization.organizationId });
+
+    res.clearCookie('organizationAccessToken', accessTokenCookieOptions);
+    res.clearCookie('organizationRefreshToken', refreshTokenCookieOptions);
+
+    res.status(HttpStatus.OK).send();
+  }
+
+  @Patch('change-password')
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
+  @Roles(Role.ORGANIZATION)
+  @AuthOrganizationDocs('changePassword')
+  async changePassword(
+    @Organization() organization: OrganizationPayload,
+    @Body() dto: ChangeOrganizationPasswordRequestDto,
+    @Res() res: Response,
+  ) {
+    await this.changeOrganizationPasswordUseCase.execute({
+      organizationId: organization.organizationId,
+      currentPassword: dto.currentPassword,
+      newPassword: dto.newPassword,
+    });
 
     res.status(HttpStatus.OK).send();
   }

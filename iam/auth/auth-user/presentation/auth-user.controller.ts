@@ -62,7 +62,7 @@ export class AuthUserController {
   }
 
   @Get('refresh')
-  @UseGuards(AuthGuard('jwt-refresh'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-user-refresh'), RolesGuard)
   @Roles(Role.USER)
   @AuthUserDocs('renewToken')
   async renewToken(@User() user: UserPayload, @Res() res: Response) {
@@ -75,7 +75,7 @@ export class AuthUserController {
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-user-access'), RolesGuard)
   @Roles(Role.USER)
   @AuthUserDocs('logout')
   async logout(@User() user: UserPayload, @Res() res: Response) {
@@ -88,7 +88,7 @@ export class AuthUserController {
   }
 
   @Post('withdraw')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-user-access'), RolesGuard)
   @Roles(Role.USER)
   @AuthUserDocs('withdraw')
   async withdraw(@User() user: UserPayload, @Res() res: Response) {

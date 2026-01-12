@@ -5,7 +5,8 @@ import { Entity, Property } from '@mikro-orm/core';
     SELECT
       o.id,
       o.name,
-      o.contact
+      o.contact,
+      o.created_at
     FROM
       organization o
   `,
@@ -19,4 +20,7 @@ export class OrganizationViewEntity {
 
   @Property()
   contact: string;
+
+  @Property()
+  createdAt: Date;
 }

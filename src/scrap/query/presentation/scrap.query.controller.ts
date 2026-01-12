@@ -19,14 +19,14 @@ export class ScrapQueryController {
   ) {}
 
   @Get('search')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-user-access'))
   @ScrapQueryDocs('searchScrap')
   async getScrapSearch(@User() user: UserPayload, @Query() reqDto: GetScrapSearchRequestDto) {
     return await this.getScrapSearchUseCase.execute(user.userId, reqDto);
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-user-access'))
   @ScrapQueryDocs('getMyScrap')
   async getMyScrap(@User() user: UserPayload, @Query() reqDto: GetMyScrapRequestDto) {
     const userId = user.userId;
@@ -36,7 +36,7 @@ export class ScrapQueryController {
   }
 
   @Get('article/:id')
-  @UseGuards(AuthGuard('jwt-access'))
+  @UseGuards(AuthGuard('jwt-user-access'))
   @ScrapQueryDocs('checkScrap')
   async checkScrap(@Param('id') articleId: string, @User() user: UserPayload) {
     return await this.checkScrapUseCase.execute({ articleId, userId: user.userId });

@@ -22,7 +22,7 @@ export class UserController {
   ) {}
 
   @Delete('me')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-user-access'), RolesGuard)
   @Roles(Role.USER)
   @UserDocs('deleteUser')
   async deleteUser(@User() user: UserPayload, @Res() res: Response) {
@@ -36,7 +36,7 @@ export class UserController {
   }
 
   @Get('me')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-user-access'), RolesGuard)
   @Roles(Role.USER)
   @UserDocs('getUser')
   async getMyInfo(@User() user: UserPayload): Promise<UserView> {

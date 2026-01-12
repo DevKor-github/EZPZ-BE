@@ -22,6 +22,7 @@ export class AuthOrganizationStoreImpl implements AuthOrganizationStore {
       AuthOrganizationEntity,
       { id: authOrganization.id.value },
       {
+        passwordHash: authOrganization.passwordHash.value,
         refreshToken: authOrganization.refreshToken,
         updatedAt: authOrganization.updatedAt,
       },
@@ -52,5 +53,9 @@ export class AuthOrganizationStoreImpl implements AuthOrganizationStore {
   async existsByAccountId(accountId: string): Promise<boolean> {
     const count = await this.ormRepository.count({ accountId });
     return count > 0;
+  }
+
+  async deleteById(organizationId: string): Promise<void> {
+    await this.em.nativeDelete(AuthOrganizationEntity, { organizationId });
   }
 }

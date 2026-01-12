@@ -2,7 +2,7 @@ import { Identifier } from 'src/shared/core/domain/identifier';
 import { AuthOrganization } from '../domain/auth-organization';
 import { AuthOrganizationEntity } from './auth-organization.entity';
 import { AccountId } from '../domain/vo/account-id';
-import { PasswordHash } from '../domain/vo/password-hash';
+import { PasswordHash } from 'iam/auth/auth-core/domain/value-object/password-hash';
 
 export class AuthOrganizationMapper {
   static toDomain(entity: AuthOrganizationEntity): AuthOrganization {

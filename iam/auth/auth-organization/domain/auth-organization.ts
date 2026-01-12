@@ -2,7 +2,7 @@ import { AggregateRoot } from 'src/shared/core/domain/base.aggregate';
 import { BaseEntityProps } from 'src/shared/core/domain/base.entity';
 import { Identifier } from 'src/shared/core/domain/identifier';
 import { AccountId } from './vo/account-id';
-import { PasswordHash } from './vo/password-hash';
+import { PasswordHash } from 'iam/auth/auth-core/domain/value-object/password-hash';
 
 export interface AuthOrganizationProps extends BaseEntityProps {
   accountId: AccountId;
@@ -48,6 +48,11 @@ export class AuthOrganization extends AggregateRoot<AuthOrganizationProps> {
 
   updateRefreshToken(refreshToken: string | null) {
     this.props.refreshToken = refreshToken;
+    this.props.updatedAt = new Date();
+  }
+
+  updatePassword(passwordHash: PasswordHash) {
+    this.props.passwordHash = passwordHash;
     this.props.updatedAt = new Date();
   }
 
