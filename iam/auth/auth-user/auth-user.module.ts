@@ -14,9 +14,12 @@ import { AuthUserEntity } from './infrastructure/auth-user.entity';
 import { AuthCoreModule } from '../auth-core/auth-core.module';
 import { AuthUserController } from './presentation/auth-user.controller';
 import { UserModule } from 'iam/user/user.module';
+import { JwtUserAccessStrategy } from './infrastructure/jwt/jwt-access.strategy';
+import { JwtUserRefreshStrategy } from './infrastructure/jwt/jwt-refresh.strategy';
 
 const usecases = [OAuthLoginUseCase, AuthorizeOAuthUseCase, RenewTokenUseCase, LogoutUseCase, UnlinkOAuthUseCase];
 const listeners = [UnlinkOAuthListener];
+const jwt = [JwtUserAccessStrategy, JwtUserRefreshStrategy];
 
 @Module({
   imports: [MikroOrmModule.forFeature([AuthUserEntity]), AuthCoreModule, SharedModule, CqrsModule, UserModule],
@@ -27,6 +30,7 @@ const listeners = [UnlinkOAuthListener];
     },
     ...usecases,
     ...listeners,
+    ...jwt,
   ],
   controllers: [AuthUserController],
   exports: [],
