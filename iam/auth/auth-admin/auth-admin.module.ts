@@ -8,13 +8,17 @@ import { AdminLoginUseCase } from './application/login/login.use-case';
 import { AuthAdminController } from './presentation/auth-admin.controller';
 import { AdminModule } from 'iam/admin/admin.module';
 import { RegisterAdminUseCase } from './application/register/register-admin.use-case';
+import { JwtAdminAccessStrategy } from './infrastructure/jwt/jwt-access.strategy';
+import { JwtAdminRefreshStrategy } from './infrastructure/jwt/jwt-refresh.strategy';
 
 const usecases = [RegisterAdminUseCase, AdminLoginUseCase];
+const jwt = [JwtAdminAccessStrategy, JwtAdminRefreshStrategy];
 
 @Module({
   imports: [MikroOrmModule.forFeature([AuthAdminEntity]), AuthCoreModule, AdminModule],
   providers: [
     ...usecases,
+    ...jwt,
     {
       provide: AUTH_ADMIN_REPOSITORY,
       useClass: AuthAdminRepositoryImpl,

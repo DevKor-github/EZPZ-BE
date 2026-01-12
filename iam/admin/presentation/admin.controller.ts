@@ -14,7 +14,7 @@ export class AdminController {
   constructor(private readonly getAdminUseCase: GetAdminUseCase) {}
 
   @Get()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-admin-access'), RolesGuard)
   @Roles(Role.ADMIN)
   async getAdminInfo(@Admin() admin: AdminPayload): Promise<AdminView> {
     return await this.getAdminUseCase.execute({ adminId: admin.adminId });

@@ -28,7 +28,7 @@ export class AuthAdminController {
       name: name,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('adminAccessToken', accessToken, accessTokenCookieOptions);
 
     res.status(HttpStatus.CREATED).send();
   }
@@ -41,16 +41,16 @@ export class AuthAdminController {
       password: password,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('adminAccessToken', accessToken, accessTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-admin-access'), RolesGuard)
   @Roles(Role.ADMIN)
   logout(@Res() res: Response) {
-    res.clearCookie('accessToken', accessTokenCookieOptions);
+    res.clearCookie('adminAccessToken', accessTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
