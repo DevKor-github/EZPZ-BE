@@ -61,14 +61,14 @@ export class AuthOrganizationController {
       password: dto.password,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('organizationAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('organizationRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('refresh')
-  @UseGuards(AuthGuard('jwt-refresh'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-refresh'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('refresh')
   async renewToken(@Organization() organization: OrganizationPayload, @Res() res: Response) {
@@ -78,40 +78,40 @@ export class AuthOrganizationController {
       jti: jti,
     });
 
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('organizationAccessToken', accessToken, accessTokenCookieOptions);
+    res.cookie('organizationRefreshToken', refreshToken, refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('logout')
   async logout(@Organization() organization: OrganizationPayload, @Res() res: Response) {
     await this.logoutUseCase.execute({ organizationId: organization.organizationId });
 
-    res.clearCookie('accessToken', accessTokenCookieOptions);
-    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+    res.clearCookie('organizationAccessToken', accessTokenCookieOptions);
+    res.clearCookie('organizationRefreshToken', refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Delete('withdraw')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('withdraw')
   async withdraw(@Organization() organization: OrganizationPayload, @Res() res: Response) {
     await this.withdrawOrganizationUseCase.execute({ organizationId: organization.organizationId });
 
-    res.clearCookie('accessToken', accessTokenCookieOptions);
-    res.clearCookie('refreshToken', refreshTokenCookieOptions);
+    res.clearCookie('organizationAccessToken', accessTokenCookieOptions);
+    res.clearCookie('organizationRefreshToken', refreshTokenCookieOptions);
 
     res.status(HttpStatus.OK).send();
   }
 
   @Patch('change-password')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @AuthOrganizationDocs('changePassword')
   async changePassword(

@@ -15,6 +15,8 @@ import { RegisterOrganizationUseCase } from './application/register-organization
 import { OrganizationModule } from 'iam/organization/organization.module';
 import { WithdrawOrganizationUseCase } from './application/withdraw/withdraw.use-case';
 import { ChangeOrganizationPasswordUseCase } from './application/change-password/change-password.use-case';
+import { JwtOrganizationAccessStrategy } from './infrastructure/jwt/jwt-access.strategy';
+import { JwtOrganizationRefreshStrategy } from './infrastructure/jwt/jwt-refresh.strategy';
 
 const usecases = [
   RegisterOrganizationUseCase,
@@ -26,6 +28,8 @@ const usecases = [
   ChangeOrganizationPasswordUseCase,
 ];
 
+const jwt = [JwtOrganizationAccessStrategy, JwtOrganizationRefreshStrategy];
+
 @Module({
   imports: [
     SharedModule,
@@ -36,6 +40,7 @@ const usecases = [
   ],
   providers: [
     ...usecases,
+    ...jwt,
     {
       provide: AUTH_ORGANIZATION_STORE,
       useClass: AuthOrganizationStoreImpl,

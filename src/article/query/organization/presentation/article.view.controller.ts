@@ -18,7 +18,7 @@ export class ArticleOrganizationViewController {
   constructor(private readonly getOrganizationArticleListUseCase: GetOrganizationArticleListUseCase) {}
 
   @Get()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-organization-access'), RolesGuard)
   @Roles(Role.ORGANIZATION)
   @OrganizationArticleViewDocs('list')
   async getArticleList(@Organization() organization: OrganizationPayload): Promise<ArticleModel[]> {
@@ -35,7 +35,7 @@ export class ArticleAdminViewController {
   ) {}
 
   @Get()
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-admin-access'), RolesGuard)
   @Roles(Role.ADMIN)
   async getArticleSummaries(@Query() query: GetArticleSummariesRequestDto) {
     return await this.getArticleSummariesUseCase.execute({
@@ -46,7 +46,7 @@ export class ArticleAdminViewController {
   }
 
   @Get(':articleId')
-  @UseGuards(AuthGuard('jwt-access'), RolesGuard)
+  @UseGuards(AuthGuard('jwt-admin-access'), RolesGuard)
   @Roles(Role.ADMIN)
   async getArticle(@Param('articleId') articleId: string) {
     return await this.getArticleAdminUseCase.execute({ articleId });
