@@ -5,7 +5,7 @@ export const accessTokenCookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: 'none',
-  maxAge: 60 * 60 * 1000, // 1 hour
+  maxAge: 3 * 60 * 60 * 1000, // 3 hour
   path: '/',
   domain: process.env.FRONTEND_DOMAIN,
 };
