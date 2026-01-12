@@ -9,7 +9,7 @@ import { OAuthProviderFactory } from './infrastructure/oauth/oauth-provider.fact
 import { PASSWORD_HASHER } from './domain/password-hasher';
 import { PasswordHasherImpl } from './infrastructure/bcrypt/password-hasher.impl';
 
-const jwt = [JwtProvider, JwtAccessStrategy, JwtRefreshStrategy];
+const jwt = [JwtProvider, JwtAccessStrategy, JwtRefreshStrategy, PassportModule, JwtModule];
 const oAuth = [OAuthProviderFactory, KakaoOAuthProvider];
 
 @Module({
