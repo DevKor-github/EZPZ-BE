@@ -6,6 +6,7 @@ import { ArticleDetailModel } from '../domain/article-detail.model';
 import { ArticleModel } from '../domain/article.model';
 import { CustomException } from 'src/shared/exception/custom-exception';
 import { CustomExceptionCode } from 'src/shared/exception/custom-exception-code';
+import { SearchType } from '../application/article-search/dto/get-article-search.request.dto';
 
 export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
   constructor(
@@ -218,7 +219,7 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     return result;
   }
 
-  async searchByKeyword(keyword: string): Promise<ArticleModel[]> {
+  async searchByKeyword(keyword: string, searchType: SearchType = SearchType.ALL): Promise<ArticleModel[]> {
     const query = this.ormRepository.createQueryBuilder('a');
     query
       .select([
@@ -242,8 +243,18 @@ export class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
       .leftJoin('a.tags', 'tag')
       .groupBy('a.id');
 
-    // 검색어 조건: 제목에서 검색
-    query.andWhere(`a.title LIKE ?`, [`%${keyword}%`]);
+    // 검색어 조건: searchType에 따라 분기
+    switch (searchType) {
+      case SearchType.TITLE:
+        query.andWhere(`a.title LIKE ?`, [`%${keyword}%`]);
+        break;
+      case SearchType.ORGANIZATION:
+        query.andWhere(`a.organization LIKE ?`, [`%${keyword}%`]);
+        break;
+      case SearchType.ALL:
+        query.andWhere(`(a.title LIKE ? OR a.organization LIKE ?)`, [`%${keyword}%`, `%${keyword}%`]);
+        break;
+    }
 
     // 정렬: 현재 시간에 가장 가까운 순서 (미래 우선)
     query.orderBy([

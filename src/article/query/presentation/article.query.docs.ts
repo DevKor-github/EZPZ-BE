@@ -50,7 +50,11 @@ export const ArticleQueryDocs = createDocs<ArticleQueryEndpoint>({
     applyDecorators(
       ApiOperation({
         summary: '게시글 검색',
-        description: '제목을 기준으로 게시글을 검색합니다.',
+        description:
+          '게시글을 검색합니다. searchType 파라미터로 검색 대상을 지정할 수 있습니다.\n\n' +
+          '- **all**: 제목 + 주관 기관 전체 검색 (기본값)\n' +
+          '- **title**: 제목으로만 검색\n' +
+          '- **organization**: 주관 기관으로만 검색',
       }),
       ApiOkResponse({
         description: '게시글 검색 성공',
