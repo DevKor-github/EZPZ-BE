@@ -13,10 +13,6 @@ export class S3Adapter {
   constructor(private readonly configSerivce: ConfigService) {
     this.s3Client = new S3Client({
       region: this.configSerivce.getOrThrow('aws.region'),
-      credentials: {
-        accessKeyId: this.configSerivce.getOrThrow('aws.accessKeyId'),
-        secretAccessKey: this.configSerivce.getOrThrow('aws.secretAccessKey'),
-      },
     });
     this.bucketName = this.configSerivce.getOrThrow('aws.s3.bucketName');
     this.cloudFrontDomain = this.configSerivce.getOrThrow('aws.s3.cloudFrontDomain');
