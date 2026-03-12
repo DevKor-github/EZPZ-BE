@@ -6,8 +6,8 @@ import { GetOrganizationArticleListUseCase } from '../application/article-list/g
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
 import { OrganizationArticleViewDocs } from './article.view.docs';
-import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
-import { Role } from 'iam/auth/auth-core/domain/value-object/role';
+import { RolesGuard } from 'src/iam/auth/auth-core/infrastructure/guard/role.guard';
+import { Role } from 'src/iam/auth/auth-core/domain/value-object/role';
 import { GetArticleSummariesUseCase } from '../application/article-summary/get-article-summaries.use-case';
 import { GetArticleSummariesRequestDto } from './dto/request/get-article-summaries.request.dto';
 import { GetArticleAdminUseCase } from '../application/article/get-article.use-case';

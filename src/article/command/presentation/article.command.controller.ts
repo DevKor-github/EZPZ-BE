@@ -10,8 +10,8 @@ import { ArticleCommandDocs } from './article.command.docs';
 import { AuthGuard } from '@nestjs/passport';
 import { Organization, OrganizationPayload } from 'src/shared/core/presentation/organization.decorator';
 import { Roles } from 'src/shared/core/presentation/role.decorator';
-import { Role } from 'iam/auth/auth-core/domain/value-object/role';
-import { RolesGuard } from 'iam/auth/auth-core/infrastructure/guard/role.guard';
+import { Role } from 'src/iam/auth/auth-core/domain/value-object/role';
+import { RolesGuard } from 'src/iam/auth/auth-core/infrastructure/guard/role.guard';
 
 @ApiTags('article')
 @Controller('article')

@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, Unique } from '@mikro-orm/core';
-import { UserEntity } from 'iam/user/infrastructure/user.entity';
+import { UserEntity } from 'src/iam/user/infrastructure/user.entity';
 import { ArticleEntity } from 'src/article/command/infrastructure/article.entity';
 import { BaseEntity } from 'src/shared/core/infrastructure/orm-entity/base.entity';
 

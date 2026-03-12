@@ -1,7 +1,7 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { AnalyticsService } from '../infrastructure/analytics.service';
-import { LoginSucceededEvent } from 'iam/auth/auth-user/domain/event/login-succeeded.event';
-import { UserSignedUpEvent } from 'iam/auth/auth-user/domain/event/user-signed-up.event';
+import { LoginSucceededEvent } from 'src/iam/auth/auth-user/domain/event/login-succeeded.event';
+import { UserSignedUpEvent } from 'src/iam/auth/auth-user/domain/event/user-signed-up.event';
 
 @EventsHandler(UserSignedUpEvent)
 export class UserSignedUpEventHandler implements IEventHandler<UserSignedUpEvent> {
